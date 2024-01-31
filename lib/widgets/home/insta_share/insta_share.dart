@@ -83,16 +83,14 @@ class _InstaShareState extends State<InstaShare> {
                       if (permission == LocationPermission.denied) {
                         permission = await Geolocator.requestPermission();
                         if (permission == LocationPermission.denied) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content:
-                                      Text('Location permissions are denied')));
+                          Fluttertoast.showToast(
+                              msg: 'Location permissions are denied');
                           return false;
                         }
                         if (permission == LocationPermission.deniedForever) {
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                              content: Text(
-                                  'Location permissions are permanently denied..')));
+                          Fluttertoast.showToast(
+                              msg:
+                                  'Location permissions are permanently denied..');
                           return false;
                         }
                         return true;
