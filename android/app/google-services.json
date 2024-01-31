@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "395812191968",
+    "project_id": "pregathi-69",
+    "storage_bucket": "pregathi-69.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:395812191968:android:7bc33d6276e514a6459a85",
+        "android_client_info": {
+          "package_name": "com.example.pregathi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIyZs-9c60seTg9T2ueu3h2dIAAXx3Hyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
