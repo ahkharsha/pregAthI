@@ -4,7 +4,7 @@ import 'package:pregathi/widgets/home/ai_chat.dart';
 import 'package:pregathi/widgets/community-chat/community_list_drawer.dart';
 import 'package:pregathi/widgets/home/emergency.dart';
 import 'package:pregathi/widgets/home/services.dart';
-import 'package:pregathi/widgets/home/insta_share/insta_share_yt.dart';
+import 'package:pregathi/widgets/home/insta_share/insta_share.dart';
 
 class WifeHomeScreen extends StatelessWidget {
   const WifeHomeScreen({super.key});

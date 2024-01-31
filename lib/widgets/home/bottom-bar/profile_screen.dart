@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pregathi/buttons/regular_button.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/const/constants.dart';
@@ -61,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         leading: BackButton(color: Colors.white),
         title: Text(
           "Profile",
-          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: false,
         backgroundColor: primaryColor,
@@ -243,58 +244,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildSubmitButton() {
     return Padding(
-      padding: EdgeInsets.only(top: 20, bottom: 10),
-      child: isSaving
-          ? CircularProgressIndicator()
-          : ElevatedButton(
-              onPressed: _updateProfile,
-              child: Padding(
-                padding: EdgeInsets.all(0),
-                child: Text(
-                  "Update Profile",
-                  style: TextStyle(
-                    fontSize: 18,
-                    //fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-    );
+        padding: EdgeInsets.only(top: 20, bottom: 10),
+        child: isSaving
+            ? CircularProgressIndicator()
+            : RegularButton(
+                title: 'Update Profile',
+                onPressed: () {
+                  _updateProfile();
+                }));
   }
 
   Widget _buildLogoutButton() {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 20),
-      child: ElevatedButton(
+    return RegularButton(
+        title: 'Logout',
         onPressed: () {
           UserSharedPreference.setUserRole('');
           goTo(context, LoginScreen());
-        },
-        child: Padding(
-          padding: EdgeInsets.all(0),
-          child: Text(
-            "Logout",
-            style: TextStyle(
-              fontSize: 18,
-              //fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-      ),
-    );
+        });
   }
 }

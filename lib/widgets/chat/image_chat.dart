@@ -48,14 +48,14 @@ class _ImageChatState extends State<ImageChat> {
       setState(() {
         loading = false;
         textAndImageChat
-            .add({"role": "Gemini", "text": value.text, "image": ""});
+            .add({"role": "Assistant", "text": value.text, "image": ""});
       });
       scrollToTheEnd();
     }).onError((error, stackTrace) {
       setState(() {
         loading = false;
         textAndImageChat
-            .add({"role": "Gemini", "text": error.toString(), "image": ""});
+            .add({"role": "Assistant", "text": error.toString(), "image": ""});
       });
       scrollToTheEnd();
     });

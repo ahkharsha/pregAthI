@@ -40,7 +40,7 @@ class _TextChatState extends State<TextChat> {
       setState(() {
         loading = false;
         textChat.add({
-          "role": "Gemini",
+          "role": "Assistant",
           "text": value.text,
         });
       });
@@ -49,7 +49,7 @@ class _TextChatState extends State<TextChat> {
       setState(() {
         loading = false;
         textChat.add({
-          "role": "Gemini",
+          "role": "Assistant",
           "text": error.toString(),
         });
       });

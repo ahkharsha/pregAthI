@@ -33,30 +33,6 @@ class _InstaShareState extends State<InstaShare> {
     });
   }
 
-  _getCurrentLocation() async {
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      Fluttertoast.showToast(msg: "Location permissions are denied..");
-      if (permission == LocationPermission.deniedForever) {
-        Fluttertoast.showToast(
-            msg: "Location permissions are denied permanently..");
-      }
-    }
-    Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high,
-            forceAndroidLocationManager: true)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-        print(_currentPosition!.latitude);
-        _getAddressFromLaLo();
-      });
-    }).catchError((e) {
-      Fluttertoast.showToast(msg: e.toString());
-    });
-  }
-
   _getAddressFromLaLo() async {
     try {
       List<Placemark> placeMarks = await placemarkFromCoordinates(
@@ -76,7 +52,6 @@ class _InstaShareState extends State<InstaShare> {
   void initState() {
     super.initState();
     _getPermission();
-    _getCurrentLocation();
   }
 
   showModelInstaShare(BuildContext context) {
@@ -98,39 +73,66 @@ class _InstaShareState extends State<InstaShare> {
                 SizedBox(
                   height: 10,
                 ),
-                MainButton(
-                    title: "Get Location..",
-                    onPressed: () {
-                      _getCurrentLocation();
-                    }),
-                SizedBox(
-                  height: 10,
-                ),
                 if (_currentPosition != null) Text(_curentAddress!),
-                MainButton(
-                  title: "Send Alert..",
-                  onPressed: () async {
-                    List<TContact> contactList =
-                        await DatabaseService().getContactList();
-
-                    if (_currentPosition != null) {
-                      String msgBody =
-                          "https://www.google.com/maps/search/?api=1&query=${_currentPosition!.latitude}%2C${_currentPosition!.longitude}. $_curentAddress";
-
-                      if (await isPermissionGranted()) {
-                        for (TContact contact in contactList) {
-                          sendSMS(
-                            contact.number,
-                            "Having inconvenience, so reach out at $msgBody",
-                          );
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: MainButton(
+                    title: "Send Alert",
+                    onPressed: () async {
+                      permission = await Geolocator.checkPermission();
+                      if (permission == LocationPermission.denied) {
+                        permission = await Geolocator.requestPermission();
+                        if (permission == LocationPermission.denied) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text('Location permissions are denied')));
+                          return false;
                         }
-                      } else {
-                        Fluttertoast.showToast(msg: "Something is wrong..");
+                        if (permission == LocationPermission.deniedForever) {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text(
+                                  'Location permissions are permanently denied..')));
+                          return false;
+                        }
+                        return true;
                       }
-                    } else {
-                      Fluttertoast.showToast(msg: "Location not available..");
-                    }
-                  },
+                      Geolocator.getCurrentPosition(
+                              desiredAccuracy: LocationAccuracy.high,
+                              forceAndroidLocationManager: true)
+                          .then((Position position) {
+                        setState(() {
+                          _currentPosition = position;
+                          print(_currentPosition!.latitude);
+                          _getAddressFromLaLo();
+                        });
+                      }).catchError((e) {
+                        Fluttertoast.showToast(msg: e.toString());
+                      });
+                      List<TContact> contactList =
+                          await DatabaseService().getContactList();
+
+                      if (_currentPosition != null) {
+                        String msgBody =
+                            "https://www.google.com/maps/search/?api=1&query=${_currentPosition!.latitude}%2C${_currentPosition!.longitude}. $_curentAddress";
+
+                        if (await isPermissionGranted()) {
+                          for (TContact contact in contactList) {
+                            sendSMS(
+                              contact.number,
+                              "Having inconvenience, so reach out at $msgBody",
+                            );
+                          }
+                        }
+                        // else {
+                        //   Fluttertoast.showToast(msg: "Something is wrong..");
+                        // }
+                      }
+                      // else {
+                      //   Fluttertoast.showToast(msg: "Location not available..");
+                      // }
+                    },
+                  ),
                 ),
               ],
             ),
@@ -183,7 +185,7 @@ class _InstaShareState extends State<InstaShare> {
                       ListTile(
                         title: Padding(
                           padding:
-                              const EdgeInsets.only(top: 7.0, bottom: 14.0),
+                              const EdgeInsets.only(top: 6.0, bottom: 14.0),
                           child: Text(
                             "Send Location",
                             style: TextStyle(
@@ -193,23 +195,26 @@ class _InstaShareState extends State<InstaShare> {
                                     MediaQuery.of(context).size.width * 0.06),
                           ),
                         ),
-                        subtitle: Text(
-                          "Click to share your current location..",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.045),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(bottom: 3.0),
+                          child: Text(
+                            "Click to share your current location..",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.045),
+                          ),
                         ),
                       ),
                     ],
                   )),
                   ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(20),
                       child: Image.asset(
                         'assets/images/insta-share/route.jpg',
-                        height: 180,
-                        width: 150,
+                        height: 120,
+                        width: 130,
                       )),
                 ],
               ),

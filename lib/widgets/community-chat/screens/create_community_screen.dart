@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pregathi/buttons/main_button.dart';
-// import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/buttons/regular_button.dart';
 
 class CreateCommunityScreen extends ConsumerStatefulWidget {
   const CreateCommunityScreen({super.key});
@@ -41,7 +40,7 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
               maxLength: 30,
             ),
             const SizedBox(height: 20),
-            MainButton(title: "CREATE COMMUNITY", onPressed:(){})
+            RegularButton(title: "Create Community", onPressed:(){})
       
           ],
         ),
