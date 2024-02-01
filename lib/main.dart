@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
           if (snapshot.data == '') {
             return LoginScreen();
           }
-          else if (snapshot.data == 'wif') {
+          else if (snapshot.data == 'wife') {
             return BottomPage();
           }
           else if (snapshot.data == 'volunteer') {
