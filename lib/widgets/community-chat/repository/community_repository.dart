@@ -6,6 +6,7 @@ import 'package:pregathi/failure.dart';
 import 'package:pregathi/model/community.dart';
 import 'package:pregathi/providers/firebase_providers.dart';
 import 'package:pregathi/type_defs.dart';
+// import 'package:url_launcher/link.dart';
 
 final communityRepositoryProvider = Provider((ref) {
   return CommunityRepository(firestore: ref.watch(firestoreProvider));
@@ -24,12 +25,26 @@ class CommunityRepository {
       }
       return right(_communities.doc(community.name).set(community.toMap()));
     } on FirebaseException catch (e) {
-      return left(Failure(e.message!) );
+      return left(Failure(e.message!));
     } catch (e) {
-       return left(Failure(e.toString()) );
+      return left(Failure(e.toString()));
     }
+  }
+
+  Stream<List<Community>> getUserCommunities(String uid) {
+    return _communities
+        .where('members', arrayContains: uid)
+        .snapshots()
+        .map((event) {
+      List<Community> communities = [];
+      for (var doc in event.docs) {
+        communities.add(Community.fromMap(doc.data() as Map<String, dynamic>));
+      }
+      return communities;
+    });
   }
 
   CollectionReference get _communities =>
       _firestore.collection(FirebaseConstants.communitiesCollection);
 }
+

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/home-screen/husband_home_screen.dart';
@@ -12,7 +13,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await UserSharedPreference.init();
-  runApp(const MyApp());
+  runApp(ProviderScope(child: MyApp()));
+  
 }
 
 class MyApp extends StatelessWidget {
