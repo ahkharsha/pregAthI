@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/buttons/regular_button.dart';
-import 'package:pregathi/common/loader.dart';
+import 'package:pregathi/const/loader.dart';
 import 'package:pregathi/widgets/community-chat/controller/community_controller.dart';
 
 class CreateCommunityScreen extends ConsumerStatefulWidget {
@@ -29,31 +29,37 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading =ref.watch(communityControllerProvider);
+    final isLoading = ref.watch(communityControllerProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Create a community.."),
       ),
-      body:isLoading? const Loader():  Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            const Align(
-                alignment: Alignment.topLeft, child: Text("Community Name")),
-            const SizedBox(height: 15),
-            TextField(
-              controller: communityNameController,
-              decoration: const InputDecoration(
-                  hintText: "Community Name",
-                  filled: true,
-                  contentPadding: EdgeInsets.all(10)),
-              maxLength: 30,
+      body: isLoading
+          ? const Loader()
+          : Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                children: [
+                  const Align(
+                      alignment: Alignment.topLeft,
+                      child: Text("Community Name")),
+                  const SizedBox(height: 15),
+                  TextField(
+                    controller: communityNameController,
+                    decoration: const InputDecoration(
+                        hintText: "Community Name",
+                        filled: true,
+                        contentPadding: EdgeInsets.all(10)),
+                    maxLength: 30,
+                  ),
+                  const SizedBox(height: 20),
+                  RegularButton(
+                    title: "Create Community",
+                    onPressed: createCommunity,
+                  )
+                ],
+              ),
             ),
-            const SizedBox(height: 20),
-            RegularButton(title: "Create Community", onPressed: () {})
-          ],
-        ),
-      ),
     );
   }
 }

@@ -25,13 +25,11 @@ class _ImageChatState extends State<ImageChat> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _controller = ScrollController();
 
-  // Create Gemini Instance
   final gemini = GoogleGemini(
     apiKey: apiKey,
   );
 
-  // Text only input
-  void fromTextAndImage({required String query, required File image}) {
+  void fromTextAndImage({required String query, required File image,required String prompt}) {
     setState(() {
       loading = true;
       textAndImageChat.add({
@@ -44,18 +42,18 @@ class _ImageChatState extends State<ImageChat> {
     });
     scrollToTheEnd();
 
-    gemini.generateFromTextAndImages(query: query, image: image).then((value) {
+    gemini.generateFromTextAndImages(query: query+ " "+prompt, image: image).then((value) {
       setState(() {
         loading = false;
         textAndImageChat
-            .add({"role": "Assistant", "text": value.text, "image": ""});
+            .add({"role": "AI Doc", "text": value.text, "image": ""});
       });
       scrollToTheEnd();
     }).onError((error, stackTrace) {
       setState(() {
         loading = false;
         textAndImageChat
-            .add({"role": "Assistant", "text": error.toString(), "image": ""});
+            .add({"role": "AI Doc", "text": error.toString(), "image": ""});
       });
       scrollToTheEnd();
     });
@@ -139,7 +137,7 @@ class _ImageChatState extends State<ImageChat> {
                       return;
                     }
                     fromTextAndImage(
-                        query: _textController.text, image: imageFile!);
+                        query: _textController.text, image: imageFile!, prompt: "Consider yourself a doctor specialist in pregnancy and I am a pregnant lady, only answer question related to pregnancy if the question by me is not related to pregnacy ladies just say I cant help you with thing not related to pregnancy.Answer under 40 words");
                   },
                 ),
               ],

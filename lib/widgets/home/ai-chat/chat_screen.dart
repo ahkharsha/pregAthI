@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/widgets/chat/image_chat.dart';
-import 'package:pregathi/widgets/chat/text_chat.dart';
+import 'package:pregathi/widgets/home/ai-chat/chat/image_chat.dart';
+import 'package:pregathi/widgets/home/ai-chat/chat/text_chat.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({

@@ -13,8 +13,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await UserSharedPreference.init();
-  runApp(ProviderScope(child: MyApp()));
-  
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -35,14 +38,11 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == '') {
             return LoginScreen();
-          }
-          else if (snapshot.data == 'wife') {
+          } else if (snapshot.data == 'wife') {
             return BottomPage();
-          }
-          else if (snapshot.data == 'volunteer') {
+          } else if (snapshot.data == 'volunteer') {
             return VolunteerHomeScreen();
-          }
-          else if (snapshot.data == 'husband') {
+          } else if (snapshot.data == 'husband') {
             return HusbandHomeScreen();
           }
           return progressIndicator(context);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
+import 'package:pregathi/widgets/home/ai-chat/chat_screen.dart';
 import 'package:pregathi/main-screens/home-screen/wife_home_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/contacts/add_contacts.dart';
 import 'package:pregathi/widgets/home/bottom-bar/profile_screen.dart';

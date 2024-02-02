@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/widgets/home/ai_chat.dart';
+import 'package:pregathi/widgets/home/ai-chat/ai_chat.dart';
 import 'package:pregathi/widgets/community-chat/community_list_drawer.dart';
 import 'package:pregathi/widgets/home/emergency.dart';
 import 'package:pregathi/widgets/home/services.dart';

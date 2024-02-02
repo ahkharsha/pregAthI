@@ -6,7 +6,6 @@ import 'package:pregathi/failure.dart';
 import 'package:pregathi/model/community.dart';
 import 'package:pregathi/providers/firebase_providers.dart';
 import 'package:pregathi/type_defs.dart';
-// import 'package:url_launcher/link.dart';
 
 final communityRepositoryProvider = Provider((ref) {
   return CommunityRepository(firestore: ref.watch(firestoreProvider));
@@ -47,4 +46,3 @@ class CommunityRepository {
   CollectionReference get _communities =>
       _firestore.collection(FirebaseConstants.communitiesCollection);
 }
-

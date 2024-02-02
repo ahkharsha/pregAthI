@@ -5,7 +5,6 @@ import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/community.dart';
 import 'package:pregathi/widgets/community-chat/repository/community_repository.dart';
 import 'package:routemaster/routemaster.dart';
-// import 'package:pregathi/providers/storage_repository_providers.dart';
 
 final userCommunitiesProvider = StreamProvider((ref) {
   final communityController = ref.watch(communityControllerProvider.notifier);
@@ -15,10 +14,8 @@ final userCommunitiesProvider = StreamProvider((ref) {
 final communityControllerProvider =
     StateNotifierProvider<CommunityController, bool>((ref) {
   final communityRepository = ref.watch(communityRepositoryProvider);
-  // final storageRepository = ref.watch(storageRepositoryProvider);
   return CommunityController(
     communityRepository: communityRepository,
-    // storageRepository: storageRepository,
     ref: ref,
   );
 });
@@ -42,17 +39,17 @@ class CommunityController extends StateNotifier<bool> {
       members: [uid],
       mods: [uid],
     );
+
     final res = await _communityRepository.createCommunity(community);
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
-      showSnackBar(context, 'Community created successfully!!');
+      showSnackBar(context, 'Community created successfully');
       Routemaster.of(context).pop();
     });
-
-  
   }
-    Stream<List<Community>> getUserCommunities() {
-      final uid = _ref.read(userProvider)!.uid;
-      return _communityRepository.getUserCommunities(uid);
-    }
+
+  Stream<List<Community>> getUserCommunities() {
+    final uid = _ref.read(userProvider)!.uid;
+    return _communityRepository.getUserCommunities(uid);
+  }
 }

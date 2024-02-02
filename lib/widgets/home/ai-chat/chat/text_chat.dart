@@ -19,13 +19,11 @@ class _TextChatState extends State<TextChat> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _controller = ScrollController();
 
-  // Create Gemini Instance
   final gemini = GoogleGemini(
     apiKey: apiKey,
   );
 
-  // Text only input
-  void fromText({required String query}) {
+  void fromText({required String query, required String prompt}) {
     setState(() {
       loading = true;
       textChat.add({
@@ -36,11 +34,11 @@ class _TextChatState extends State<TextChat> {
     });
     scrollToTheEnd();
 
-    gemini.generateFromText(query).then((value) {
+    gemini.generateFromText(query + " " + prompt).then((value) {
       setState(() {
         loading = false;
         textChat.add({
-          "role": "Assistant",
+          "role": "AI Doc",
           "text": value.text,
         });
       });
@@ -49,7 +47,7 @@ class _TextChatState extends State<TextChat> {
       setState(() {
         loading = false;
         textChat.add({
-          "role": "Assistant",
+          "role": "AI Doc",
           "text": error.toString(),
         });
       });
@@ -97,7 +95,7 @@ class _TextChatState extends State<TextChat> {
                 child: TextField(
                   controller: _textController,
                   decoration: InputDecoration(
-                    hintText: "Type a message",
+                    hintText: "Type a message ....",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide.none),
@@ -112,7 +110,7 @@ class _TextChatState extends State<TextChat> {
                     ? const CircularProgressIndicator()
                     : const Icon(Icons.send),
                 onPressed: () {
-                  fromText(query: _textController.text);
+                  fromText(query: _textController.text, prompt: "Consider yourself a doctor specialist in pregnancy and I am a pregnant lady, only answer question related to pregnancy if the question by me is not related to pregnacy ladies just say I cant help you with thing not related to pregnancy answer under 45 words.");
                 },
               ),
             ],
