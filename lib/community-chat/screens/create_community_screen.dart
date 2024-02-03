@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/buttons/regular_button.dart';
 import 'package:pregathi/const/loader.dart';
-import 'package:pregathi/widgets/community-chat/controller/community_controller.dart';
+import 'package:pregathi/community-chat/controller/community_controller.dart';
 
 class CreateCommunityScreen extends ConsumerStatefulWidget {
   const CreateCommunityScreen({super.key});
