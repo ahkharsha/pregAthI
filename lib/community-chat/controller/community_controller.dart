@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/community.dart';
 import 'package:pregathi/community-chat/repository/community_repository.dart';
-import 'package:routemaster/routemaster.dart';
 
 final userCommunitiesProvider = StreamProvider((ref) {
   final communityController = ref.watch(communityControllerProvider.notifier);
@@ -22,6 +21,7 @@ final communityControllerProvider =
 
 class CommunityController extends StateNotifier<bool> {
   final CommunityRepository _communityRepository;
+  // ignore: unused_field
   final Ref _ref;
   CommunityController(
       {required CommunityRepository communityRepository, required Ref ref})
@@ -46,7 +46,7 @@ class CommunityController extends StateNotifier<bool> {
       state = false;
       res.fold((l) => showSnackBar(context, l.message), (r) {
         showSnackBar(context, 'Community created successfully');
-        Routemaster.of(context).pop();
+        Navigator. pop(context);
       });
     }
   }
