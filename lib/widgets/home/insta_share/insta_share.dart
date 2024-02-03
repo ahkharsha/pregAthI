@@ -1,4 +1,6 @@
 import 'package:background_sms/background_sms.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
@@ -7,6 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:pregathi/buttons/main_button.dart';
 import 'package:pregathi/model/contacts.dart';
 import 'package:pregathi/db/db_services.dart';
+import 'package:pregathi/model/emergency_message.dart';
 
 class InstaShare extends StatefulWidget {
   const InstaShare({super.key});
@@ -32,6 +35,32 @@ class _InstaShareState extends State<InstaShare> {
       //   Fluttertoast.showToast(msg: "Oops! Failed to send");
       // }
     });
+  }
+
+  setFirebaseEmergency(String currentLocation) async {
+    final User? user = FirebaseAuth.instance.currentUser;
+                      if (user != null) {
+                        DocumentSnapshot userData = await FirebaseFirestore
+                            .instance
+                            .collection('users')
+                            .doc(user.uid)
+                            .get();
+
+                          DocumentReference<Map<String, dynamic>> db =
+              FirebaseFirestore.instance.collection('emergencies').doc(user.uid);
+
+                        final userMessage = EmergencyMessageModel(
+                          name: userData['name'],
+                          id: user.uid,
+                          phone: userData['phone'],
+                          wifeEmail: userData['wifeEmail'],
+                          location: currentLocation,
+                        );
+
+                        final jsonData = userMessage.toJson();
+                        db.set(jsonData);
+                        
+                      }
   }
 
   _getAddressFromLaLo() async {
@@ -61,6 +90,13 @@ class _InstaShareState extends State<InstaShare> {
       builder: (context) {
         return Container(
           height: MediaQuery.of(context).size.height / 1.4,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Column(
@@ -115,6 +151,8 @@ class _InstaShareState extends State<InstaShare> {
                         String msgBody =
                             "https://www.google.com/maps/search/?api=1&query=${_currentPosition!.latitude}%2C${_currentPosition!.longitude}. $_curentAddress";
 
+                            setFirebaseEmergency(msgBody);
+
                         if (await isPermissionGranted()) {
                           for (TContact contact in contactList) {
                             sendSMS(
@@ -134,13 +172,6 @@ class _InstaShareState extends State<InstaShare> {
                   ),
                 ),
               ],
-            ),
-          ),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
             ),
           ),
         );
