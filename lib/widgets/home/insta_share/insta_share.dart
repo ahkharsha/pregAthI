@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pregathi/buttons/main_button.dart';
 import 'package:pregathi/model/contacts.dart';
@@ -39,28 +40,30 @@ class _InstaShareState extends State<InstaShare> {
 
   setFirebaseEmergency(String currentLocation) async {
     final User? user = FirebaseAuth.instance.currentUser;
-                      if (user != null) {
-                        DocumentSnapshot userData = await FirebaseFirestore
-                            .instance
-                            .collection('users')
-                            .doc(user.uid)
-                            .get();
+    if (user != null) {
+      DocumentSnapshot userData = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
 
-                          DocumentReference<Map<String, dynamic>> db =
-              FirebaseFirestore.instance.collection('emergencies').doc(user.uid);
+      DocumentReference<Map<String, dynamic>> db =
+          FirebaseFirestore.instance.collection('emergencies').doc(user.uid);
+      DateTime now = DateTime.now();
+      var formatterDate = DateFormat('dd/MM/yy').format(now);
+      var formatterTime = DateFormat('kk:mm').format(now);
+      final userMessage = EmergencyMessageModel(
+        name: userData['name'],
+        id: user.uid,
+        phone: userData['phone'],
+        wifeEmail: userData['wifeEmail'],
+        location: currentLocation,
+        date: formatterDate,
+        time: formatterTime,
+      );
 
-                        final userMessage = EmergencyMessageModel(
-                          name: userData['name'],
-                          id: user.uid,
-                          phone: userData['phone'],
-                          wifeEmail: userData['wifeEmail'],
-                          location: currentLocation,
-                        );
-
-                        final jsonData = userMessage.toJson();
-                        db.set(jsonData);
-                        
-                      }
+      final jsonData = userMessage.toJson();
+      db.set(jsonData);
+    }
   }
 
   _getAddressFromLaLo() async {
@@ -151,7 +154,7 @@ class _InstaShareState extends State<InstaShare> {
                         String msgBody =
                             "https://www.google.com/maps/search/?api=1&query=${_currentPosition!.latitude}%2C${_currentPosition!.longitude}. $_curentAddress";
 
-                            setFirebaseEmergency(msgBody);
+                        setFirebaseEmergency(msgBody);
 
                         if (await isPermissionGranted()) {
                           for (TContact contact in contactList) {
