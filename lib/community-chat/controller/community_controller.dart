@@ -19,6 +19,12 @@ final communityControllerProvider =
   );
 });
 
+final getCommunityByNameProvider = StreamProvider.family((ref, String name) {
+  return ref
+      .watch(communityControllerProvider.notifier)
+      .getCommunityByName(name);
+});
+
 class CommunityController extends StateNotifier<bool> {
   final CommunityRepository _communityRepository;
   // ignore: unused_field
@@ -46,7 +52,7 @@ class CommunityController extends StateNotifier<bool> {
       state = false;
       res.fold((l) => showSnackBar(context, l.message), (r) {
         showSnackBar(context, 'Community created successfully');
-        Navigator. pop(context);
+        Navigator.pop(context);
       });
     }
   }
@@ -55,5 +61,9 @@ class CommunityController extends StateNotifier<bool> {
     final User? user = FirebaseAuth.instance.currentUser;
     final uid = user?.uid ?? "";
     return _communityRepository.getUserCommunities(uid);
+  }
+
+   Stream<Community> getCommunityByName(String name) {
+    return _communityRepository.getCommunityByName(name);
   }
 }

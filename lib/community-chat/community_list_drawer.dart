@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pregathi/community-chat/screens/community_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
 import 'package:pregathi/const/loader.dart';
@@ -29,9 +30,13 @@ class CommunityDrawer extends ConsumerWidget {
                       itemBuilder: (BuildContext context, int index) {
                         final community = communities[index];
                         return ListTile(
-                          leading: CircleAvatar(backgroundImage: NetworkImage(community.avatar),),
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(community.avatar),
+                          ),
                           title: Text('${community.name}'),
-                          onTap: () {},
+                          onTap: () {
+                            goTo(context, CommunityScreen(name: 'disha'));
+                          },
                         );
                       },
                     ),

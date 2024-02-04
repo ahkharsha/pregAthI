@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 // ignore: constant_identifier_names
@@ -46,3 +47,8 @@ Widget progressIndicator(BuildContext context) {
   );
   
 }
+  // Future<FilePickerResult?> pickImage() async {
+  //   final image = await FilePicker.platform.pickFiles(type: FileType.image);
+
+  //   return image;
+  // }
