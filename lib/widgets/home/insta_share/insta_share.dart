@@ -74,7 +74,7 @@ class _InstaShareState extends State<InstaShare> {
     }
   }
 
-  _getCurrentLocatiob() async {
+  _getCurrentLocation() async {
     Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high,
             forceAndroidLocationManager: true)
@@ -108,7 +108,7 @@ class _InstaShareState extends State<InstaShare> {
   void initState() {
     super.initState();
     _getPermission();
-    _getCurrentLocatiob();
+    _getCurrentLocation();
   }
 
   showModelInstaShare(BuildContext context) {
@@ -137,7 +137,11 @@ class _InstaShareState extends State<InstaShare> {
                 SizedBox(
                   height: 10,
                 ),
-                if (_currentPosition != null) Text(_curentAddress!),
+                if (_currentPosition != null)
+                  Text(
+                    _curentAddress!,
+                    textAlign: TextAlign.center,
+                  ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
                   child: MainButton(

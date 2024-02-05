@@ -18,10 +18,10 @@ class VolunteerHomeScreen extends StatefulWidget {
 
 class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
   String? _volunteerLocality;
-  // ignore: unused_field
   String? _volunteerPostal;
   Position? _currentPosition;
   LocationPermission? permission;
+  late DocumentReference _documentReference;
 
   final CollectionReference _reference =
       FirebaseFirestore.instance.collection('emergencies');
@@ -36,7 +36,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
       Placemark place = placeMarks[0];
       setState(() {
         _volunteerLocality = place.locality;
-        _volunteerPostal=place.postalCode;
+        _volunteerPostal = place.postalCode;
       });
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
@@ -65,6 +65,47 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
     _getVolunteerLocation();
   }
 
+  void _showEmergencyAlertDialog(Map<String, dynamic> emergencyDetails) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Emergency Alert'),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('${emergencyDetails['name']}'),
+              Text('${emergencyDetails['phone']}'),
+              Text(
+                  '${emergencyDetails['time']} - ${emergencyDetails['locality']}, ${emergencyDetails['postal']}'),
+            ],
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                // Add logic to open Maps here
+              },
+              child: Text('Maps'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                print(emergencyDetails['id']);
+                _documentReference =
+                    FirebaseFirestore.instance
+                        .collection('emergencies')
+                        .doc(emergencyDetails['id']);
+
+                        _documentReference.delete();
+                        goTo(context, VolunteerHomeScreen());
+              },
+              child: Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,14 +130,14 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasError) {
             return dialogueBox(
-                context, 'Some error has occured ${snapshot.error}');
+                context, 'Some error has occurred ${snapshot.error}');
           }
 
           if (snapshot.hasData) {
             QuerySnapshot querySnapshot = snapshot.data;
             List<QueryDocumentSnapshot> documents = querySnapshot.docs;
 
-            List<Map> items = documents
+            List<Map<String, dynamic>> items = documents
                 .map(
                   (emergency) => {
                     'id': emergency['id'],
@@ -115,13 +156,20 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
             return ListView.builder(
               itemCount: items.length,
               itemBuilder: (context, index) {
-                Map thisItem = items[index];
+                Map<String, dynamic> thisItem = items[index];
                 print(_volunteerLocality);
                 print(_volunteerPostal);
-                if (_volunteerLocality == thisItem['locality'] || _volunteerPostal==thisItem['postal']) {
-                  return ListTile(
-                    title: Text('${thisItem['name']}'),
-                    subtitle: Text('${thisItem['time']} - ${thisItem['locality']}, ${thisItem['postal']}'),
+                if (_volunteerLocality == thisItem['locality'] ||
+                    _volunteerPostal == thisItem['postal']) {
+                  return GestureDetector(
+                    onTap: () {
+                      _showEmergencyAlertDialog(thisItem);
+                    },
+                    child: ListTile(
+                      title: Text('${thisItem['name']}'),
+                      subtitle: Text(
+                          '${thisItem['time']} - ${thisItem['locality']}, ${thisItem['postal']}'),
+                    ),
                   );
                 }
                 return null;
@@ -135,32 +183,3 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
     );
   }
 }
-
-// Center(
-//         child: Padding(
-//           padding: EdgeInsets.only(bottom: 20),
-//           child: ElevatedButton(
-//             onPressed: () {
-//               UserSharedPreference.setUserRole('');
-//               goTo(context, LoginScreen());
-//             },
-//             child: Padding(
-//               padding: EdgeInsets.all(0),
-//               child: Text(
-//                 "Logout from Volunteer homescreen",
-//                 style: TextStyle(
-//                   fontSize: 18,
-//                   //fontWeight: FontWeight.bold,
-//                   color: Colors.white,
-//                 ),
-//               ),
-//             ),
-//             style: ElevatedButton.styleFrom(
-//               backgroundColor: primaryColor,
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(10),
-//               ),
-//             ),
-//           ),
-//         ),
-//       ),
