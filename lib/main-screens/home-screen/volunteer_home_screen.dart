@@ -8,6 +8,7 @@ import 'package:pregathi/const/loader.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VolunteerHomeScreen extends StatefulWidget {
   VolunteerHomeScreen({super.key});
@@ -83,22 +84,36 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                // Add logic to open Maps here
-              },
-              child: Text('Maps'),
-            ),
-            ElevatedButton(
-              onPressed: () {
                 print(emergencyDetails['id']);
-                _documentReference =
-                    FirebaseFirestore.instance
-                        .collection('emergencies')
-                        .doc(emergencyDetails['id']);
+                _documentReference = FirebaseFirestore.instance
+                    .collection('emergencies')
+                    .doc(emergencyDetails['id']);
 
-                        _documentReference.delete();
-                        goTo(context, VolunteerHomeScreen());
+                _documentReference.delete();
+                goTo(context, VolunteerHomeScreen());
               },
               child: Text('Delete'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                String googleUrl = '${emergencyDetails['location']}';
+
+                /*if (Platform.isAndroid) {
+                  if (await canLaunchUrl(Uri.parse(googleUrl))) {
+                    await launchUrl(Uri.parse(googleUrl));
+                  } else {
+                    throw 'Could not launch $googleUrl';
+                  }
+                }*/
+
+                final Uri _url = Uri.parse(googleUrl);
+                try {
+                  await launchUrl(_url);
+                } catch (e) {
+                  Fluttertoast.showToast(msg: 'Error');
+                }
+              },
+              child: Text('Maps'),
             ),
           ],
         );

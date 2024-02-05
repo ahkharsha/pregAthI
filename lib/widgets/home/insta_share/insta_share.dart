@@ -170,8 +170,9 @@ class _InstaShareState extends State<InstaShare> {
                       if (_currentPosition != null) {
                         String msgBody =
                             "https://www.google.com/maps/search/?api=1&query=${_currentPosition!.latitude}%2C${_currentPosition!.longitude}. $_curentAddress";
+                        String firebaseMsg="https://www.google.com/maps/search/?api=1&query=${_currentPosition!.latitude}%2C${_currentPosition!.longitude}";
 
-                        setFirebaseEmergency(msgBody);
+                        setFirebaseEmergency(firebaseMsg);
 
                         if (await isPermissionGranted()) {
                           for (TContact contact in contactList) {
