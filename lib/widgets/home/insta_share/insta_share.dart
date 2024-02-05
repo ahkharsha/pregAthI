@@ -49,6 +49,12 @@ class _InstaShareState extends State<InstaShare> {
       DocumentReference<Map<String, dynamic>> db =
           FirebaseFirestore.instance.collection('emergencies').doc(user.uid);
       DateTime now = DateTime.now();
+
+      List<Placemark> placeMarks = await placemarkFromCoordinates(
+          _currentPosition!.latitude, _currentPosition!.longitude);
+
+      Placemark place = placeMarks[0];
+
       var formatterDate = DateFormat('dd/MM/yy').format(now);
       var formatterTime = DateFormat('kk:mm').format(now);
       final userMessage = EmergencyMessageModel(
@@ -59,6 +65,8 @@ class _InstaShareState extends State<InstaShare> {
         location: currentLocation,
         date: formatterDate,
         time: formatterTime,
+        locality: place.locality,
+        postal: place.postalCode,
       );
 
       final jsonData = userMessage.toJson();

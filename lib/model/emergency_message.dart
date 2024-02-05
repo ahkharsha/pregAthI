@@ -7,6 +7,8 @@ class EmergencyMessageModel {
   String? location;
   String? date;
   String? time;
+  String? locality;
+  String? postal;
 
   EmergencyMessageModel({
     this.name,
@@ -16,6 +18,8 @@ class EmergencyMessageModel {
     this.location,
     this.date,
     this.time,
+    this.locality,
+    this.postal,
   });
 
   Map<String, dynamic> toJson() => {
@@ -26,5 +30,7 @@ class EmergencyMessageModel {
         'location': location,
         'date':date,
         'time':time,
+        'locality':locality,
+        'postal':postal,
       };
 }
