@@ -35,7 +35,7 @@ class CommunityDrawer extends ConsumerWidget {
                           ),
                           title: Text('${community.name}'),
                           onTap: () {
-                            goTo(context, CommunityScreen(name: 'disha'));
+                            goTo(context, CommunityScreen(name: '${community.name}'));
                           },
                         );
                       },
