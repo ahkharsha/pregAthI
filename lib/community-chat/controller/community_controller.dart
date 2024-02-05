@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/community.dart';
 import 'package:pregathi/community-chat/repository/community_repository.dart';
+import 'package:pregathi/providers/storage_repository_provider.dart';
 
 final userCommunitiesProvider = StreamProvider((ref) {
   final communityController = ref.watch(communityControllerProvider.notifier);
@@ -13,8 +16,10 @@ final userCommunitiesProvider = StreamProvider((ref) {
 final communityControllerProvider =
     StateNotifierProvider<CommunityController, bool>((ref) {
   final communityRepository = ref.watch(communityRepositoryProvider);
+  final storageRepository = ref.watch(storageRepositoryProvider);
   return CommunityController(
     communityRepository: communityRepository,
+    storageRepository: storageRepository,
     ref: ref,
   );
 });
@@ -29,10 +34,14 @@ class CommunityController extends StateNotifier<bool> {
   final CommunityRepository _communityRepository;
   // ignore: unused_field
   final Ref _ref;
-  CommunityController(
-      {required CommunityRepository communityRepository, required Ref ref})
-      : _communityRepository = communityRepository,
+  final StorageRepository _storageRepository;
+  CommunityController({
+    required CommunityRepository communityRepository,
+    required Ref ref,
+    required StorageRepository storageRepository,
+  })  : _communityRepository = communityRepository,
         _ref = ref,
+        _storageRepository = storageRepository,
         super(false);
   void createCommunity(String name, BuildContext context) async {
     state = true;
@@ -63,7 +72,48 @@ class CommunityController extends StateNotifier<bool> {
     return _communityRepository.getUserCommunities(uid);
   }
 
-   Stream<Community> getCommunityByName(String name) {
+  Stream<Community> getCommunityByName(String name) {
     return _communityRepository.getCommunityByName(name);
+  }
+
+  void editCommunity({
+    required File? profileFile,
+    required File? bannerFile,
+    required BuildContext context,
+    required Community community,
+  }) async {
+    state=true;
+    if (profileFile != null) {
+      final res = await _storageRepository.storeFile(
+        path: 'communities/profile',
+        id: community.name,
+        file: profileFile,
+      );
+
+      res.fold(
+        (l) => showSnackBar(context, l.message),
+        (r) => community = community.copyWith(avatar: r),
+      );
+    }
+
+    if (bannerFile != null) {
+      final res = await _storageRepository.storeFile(
+        path: 'communities/banner',
+        id: community.name,
+        file: bannerFile,
+      );
+
+      res.fold(
+        (l) => showSnackBar(context, l.message),
+        (r) => community = community.copyWith(banner: r),
+      );
+    }
+
+    final res = await _communityRepository.editCommunity(community);
+    state=false;
+    res.fold(
+      (l) => showSnackBar(context, l.message),
+      (r) => Navigator.of(context).pop(),
+    );
   }
 }
