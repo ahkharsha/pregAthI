@@ -174,6 +174,8 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                 Map<String, dynamic> thisItem = items[index];
                 print(_volunteerLocality);
                 print(_volunteerPostal);
+
+                // Add a condition to check if the volunteer is in the same locality or has the same postal code
                 if (_volunteerLocality == thisItem['locality'] ||
                     _volunteerPostal == thisItem['postal']) {
                   return GestureDetector(
@@ -187,7 +189,9 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                     ),
                   );
                 }
-                return null;
+
+                // If the condition is not met, return an empty container
+                return Container();
               },
             );
           }
