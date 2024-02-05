@@ -74,6 +74,21 @@ class _InstaShareState extends State<InstaShare> {
     }
   }
 
+  _getCurrentLocatiob() async {
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high,
+            forceAndroidLocationManager: true)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+        print(_currentPosition!.latitude);
+        _getAddressFromLaLo();
+      });
+    }).catchError((e) {
+      Fluttertoast.showToast(msg: e.toString());
+    });
+  }
+
   _getAddressFromLaLo() async {
     try {
       List<Placemark> placeMarks = await placemarkFromCoordinates(
@@ -93,6 +108,7 @@ class _InstaShareState extends State<InstaShare> {
   void initState() {
     super.initState();
     _getPermission();
+    _getCurrentLocatiob();
   }
 
   showModelInstaShare(BuildContext context) {
@@ -143,18 +159,7 @@ class _InstaShareState extends State<InstaShare> {
                         }
                         return true;
                       }
-                      Geolocator.getCurrentPosition(
-                              desiredAccuracy: LocationAccuracy.high,
-                              forceAndroidLocationManager: true)
-                          .then((Position position) {
-                        setState(() {
-                          _currentPosition = position;
-                          print(_currentPosition!.latitude);
-                          _getAddressFromLaLo();
-                        });
-                      }).catchError((e) {
-                        Fluttertoast.showToast(msg: e.toString());
-                      });
+
                       List<TContact> contactList =
                           await DatabaseService().getContactList();
 
