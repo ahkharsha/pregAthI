@@ -69,6 +69,7 @@ class _InstaShareState extends State<InstaShare> {
         time: formatterTime,
         locality: place.locality,
         postal: place.postalCode,
+        profilePic: userData['profilePic'],
       );
 
       final jsonData = userMessage.toJson();

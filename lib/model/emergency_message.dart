@@ -9,6 +9,7 @@ class EmergencyMessageModel {
   String? time;
   String? locality;
   String? postal;
+  String? profilePic;
 
   EmergencyMessageModel({
     this.name,
@@ -20,6 +21,7 @@ class EmergencyMessageModel {
     this.time,
     this.locality,
     this.postal,
+    this.profilePic,
   });
 
   Map<String, dynamic> toJson() => {
@@ -28,9 +30,10 @@ class EmergencyMessageModel {
         'id': id,
         'wifeEmail': wifeEmail,
         'location': location,
-        'date':date,
-        'time':time,
-        'locality':locality,
-        'postal':postal,
+        'date': date,
+        'time': time,
+        'locality': locality,
+        'postal': postal,
+        'profilePic': profilePic,
       };
 }

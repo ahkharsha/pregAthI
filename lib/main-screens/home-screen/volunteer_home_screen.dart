@@ -78,6 +78,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
         time: emergency['time'],
         locality: emergency['locality'],
         postal: emergency['postal'],
+        profilePic:emergency['profilePic']
       );
 
       final jsonData = data.toJson();
@@ -153,7 +154,6 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            UserSharedPreference.setUserRole('');
             goTo(context, VolunteerProfileScreen());
           },
           icon: Icon(Icons.person),
@@ -199,6 +199,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                     'wifeEmail': emergency['wifeEmail'],
                     'locality': emergency['locality'],
                     'postal': emergency['postal'],
+                    'profilePic':emergency['profilePic']
                   },
                 )
                 .toList();
@@ -217,6 +218,9 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                       _showEmergencyAlertDialog(thisItem);
                     },
                     child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(thisItem['profilePic']),
+                      ),
                       title: Text('${thisItem['name']}'),
                       subtitle: Text(
                           '${thisItem['time']} - ${thisItem['locality']}, ${thisItem['postal']}'),

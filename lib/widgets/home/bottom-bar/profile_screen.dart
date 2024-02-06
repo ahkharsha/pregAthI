@@ -4,6 +4,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/db/shared_pref.dart';
+import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:io';
 
@@ -39,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _nameController.text = userData['name'];
         _weekController.text = userData['week'];
         _bioController.text = userData['bio'];
-        profilePic = userData['profilePic'] ?? "";
+        profilePic = userData['profilePic'];
       });
     }
   }
@@ -62,7 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: false,
-        backgroundColor: Colors.blue, // Change to your primaryColor
+        backgroundColor: primaryColor, // Change to your primaryColor
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -256,7 +259,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildLogoutButton() {
     return ElevatedButton(
         onPressed: () {
-          // Implement your logout logic here
+          UserSharedPreference.setUserRole('');
+              goTo(context, LoginScreen());
         },
         child: const Text('Logout'));
   }
