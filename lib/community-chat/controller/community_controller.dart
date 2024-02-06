@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:pregathi/auth/auth_controller.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/failure.dart';
 import 'package:pregathi/model/community.dart';
 import 'package:pregathi/community-chat/repository/community_repository.dart';
 import 'package:pregathi/providers/storage_repository_provider.dart';
@@ -28,6 +31,10 @@ final getCommunityByNameProvider = StreamProvider.family((ref, String name) {
   return ref
       .watch(communityControllerProvider.notifier)
       .getCommunityByName(name);
+});
+
+final searchCommunityProvider = StreamProvider.family((ref, String query) {
+  return ref.watch(communityControllerProvider.notifier).searchCommunity(query);
 });
 
 class CommunityController extends StateNotifier<bool> {
@@ -64,6 +71,29 @@ class CommunityController extends StateNotifier<bool> {
         Navigator.pop(context);
       });
     }
+  }
+
+  
+  void joinCommunity(Community community, BuildContext context) async {
+    state = true;
+    final User? user = FirebaseAuth.instance.currentUser;
+    
+      
+
+    Either<Failure, void> res;
+    if (community.members.contains(user!.uid)) {
+      res = await _communityRepository.leaveCommunity(community.name, user.uid);
+    } else {
+      res = await _communityRepository.joinCommunity(community.name, user.uid);
+    }
+
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      if (community.members.contains(user.uid)) {
+        showSnackBar(context, 'Community left successfully!');
+      } else {
+        showSnackBar(context, 'Community joined successfully!');
+      }
+    });
   }
 
   Stream<List<Community>> getUserCommunities() {
@@ -115,5 +145,9 @@ class CommunityController extends StateNotifier<bool> {
       (l) => showSnackBar(context, l.message),
       (r) => Navigator.of(context).pop(),
     );
+  }
+
+   Stream<List<Community>> searchCommunity(String query) {
+    return _communityRepository.searchCommunity(query);
   }
 }

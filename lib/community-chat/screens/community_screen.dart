@@ -6,11 +6,18 @@ import 'package:pregathi/community-chat/screens/mod_tools_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
 import 'package:pregathi/const/loader.dart';
+import 'package:pregathi/model/community.dart';
 // import 'package:riverpod/riverpod.dart';
 
 class CommunityScreen extends ConsumerWidget {
   final String name;
   const CommunityScreen({super.key, required this.name});
+
+  void joinCommunity(WidgetRef ref, Community community, BuildContext context) {
+    ref
+        .read(communityControllerProvider.notifier)
+        .joinCommunity(community, context);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -61,7 +68,11 @@ class CommunityScreen extends ConsumerWidget {
                                 community.mods.contains(user!.uid)
                                     ? OutlinedButton(
                                         onPressed: () {
-                                          goTo(context, ModToolsScreen(name: community.name,));
+                                          goTo(
+                                              context,
+                                              ModToolsScreen(
+                                                name: community.name,
+                                              ));
                                         },
                                         style: ElevatedButton.styleFrom(
                                           shape: RoundedRectangleBorder(
@@ -74,7 +85,8 @@ class CommunityScreen extends ConsumerWidget {
                                         child: const Text('Mod Tools'),
                                       )
                                     : OutlinedButton(
-                                        onPressed: () {},
+                                        onPressed: () => joinCommunity(
+                                            ref, community, context),
                                         style: ElevatedButton.styleFrom(
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
@@ -85,7 +97,7 @@ class CommunityScreen extends ConsumerWidget {
                                         ),
                                         child: Text(
                                             community.members.contains(user.uid)
-                                                ? 'Joined'
+                                                ? 'Leave'
                                                 : 'Join'),
                                       ),
                               ],

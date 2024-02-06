@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pregathi/community-chat/delegate/search_community_delegate.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/widgets/home/ai-chat/ai_chat.dart';
 import 'package:pregathi/community-chat/community_list_drawer.dart';
@@ -6,8 +8,15 @@ import 'package:pregathi/widgets/home/emergency.dart';
 import 'package:pregathi/widgets/home/services.dart';
 import 'package:pregathi/widgets/home/insta_share/insta_share.dart';
 
-class WifeHomeScreen extends StatelessWidget {
-  const WifeHomeScreen({super.key});
+class WifeHomeScreen extends ConsumerStatefulWidget {
+  const WifeHomeScreen({Key? key}) : super(key: key);
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<WifeHomeScreen> {
+
 
   void drawerDisplay(BuildContext context) {
     Scaffold.of(context).openDrawer();
@@ -24,15 +33,22 @@ class WifeHomeScreen extends StatelessWidget {
               color: const Color.fromARGB(255, 0, 0, 0),
               fontSize: 25),
         ),
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-              onPressed: ()=>drawerDisplay(context),
-              //icon: Icon(Icons.groups),
-              icon: Icon(Icons.menu),
-            );
-          }
-        ),
+        leading: Builder(builder: (context) {
+          return IconButton(
+            onPressed: () => drawerDisplay(context),
+            //icon: Icon(Icons.groups),
+            icon: Icon(Icons.menu),
+          );
+        }),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showSearch(
+                  context: context, delegate: SearchCommunityDelegate(ref));
+            },
+            icon: const Icon(Icons.search),
+          ),
+        ],
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: primaryColor,

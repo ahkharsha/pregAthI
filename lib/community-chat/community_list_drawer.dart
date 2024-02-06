@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pregathi/community-chat/delegate/search_community_delegate.dart';
 import 'package:pregathi/community-chat/screens/community_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
@@ -35,8 +36,10 @@ class CommunityDrawer extends ConsumerWidget {
                           ),
                           title: Text('${community.name}'),
                           onTap: () {
-                            goTo(context, CommunityScreen(name: '${community.name}'));
+                            goTo(context,
+                                CommunityScreen(name: '${community.name}'));
                           },
+                     
                         );
                       },
                     ),
