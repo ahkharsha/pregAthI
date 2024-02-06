@@ -8,9 +8,11 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pregathi/buttons/main_button.dart';
+import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/contacts.dart';
 import 'package:pregathi/db/db_services.dart';
 import 'package:pregathi/model/emergency_message.dart';
+import 'package:pregathi/widgets/home/insta_share/wife_emergency_alert.dart';
 
 class InstaShare extends StatefulWidget {
   const InstaShare({super.key});
@@ -182,6 +184,8 @@ class _InstaShareState extends State<InstaShare> {
                             );
                           }
                         }
+
+                        goTo(context, WifeEmergencyScreen());
                         // else {
                         //   Fluttertoast.showToast(msg: "Something is wrong..");
                         // }
