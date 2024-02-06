@@ -2,18 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pregathi/buttons/regular_button.dart';
-import 'package:pregathi/db/shared_pref.dart';
-import 'package:pregathi/main-screens/home-screen/wife_home_screen.dart';
-import 'package:pregathi/main-screens/login-screen/login_screen.dart';
-import 'package:pregathi/const/constants.dart';
-import 'dart:io';
 import 'package:uuid/uuid.dart';
+import 'dart:io';
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
+
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
@@ -43,7 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _nameController.text = userData['name'];
         _weekController.text = userData['week'];
         _bioController.text = userData['bio'];
-        //profilePic = userData['profilePic'];
+        profilePic = userData['profilePic'] ?? "";
       });
     }
   }
@@ -60,17 +56,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
-            color: Colors.white,
-            onPressed: () {
-              goTo(context, WifeHomeScreen());
-            }),
-        title: Text(
+        leading: const BackButton(color: Colors.white),
+        title: const Text(
           "Profile",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: false,
-        backgroundColor: primaryColor,
+        backgroundColor: Colors.blue, // Change to your primaryColor
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -88,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildProfileHeader() {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Row(
         children: <Widget>[
           GestureDetector(
@@ -98,30 +90,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: CircleAvatar(
               radius: 40,
               backgroundImage: profilePic != null
-                  ? FileImage(File(profilePic!))
-                  : AssetImage('assets/images/profile/default_profile.png')
+                  ? NetworkImage(profilePic!)
+                  : const AssetImage('assets/images/profile/default_profile.png')
                       as ImageProvider,
             ),
           ),
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 TextFormField(
                   controller: _nameController,
-                  decoration: InputDecoration(labelText: 'Name'),
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  decoration: const InputDecoration(labelText: 'Name'),
+                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 TextFormField(
                   controller: _weekController,
-                  decoration: InputDecoration(labelText: 'Week of Pregnancy'),
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                  decoration: const InputDecoration(labelText: 'Week of Pregnancy'),
+                  style: const TextStyle(fontSize: 18, color: Colors.grey),
                 ),
                 TextFormField(
                   controller: _bioController,
-                  decoration: InputDecoration(labelText: 'Bio'),
-                  style: TextStyle(fontSize: 16),
+                  decoration: const InputDecoration(labelText: 'Bio'),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ],
             ),
@@ -131,7 +123,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Future<void> _pickImage() async {
+
+   Future<void> _pickImage() async {
     final XFile? pickedImage = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       imageQuality: 50,
@@ -146,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<String?> _uploadImage(String filePath) async {
     try {
-      final fileName = Uuid().v4();
+      final fileName = const Uuid().v4();
       final Reference fbStorage =
           FirebaseStorage.instance.ref('profile').child(fileName);
       final UploadTask uploadTask = fbStorage.putFile(File(filePath));
@@ -204,20 +197,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
     int userWeek = int.tryParse(_weekController.text) ?? 0;
 
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Pregnancy Tracker",
+          const Text("Pregnancy Tracker",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           LinearProgressIndicator(
             value: userWeek / totalWeeks,
             backgroundColor: Colors.grey[300],
-            valueColor: AlwaysStoppedAnimation<Color>(primaryColor),
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue), // Change to your primaryColor
           ),
-          SizedBox(height: 10),
-          Text("Week $userWeek of $totalWeeks", style: TextStyle(fontSize: 16)),
+          const SizedBox(height: 10),
+          Text("Week $userWeek of $totalWeeks", style: const TextStyle(fontSize: 16)),
           // Additional information or tips can be added here.
         ],
       ),
@@ -226,8 +219,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildHealthSection() {
     return Container(
-      padding: EdgeInsets.all(20),
-      child: Column(
+      padding: const EdgeInsets.all(20),
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text("Health Tips",
@@ -249,22 +242,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildSubmitButton() {
     return Padding(
-        padding: EdgeInsets.only(top: 20, bottom: 10),
+        padding: const EdgeInsets.only(top: 20, bottom: 10),
         child: isSaving
-            ? CircularProgressIndicator()
-            : RegularButton(
-                title: 'Update Profile',
+            ? const CircularProgressIndicator()
+            : ElevatedButton(
                 onPressed: () {
                   _updateProfile();
-                }));
+                },
+                child: const Text('Update Profile'),
+              ));
   }
 
   Widget _buildLogoutButton() {
-    return RegularButton(
-        title: 'Logout',
+    return ElevatedButton(
         onPressed: () {
-          UserSharedPreference.setUserRole('');
-          goTo(context, LoginScreen());
-        });
+          // Implement your logout logic here
+        },
+        child: const Text('Logout'));
   }
 }
