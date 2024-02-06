@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/buttons/regular_button.dart';
+import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/loader.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
 
@@ -32,7 +33,19 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
     final isLoading = ref.watch(communityControllerProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Create a community.."),
+        leading: BackButton(
+            color: Colors.white,
+            onPressed: () {
+              Navigator.of(context).pop();
+            }),
+        title: const Text(
+          "Create a community..",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+        backgroundColor: primaryColor,
       ),
       body: isLoading
           ? const Loader()

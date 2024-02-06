@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
@@ -6,8 +7,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pregathi/const/loader.dart';
 import 'package:pregathi/db/shared_pref.dart';
+import 'package:pregathi/main-screens/home-screen/volunteer/volunteer_profile_screen.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/model/volunteer_history.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class VolunteerHomeScreen extends StatefulWidget {
@@ -59,6 +62,35 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
     });
   }
 
+  _deleteEmergency(Map<String, dynamic> emergency) async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentReference<Map<String, dynamic>> db =
+          FirebaseFirestore.instance.collection(user.uid).doc(emergency['id']);
+
+      final data = VolunteerHistory(
+        name: emergency['name'],
+        id: emergency['id'],
+        phone: emergency['phone'],
+        wifeEmail: emergency['wifeEmail'],
+        location: emergency['location'],
+        date: emergency['date'],
+        time: emergency['time'],
+        locality: emergency['locality'],
+        postal: emergency['postal'],
+      );
+
+      final jsonData = data.toJson();
+      db.set(jsonData);
+    }
+    _documentReference = FirebaseFirestore.instance
+        .collection('emergencies')
+        .doc(emergency['id']);
+
+    _documentReference.delete();
+    goTo(context, VolunteerHomeScreen());
+  }
+
   @override
   void initState() {
     super.initState();
@@ -84,13 +116,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                print(emergencyDetails['id']);
-                _documentReference = FirebaseFirestore.instance
-                    .collection('emergencies')
-                    .doc(emergencyDetails['id']);
-
-                _documentReference.delete();
-                goTo(context, VolunteerHomeScreen());
+                _deleteEmergency(emergencyDetails);
               },
               child: Text('Delete'),
             ),
@@ -128,9 +154,9 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
         leading: IconButton(
           onPressed: () {
             UserSharedPreference.setUserRole('');
-            goTo(context, LoginScreen());
+            goTo(context, VolunteerProfileScreen());
           },
-          icon: Icon(Icons.logout),
+          icon: Icon(Icons.person),
         ),
         title: Text(
           "pregAthI",
@@ -139,6 +165,15 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: primaryColor,
+        actions: [
+          IconButton(
+            onPressed: () {
+              UserSharedPreference.setUserRole('');
+              goTo(context, LoginScreen());
+            },
+            icon: Icon(Icons.logout),
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: _reference.get(),
@@ -175,7 +210,6 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                 print(_volunteerLocality);
                 print(_volunteerPostal);
 
-                // Add a condition to check if the volunteer is in the same locality or has the same postal code
                 if (_volunteerLocality == thisItem['locality'] ||
                     _volunteerPostal == thisItem['postal']) {
                   return GestureDetector(

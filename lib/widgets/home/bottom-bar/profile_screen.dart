@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pregathi/buttons/regular_button.dart';
 import 'package:pregathi/db/shared_pref.dart';
+import 'package:pregathi/main-screens/home-screen/wife_home_screen.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'dart:io';
@@ -59,7 +60,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(color: Colors.white),
+        leading: BackButton(
+            color: Colors.white,
+            onPressed: () {
+              goTo(context, WifeHomeScreen());
+            }),
         title: Text(
           "Profile",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),

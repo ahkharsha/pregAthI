@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pregathi/db/db_services.dart';
+import 'package:pregathi/main-screens/home-screen/wife_home_screen.dart';
 import 'package:pregathi/model/contacts.dart';
 import 'package:pregathi/const/constants.dart';
 
@@ -103,10 +104,17 @@ class _ContactsScreenState extends State<ContactsScreen> {
     bool listItemExit = (contactsFiltered.length > 0 || contacts.length > 0);
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(color: Colors.white),
+        leading: BackButton(
+            color: Colors.white,
+            onPressed: () {
+              goTo(context, WifeHomeScreen());
+            }),
         title: Text(
           "Add Contacts",
-          style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         centerTitle: false,
         backgroundColor: primaryColor,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/main-screens/home-screen/wife_home_screen.dart';
 import 'package:pregathi/widgets/home/ai-chat/chat/image_chat.dart';
 import 'package:pregathi/widgets/home/ai-chat/chat/text_chat.dart';
 
@@ -21,17 +22,22 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Scaffold(
             appBar: AppBar(
               backgroundColor: primaryColor,
-              leading: BackButton(color: Colors.white),
+              leading: BackButton(
+                  color: Colors.white,
+                  onPressed: () {
+                    goTo(context, WifeHomeScreen());
+                  }),
               title: const Text(
                 "AI Chat",
-                style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
               ),
               centerTitle: false,
               bottom: const TabBar(
                 labelColor: Colors.black,
                 indicatorColor: Colors.black,
-                indicatorSize: TabBarIndicatorSize.label, 
-                indicatorWeight: 5,     
+                indicatorSize: TabBarIndicatorSize.label,
+                indicatorWeight: 5,
                 tabs: [
                   Tab(text: "Text"),
                   Tab(text: "Image"),
