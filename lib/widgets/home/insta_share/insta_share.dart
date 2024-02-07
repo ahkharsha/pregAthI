@@ -23,7 +23,7 @@ class InstaShare extends StatefulWidget {
 
 class _InstaShareState extends State<InstaShare> {
   Position? _currentPosition;
-  String? _curentAddress;
+  String? _currentAddress = 'Fetching current location...';
   LocationPermission? permission;
   _getPermission() async => await [Permission.sms].request();
   isPermissionGranted() async => Permission.sms.status.isGranted;
@@ -31,12 +31,11 @@ class _InstaShareState extends State<InstaShare> {
     await BackgroundSms.sendMessage(
             phoneNumber: phoneNumber, message: message, simSlot: simSlot)
         .then((SmsStatus status) {
-      if (status == "sent") {
+      if (status == SmsStatus.sent) {
         Fluttertoast.showToast(msg: "Sent");
+      } else {
+        Fluttertoast.showToast(msg: "Oops! Failed to send");
       }
-      // else {
-      //   Fluttertoast.showToast(msg: "Oops! Failed to send");
-      // }
     });
   }
 
@@ -99,7 +98,7 @@ class _InstaShareState extends State<InstaShare> {
 
       Placemark place = placeMarks[0];
       setState(() {
-        _curentAddress =
+        _currentAddress =
             "${place.locality},${place.postalCode},${place.street},${place.name},${place.subLocality}";
       });
     } catch (e) {
@@ -140,11 +139,10 @@ class _InstaShareState extends State<InstaShare> {
                 SizedBox(
                   height: 10,
                 ),
-                if (_currentPosition != null)
-                  Text(
-                    _curentAddress!,
-                    textAlign: TextAlign.center,
-                  ),
+                Text(
+                  _currentAddress!,
+                  textAlign: TextAlign.center,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
                   child: MainButton(
@@ -172,8 +170,9 @@ class _InstaShareState extends State<InstaShare> {
 
                       if (_currentPosition != null) {
                         String msgBody =
-                            "https://www.google.com/maps/search/?api=1&query=${_currentPosition!.latitude}%2C${_currentPosition!.longitude}. $_curentAddress";
-                        String firebaseMsg="https://www.google.com/maps/search/?api=1&query=${_currentPosition!.latitude}%2C${_currentPosition!.longitude}";
+                            "https://www.google.com/maps/search/?api=1&query=${_currentPosition!.latitude}%2C${_currentPosition!.longitude}. $_currentAddress";
+                        String firebaseMsg =
+                            "https://www.google.com/maps/search/?api=1&query=${_currentPosition!.latitude}%2C${_currentPosition!.longitude}";
 
                         setFirebaseEmergency(firebaseMsg);
 
@@ -208,7 +207,10 @@ class _InstaShareState extends State<InstaShare> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => showModelInstaShare(context),
+      onTap: () async {
+        await _getCurrentLocation();
+        showModelInstaShare(context);
+      },
       child: Padding(
         padding: const EdgeInsets.only(left: 14.0, right: 14.0),
         child: Card(

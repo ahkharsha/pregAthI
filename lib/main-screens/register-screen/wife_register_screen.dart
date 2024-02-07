@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/main-screens/register_select_screen.dart';
-import 'package:pregathi/model/user.dart';
+import 'package:pregathi/model/wife_user.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/buttons/main_button.dart';
 import 'package:pregathi/widgets/textfield.dart';
@@ -41,7 +41,7 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
           DocumentReference<Map<String, dynamic>> db =
               FirebaseFirestore.instance.collection('users').doc(v);
 
-          final user = UserModel(
+          final user = WifeUserModel(
             name: _formData['name'].toString(),
             phone: _formData['phone'].toString(),
             wifeEmail: _formData['email'].toString(),

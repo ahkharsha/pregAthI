@@ -1,4 +1,4 @@
-class UserModel {
+class WifeUserModel {
   String? name;
   String? id;
   String? phone;
@@ -7,7 +7,7 @@ class UserModel {
   String? role;
   String? profilePic;
 
-  UserModel({
+  WifeUserModel({
     this.name,
     this.wifeEmail,
     this.id,
