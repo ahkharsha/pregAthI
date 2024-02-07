@@ -1,221 +1,196 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pregathi/buttons/full_screen_button.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:pregathi/db/db_services.dart';
 import 'package:pregathi/model/contacts.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/widgets/home/bottom-bar/contacts/contacts_screen.dart';
-import 'package:sqflite/sqflite.dart';
 
 class AddContactsScreen extends StatefulWidget {
-  const AddContactsScreen({Key? key}) : super(key: key);
+  const AddContactsScreen({super.key});
 
   @override
   State<AddContactsScreen> createState() => _AddContactsScreenState();
 }
 
 class _AddContactsScreenState extends State<AddContactsScreen> {
-  DatabaseService _databaseHelper = DatabaseService();
-  List<TContact>? contactList;
-  String? husbandPhoneNumber;
-  String? hospitalPhoneNumber;
-
-  int count = 0; // Initialize count to 0
-
-  void listShow() {
-    Future<Database> dbFuture = _databaseHelper.initializeDatabase();
-    dbFuture.then((database) {
-      Future<List<TContact>> contactListFuture =
-          _databaseHelper.getContactList();
-      contactListFuture.then((value) {
-        setState(() {
-          this.contactList = value;
-          this.count = value.length;
-        });
-      });
-    });
-  }
-
-  Future<void> loadData() async {
-    final User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      DocumentSnapshot userData = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
-
-      setState(() {
-        // husbandPhoneNumber = userData['husbandPhone'];
-        husbandPhoneNumber = userData['husbandEmail'];
-        hospitalPhoneNumber = userData['hospitalPhone'];
-      });
-    }
-  }
-
-  deleteCon(TContact contact) async {
-    int result = await _databaseHelper.deleteContact(contact.id);
-    if (result != 0) {
-      Fluttertoast.showToast(msg: "Contact removed successfully..");
-      listShow();
-    }
-  }
-
+  List<Contact> contacts = [];
+  List<Contact> contactsFiltered = [];
+  DatabaseService databaseHelper = DatabaseService();
+  TextEditingController searchController = TextEditingController();
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      listShow();
-    });
-    loadData();
     super.initState();
+    askPermissions();
+  }
+
+  String flattenPhoneNumber(String phoneStr) {
+    return phoneStr.replaceAllMapped(RegExp(r'^(\+)|\D'), (Match m) {
+      return m[0] == "+" ? "+" : "";
+    });
+  }
+
+  filterContacts() {
+    List<Contact> _contacts = [];
+    _contacts.addAll(contacts);
+    if (searchController.text.isNotEmpty) {
+      _contacts.retainWhere((element) {
+        String searchTerm = searchController.text.toLowerCase();
+        String searchTermFlatten = flattenPhoneNumber(searchTerm);
+        String contactName = element.displayName!.toLowerCase();
+        bool nameMatch = contactName.contains(searchTerm);
+        if (nameMatch == true) {
+          return true;
+        }
+        if (searchTermFlatten.isEmpty) {
+          return false;
+        }
+        var phone = element.phones!.firstWhere((p) {
+          String phnFlattened = flattenPhoneNumber(p.value!);
+          return phnFlattened.contains(searchTermFlatten);
+        });
+        return phone.value != null;
+      });
+    }
+    setState(() {
+      contactsFiltered = _contacts;
+    });
+  }
+
+  Future<void> askPermissions() async {
+    PermissionStatus permissionStatus = await getContactsPermissions();
+    if (permissionStatus == PermissionStatus.granted) {
+      getFullContacts();
+      searchController.addListener(() {
+        filterContacts();
+      });
+    } else {
+      handleInvalidPermissions(permissionStatus);
+    }
+  }
+
+  handleInvalidPermissions(PermissionStatus permissionStatus) {
+    if (permissionStatus == PermissionStatus.denied) {
+      dialogueBox(context, 'Access to the contacts denied by the user');
+    } else if (permissionStatus == PermissionStatus.permanentlyDenied) {
+      dialogueBox(context, 'Access to the contacts permanently denied');
+    }
+  }
+
+  Future<PermissionStatus> getContactsPermissions() async {
+    PermissionStatus permission = await Permission.contacts.status;
+
+    if (permission != PermissionStatus.granted &&
+        permission != PermissionStatus.permanentlyDenied) {
+      PermissionStatus permissionStatus = await Permission.contacts.request();
+      return permissionStatus;
+    } else {
+      return permission;
+    }
+  }
+
+  getFullContacts() async {
+    List<Contact> _contacts =
+        await ContactsService.getContacts(withThumbnails: false);
+    setState(() {
+      contacts = _contacts;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (contactList == null) {
-      contactList = [];
-    }
+    bool isSearching = searchController.text.isNotEmpty;
+    bool listItemExit = (contactsFiltered.length > 0 || contacts.length > 0);
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(color: Colors.white),
+        leading: BackButton(
+            color: Colors.white,
+            onPressed: () {
+              Navigator.of(context).pop();
+            }),
         title: Text(
-          "Trusted Contacts",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          "Add Contacts",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         centerTitle: false,
         backgroundColor: primaryColor,
       ),
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              FullScreenButton(
-                title: "Add Trusted Contacts",
-                onPressed: () async {
-                  bool result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ContactsScreen(),
+      body: contacts.length == 0
+          ? Center(child: CircularProgressIndicator())
+          : SafeArea(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      autofocus: true,
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        labelText: "Search Contact",
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.search),
+                      ),
                     ),
-                  );
-                  if (result == true) {
-                    listShow();
-                  }
-                },
+                  ),
+                  listItemExit == true
+                      ? Expanded(
+                          child: ListView.builder(
+                            itemCount: isSearching == true
+                                ? contactsFiltered.length
+                                : contacts.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              Contact contact = isSearching == true
+                                  ? contactsFiltered[index]
+                                  : contacts[index];
+                              return ListTile(
+                                title: Text(contact.displayName!),
+                                //subtitle:
+                                // Text(contact.phones!.elementAt(0).value!),
+                                leading: contact.avatar != null &&
+                                        contact.avatar!.length > 0
+                                    ? CircleAvatar(
+                                        backgroundColor: primaryColor,
+                                        backgroundImage:
+                                            MemoryImage(contact.avatar!),
+                                      )
+                                    : CircleAvatar(
+                                        backgroundColor: primaryColor,
+                                        child: Text(contact.initials()),
+                                      ),
+                                onTap: () {
+                                  if (contact.phones!.length > 0) {
+                                    final String phoneNumber =
+                                        contact.phones!.elementAt(0).value!;
+                                    final String Name = contact.displayName!;
+                                    _addContact(TContact(phoneNumber, Name));
+                                  } else {
+                                    Fluttertoast.showToast(
+                                        msg: "Phone number does not exist..");
+                                  }
+                                },
+                              );
+                            },
+                          ),
+                        )
+                      : Container(
+                          child: Text("searching"),
+                        ),
+                ],
               ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: count +
-                      2, // Increase count by 2 for husband and hospital contacts
-                  itemBuilder: (BuildContext context, int index) {
-                    if (index == 0) {
-                      // Display husband contact at index 0
-                      return buildFixedContactTile(
-                        'Husband Contact',
-                        Icons.person,
-                        index-2,
-                        husbandPhoneNumber,
-                      );
-                    } else if (index == 1) {
-                      // Display hospital contact at index 1
-                      return buildFixedContactTile(
-                        'Hospital Contact',
-                        Icons.local_hospital,
-                        index-2,
-                        hospitalPhoneNumber,
-                      );
-                    } else {
-                      // Display remaining contacts
-                      return buildContactTile(
-                        contactList![index - 2].name,
-                        Icons.person,
-                        index - 2,
-                        contactList![index - 2].number,
-                      );
-                    }
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
-   Widget buildFixedContactTile(
-      String name, IconData icon, int index, String? phoneNumber) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-          title: Text(name),
-          leading: Icon(icon),
-          trailing: phoneNumber != null
-              ? Container(
-                  width: 100,
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () async {
-                          await FlutterPhoneDirectCaller.callNumber(
-                              phoneNumber);
-                        },
-                        icon: Icon(
-                          Icons.call,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : null,
-        ),
-      ),
-    );
-  }
-
-  Widget buildContactTile(
-      String name, IconData icon, int index, String? phoneNumber) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-          title: Text(name),
-          leading: Icon(icon),
-          trailing: phoneNumber != null
-              ? Container(
-                  width: 100,
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () async {
-                          await FlutterPhoneDirectCaller.callNumber(
-                              phoneNumber);
-                        },
-                        icon: Icon(
-                          Icons.call,
-                          color: Colors.red,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          deleteCon(contactList![index]);
-                        },
-                        icon: Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : null,
-        ),
-      ),
-    );
+  void _addContact(TContact newContact) async {
+    int result = await databaseHelper.insertContact(newContact);
+    if (result != 0) {
+      Fluttertoast.showToast(msg: "Contact added succesfully!");
+    } else {
+      Fluttertoast.showToast(msg: "Failed to add contact..");
+    }
+    Navigator.of(context).pop(true);
   }
 }

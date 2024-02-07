@@ -7,17 +7,18 @@ import 'package:pregathi/buttons/full_screen_button.dart';
 import 'package:pregathi/db/db_services.dart';
 import 'package:pregathi/model/contacts.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/widgets/home/bottom-bar/contacts/contacts_screen.dart';
+import 'package:pregathi/widgets/home/bottom-bar/contacts/add_contacts.dart';
+import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:sqflite/sqflite.dart';
 
-class AddContactsScreen extends StatefulWidget {
-  const AddContactsScreen({Key? key}) : super(key: key);
+class ContactsScreen extends StatefulWidget {
+  const ContactsScreen({Key? key}) : super(key: key);
 
   @override
-  State<AddContactsScreen> createState() => _AddContactsScreenState();
+  State<ContactsScreen> createState() => _ContactsScreenState();
 }
 
-class _AddContactsScreenState extends State<AddContactsScreen> {
+class _ContactsScreenState extends State<ContactsScreen> {
   DatabaseService _databaseHelper = DatabaseService();
   List<TContact>? contactList;
   String? husbandPhoneNumber;
@@ -65,7 +66,7 @@ class _AddContactsScreenState extends State<AddContactsScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       listShow();
     });
     loadData();
@@ -79,7 +80,11 @@ class _AddContactsScreenState extends State<AddContactsScreen> {
     }
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(color: Colors.white),
+        leading: BackButton(
+            color: Colors.white,
+            onPressed: () {
+              goTo(context, BottomPage());
+            }),
         title: Text(
           "Trusted Contacts",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
@@ -98,7 +103,7 @@ class _AddContactsScreenState extends State<AddContactsScreen> {
                   bool result = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ContactsScreen(),
+                      builder: (context) => AddContactsScreen(),
                     ),
                   );
                   if (result == true) {
@@ -113,18 +118,18 @@ class _AddContactsScreenState extends State<AddContactsScreen> {
                   itemBuilder: (BuildContext context, int index) {
                     if (index == 0) {
                       // Display husband contact at index 0
-                      return buildContactTile(
+                      return buildFixedContactTile(
                         'Husband Contact',
                         Icons.person,
-                        index - 2,
+                        index-2,
                         husbandPhoneNumber,
                       );
                     } else if (index == 1) {
                       // Display hospital contact at index 1
-                      return buildContactTile(
+                      return buildFixedContactTile(
                         'Hospital Contact',
                         Icons.local_hospital,
-                        index - 2,
+                        index-2,
                         hospitalPhoneNumber,
                       );
                     } else {
@@ -141,6 +146,38 @@ class _AddContactsScreenState extends State<AddContactsScreen> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+   Widget buildFixedContactTile(
+      String name, IconData icon, int index, String? phoneNumber) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+          title: Text(name),
+          leading: Icon(icon),
+          trailing: phoneNumber != null
+              ? Container(
+                  width: 100,
+                  child: Row(
+                    children: [
+                      IconButton(
+                        onPressed: () async {
+                          await FlutterPhoneDirectCaller.callNumber(
+                              phoneNumber);
+                        },
+                        icon: Icon(
+                          Icons.call,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : null,
         ),
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
 import 'package:pregathi/main-screens/home-screen/wife_home_screen.dart';
-import 'package:pregathi/widgets/home/bottom-bar/contacts/add_contacts.dart';
+import 'package:pregathi/widgets/home/bottom-bar/contacts/contacts_scree.dart';
 import 'package:pregathi/widgets/home/bottom-bar/profile_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/calendar_screen.dart';
 
@@ -16,7 +16,7 @@ class _BottomPageState extends State<BottomPage> {
   int currentIndex = 0;
   List<Widget> pages = [
     WifeHomeScreen(),
-    AddContactsScreen(),
+    ContactsScreen(),
     CalendarScreen(),
     ChatScreen(),
     ProfileScreen(),
