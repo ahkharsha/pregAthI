@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
+import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:io';
 
@@ -59,7 +60,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(color: Colors.white),
+        leading: BackButton(
+            color: Colors.white,
+            onPressed: () {
+              goTo(context, BottomPage());
+            }),
         title: const Text(
           "Profile",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),

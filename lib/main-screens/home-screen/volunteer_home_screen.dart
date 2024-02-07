@@ -178,92 +178,95 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            goTo(context, VolunteerProfileScreen());
-          },
-          icon: Icon(Icons.person),
-        ),
-        title: Text(
-          "pregAthI",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: primaryColor,
-        actions: [
-          IconButton(
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
             onPressed: () {
-              UserSharedPreference.setUserRole('');
-              goTo(context, LoginScreen());
+              goTo(context, VolunteerProfileScreen());
             },
-            icon: Icon(Icons.logout),
+            icon: Icon(Icons.person),
           ),
-        ],
-      ),
-      body: FutureBuilder(
-        future: _reference.get(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.hasError) {
-            return dialogueBox(
-                context, 'Some error has occurred ${snapshot.error}');
-          }
-
-          if (snapshot.hasData) {
-            QuerySnapshot querySnapshot = snapshot.data;
-            List<QueryDocumentSnapshot> documents = querySnapshot.docs;
-
-            List<Map<String, dynamic>> items = documents
-                .map(
-                  (emergency) => {
-                    'id': emergency['id'],
-                    'name': emergency['name'],
-                    'location': emergency['location'],
-                    'date': emergency['date'],
-                    'phone': emergency['phone'],
-                    'time': emergency['time'],
-                    'wifeEmail': emergency['wifeEmail'],
-                    'locality': emergency['locality'],
-                    'postal': emergency['postal'],
-                    'profilePic': emergency['profilePic']
-                  },
-                )
-                .toList();
-
-            return ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                Map<String, dynamic> thisItem = items[index];
-                print(_volunteerLocality);
-                print(_volunteerPostal);
-
-                if (_volunteerLocality == thisItem['locality'] ||
-                    _volunteerPostal == thisItem['postal']) {
-                  return GestureDetector(
-                    onTap: () {
-                      _showEmergencyAlertDialog(thisItem);
-                    },
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(thisItem['profilePic']),
-                      ),
-                      title: Text('${thisItem['name']}'),
-                      subtitle: Text(
-                          '${thisItem['time']} - ${thisItem['locality']}, ${thisItem['postal']}'),
-                    ),
-                  );
-                }
-
-                // If the condition is not met, return an empty container
-                return Container();
+          title: Text(
+            "pregAthI",
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          backgroundColor: primaryColor,
+          actions: [
+            IconButton(
+              onPressed: () {
+                UserSharedPreference.setUserRole('');
+                goTo(context, LoginScreen());
               },
-            );
-          }
-
-          return Loader();
-        },
+              icon: Icon(Icons.logout),
+            ),
+          ],
+        ),
+        body: FutureBuilder(
+          future: _reference.get(),
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            if (snapshot.hasError) {
+              return dialogueBox(
+                  context, 'Some error has occurred ${snapshot.error}');
+            }
+      
+            if (snapshot.hasData) {
+              QuerySnapshot querySnapshot = snapshot.data;
+              List<QueryDocumentSnapshot> documents = querySnapshot.docs;
+      
+              List<Map<String, dynamic>> items = documents
+                  .map(
+                    (emergency) => {
+                      'id': emergency['id'],
+                      'name': emergency['name'],
+                      'location': emergency['location'],
+                      'date': emergency['date'],
+                      'phone': emergency['phone'],
+                      'time': emergency['time'],
+                      'wifeEmail': emergency['wifeEmail'],
+                      'locality': emergency['locality'],
+                      'postal': emergency['postal'],
+                      'profilePic': emergency['profilePic']
+                    },
+                  )
+                  .toList();
+      
+              return ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  Map<String, dynamic> thisItem = items[index];
+                  print(_volunteerLocality);
+                  print(_volunteerPostal);
+      
+                  if (_volunteerLocality == thisItem['locality'] ||
+                      _volunteerPostal == thisItem['postal']) {
+                    return GestureDetector(
+                      onTap: () {
+                        _showEmergencyAlertDialog(thisItem);
+                      },
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(thisItem['profilePic']),
+                        ),
+                        title: Text('${thisItem['name']}'),
+                        subtitle: Text(
+                            '${thisItem['time']} - ${thisItem['locality']}, ${thisItem['postal']}'),
+                      ),
+                    );
+                  }
+      
+                  // If the condition is not met, return an empty container
+                  return Container();
+                },
+              );
+            }
+      
+            return Loader();
+          },
+        ),
       ),
     );
   }

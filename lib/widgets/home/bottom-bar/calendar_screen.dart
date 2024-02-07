@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/main-screens/home-screen/wife_home_screen.dart';
+import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -67,7 +67,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         leading: BackButton(
             color: Colors.white,
             onPressed: () {
-              goTo(context, WifeHomeScreen());
+              goTo(context, BottomPage());
             }),
         title: Text(
           "Calender",

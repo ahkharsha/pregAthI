@@ -17,41 +17,44 @@ class _WifeEmergencyScreenState extends State<WifeEmergencyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Emergency!!!",
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              "Emergency!!!",
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+            centerTitle: true,
+            backgroundColor: primaryColor,
+            automaticallyImplyLeading: false,
           ),
-          centerTitle: true,
-          backgroundColor: primaryColor,
-          automaticallyImplyLeading: false,
-        ),
-        body: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ListView(
-              shrinkWrap: true,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Image.asset('assets/images/emergency-alert/emergency_alert.png',height: 300,width: 300,),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: SubButton(title: 'Cancel Emergency', onPressed: () {
-                    _documentReference = FirebaseFirestore.instance
-                    .collection('emergencies')
-                    .doc(user!.uid);
-
-                _documentReference.delete();
-                Navigator.of(context).pop();
-                  }),
-                ),
-              ],
-            )
-          ],
-        )));
+          body: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ListView(
+                shrinkWrap: true,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Image.asset('assets/images/emergency-alert/emergency_alert.png',height: 300,width: 300,),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: SubButton(title: 'Cancel Emergency', onPressed: () {
+                      _documentReference = FirebaseFirestore.instance
+                      .collection('emergencies')
+                      .doc(user!.uid);
+      
+                  _documentReference.delete();
+                  Navigator.of(context).pop();
+                    }),
+                  ),
+                ],
+              )
+            ],
+          ))),
+    );
   }
 }

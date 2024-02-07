@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/main-screens/home-screen/wife_home_screen.dart';
 import 'package:pregathi/widgets/home/ai-chat/chat/image_chat.dart';
 import 'package:pregathi/widgets/home/ai-chat/chat/text_chat.dart';
+import 'package:pregathi/widgets/home/bottom_page.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({
@@ -23,10 +23,10 @@ class _ChatScreenState extends State<ChatScreen> {
             appBar: AppBar(
               backgroundColor: primaryColor,
               leading: BackButton(
-                  color: Colors.white,
-                  onPressed: () {
-                    goTo(context, WifeHomeScreen());
-                  }),
+            color: Colors.white,
+            onPressed: () {
+              goTo(context, BottomPage());
+            }),
               title: const Text(
                 "AI Chat",
                 style:

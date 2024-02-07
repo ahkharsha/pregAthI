@@ -45,7 +45,7 @@ class _HusbandRegisterScreenState extends State<HusbandRegisterScreen> {
             name: _formData['name'].toString(),
             phone: _formData['phone'].toString(),
             wifeEmail: _formData['email'].toString(),
-            husbandEmail: _formData['husband_email'].toString(),
+            husbandPhone: _formData['husband_email'].toString(),
             id: v,
             role: 'husband',
           );

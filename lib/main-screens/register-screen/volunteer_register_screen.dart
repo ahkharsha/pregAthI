@@ -35,7 +35,7 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
         });
         UserCredential userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
-                email: _formData['email'].toString(),
+                email: _formData['volunteer_email'].toString(),
                 password: _formData['password'].toString());
         if (userCredential.user != null) {
           final v = userCredential.user!.uid;
@@ -45,9 +45,10 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
           final user = VolunteerUserModel(
             name: _formData['name'].toString(),
             phone: _formData['phone'].toString(),
-            email: _formData['email'].toString(),
+            volunteerEmail: _formData['volunteer_email'].toString(),
             id: v,
             role: 'volunteer',
+            profilePic: volunteerProfileDefault,
           );
           final jsonData = user.toJson();
           await db.set(jsonData).whenComplete(() {
@@ -76,7 +77,7 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
           isLoading = false;
         });
         dialogueBox(
-            context, 'Error. The email entered could already be in use');
+            context, e.toString());
       }
     }
   }
@@ -161,13 +162,13 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                     textInputAction: TextInputAction.next,
                                     keyboardtype: TextInputType.emailAddress,
                                     prefix: Icon(Icons.alternate_email_rounded),
-                                    onsave: (email) {
-                                      _formData['email'] = email ?? '';
+                                    onsave: (volunteer_email) {
+                                      _formData['volunteer_email'] = volunteer_email ?? '';
                                     },
-                                    // validate: (email) {
-                                    //   if (email!.isEmpty ||
-                                    //       email.length < 3 ||
-                                    //       !email.contains('@')) {
+                                    // validate: (volunteer_email) {
+                                    //   if (volunteer_email!.isEmpty ||
+                                    //       volunteer_email.length < 3 ||
+                                    //       !volunteer_email.contains('@')) {
                                     //     return 'Enter correct email';
                                     //   } else {
                                     //     return null;

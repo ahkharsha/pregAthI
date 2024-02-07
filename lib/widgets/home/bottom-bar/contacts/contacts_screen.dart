@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pregathi/db/db_services.dart';
-import 'package:pregathi/main-screens/home-screen/wife_home_screen.dart';
 import 'package:pregathi/model/contacts.dart';
 import 'package:pregathi/const/constants.dart';
 
@@ -107,7 +106,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
         leading: BackButton(
             color: Colors.white,
             onPressed: () {
-              goTo(context, WifeHomeScreen());
+              Navigator.of(context).pop();
             }),
         title: Text(
           "Add Contacts",

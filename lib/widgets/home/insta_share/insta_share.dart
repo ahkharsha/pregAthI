@@ -23,7 +23,7 @@ class InstaShare extends StatefulWidget {
 
 class _InstaShareState extends State<InstaShare> {
   Position? _currentPosition;
-  String? _currentAddress = 'Fetching current location...';
+  String? _currentAddress='Fetching current location...';
   LocationPermission? permission;
   _getPermission() async => await [Permission.sms].request();
   isPermissionGranted() async => Permission.sms.status.isGranted;
@@ -207,10 +207,7 @@ class _InstaShareState extends State<InstaShare> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () async {
-        await _getCurrentLocation();
-        showModelInstaShare(context);
-      },
+      onTap: () => showModelInstaShare(context),
       child: Padding(
         padding: const EdgeInsets.only(left: 14.0, right: 14.0),
         child: Card(

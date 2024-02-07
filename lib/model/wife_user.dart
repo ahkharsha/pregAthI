@@ -3,18 +3,24 @@ class WifeUserModel {
   String? id;
   String? phone;
   String? wifeEmail;
-  String? husbandEmail;
+  String? husbandPhone;
   String? role;
   String? profilePic;
+  String? hospitalPhone;
+  String? week;
+  String? bio;
 
   WifeUserModel({
     this.name,
     this.wifeEmail,
     this.id,
-    this.husbandEmail,
+    this.husbandPhone,
     this.phone,
     this.role,
     this.profilePic,
+    this.hospitalPhone,
+    this.week,
+    this.bio,
   });
 
   Map<String, dynamic> toJson() => {
@@ -22,8 +28,11 @@ class WifeUserModel {
         'phone': phone,
         'id': id,
         'wifeEmail': wifeEmail,
-        'husbandEmail': husbandEmail,
+        'husbandPhone': husbandPhone,
         'role': role,
         'profilePic': profilePic,
+        'hospitalPhone':hospitalPhone,
+        'week':week,
+        'bio':bio
       };
 }

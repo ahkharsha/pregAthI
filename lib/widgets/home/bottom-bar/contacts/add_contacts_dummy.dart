@@ -65,7 +65,7 @@ class _AddContactsScreenState extends State<AddContactsScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       listShow();
     });
     loadData();
@@ -113,18 +113,18 @@ class _AddContactsScreenState extends State<AddContactsScreen> {
                   itemBuilder: (BuildContext context, int index) {
                     if (index == 0) {
                       // Display husband contact at index 0
-                      return buildFixedContactTile(
+                      return buildContactTile(
                         'Husband Contact',
                         Icons.person,
-                        index-2,
+                        index - 2,
                         husbandPhoneNumber,
                       );
                     } else if (index == 1) {
                       // Display hospital contact at index 1
-                      return buildFixedContactTile(
+                      return buildContactTile(
                         'Hospital Contact',
                         Icons.local_hospital,
-                        index-2,
+                        index - 2,
                         hospitalPhoneNumber,
                       );
                     } else {
@@ -141,38 +141,6 @@ class _AddContactsScreenState extends State<AddContactsScreen> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-   Widget buildFixedContactTile(
-      String name, IconData icon, int index, String? phoneNumber) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-          title: Text(name),
-          leading: Icon(icon),
-          trailing: phoneNumber != null
-              ? Container(
-                  width: 100,
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () async {
-                          await FlutterPhoneDirectCaller.callNumber(
-                              phoneNumber);
-                        },
-                        icon: Icon(
-                          Icons.call,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : null,
         ),
       ),
     );

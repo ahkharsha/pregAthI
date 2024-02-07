@@ -34,7 +34,7 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
         });
         UserCredential userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
-                email: _formData['email'].toString(),
+                email: _formData['wifeEmail'].toString(),
                 password: _formData['password'].toString());
         if (userCredential.user != null) {
           final v = userCredential.user!.uid;
@@ -44,11 +44,14 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
           final user = WifeUserModel(
             name: _formData['name'].toString(),
             phone: _formData['phone'].toString(),
-            wifeEmail: _formData['email'].toString(),
-            husbandEmail: _formData['husband_email'].toString(),
+            wifeEmail: _formData['wifeEmail'].toString(),
+            husbandPhone: _formData['husband_phone'].toString(),
             id: v,
             role: 'wife',
-            profilePic: profilePicDefault,
+            profilePic: wifeProfileDefault,
+            hospitalPhone: _formData['hospital_phone'].toString(),
+            week: '0',
+            bio: '',
           );
           final jsonData = user.toJson();
           await db.set(jsonData).whenComplete(() {
@@ -77,7 +80,7 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
           isLoading = false;
         });
         dialogueBox(
-            context, 'Error. The email entered could already be in use');
+            context, e.toString());
       }
     }
   }
@@ -162,13 +165,13 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                     textInputAction: TextInputAction.next,
                                     keyboardtype: TextInputType.emailAddress,
                                     prefix: Icon(Icons.alternate_email_rounded),
-                                    onsave: (email) {
-                                      _formData['email'] = email ?? '';
+                                    onsave: (wifeEmail) {
+                                      _formData['wifeEmail'] = wifeEmail ?? '';
                                     },
-                                    // validate: (email) {
-                                    //   if (email!.isEmpty ||
-                                    //       email.length < 3 ||
-                                    //       !email.contains('@')) {
+                                    // validate: (wifeEmail) {
+                                    //   if (wifeEmail!.isEmpty ||
+                                    //       wifeEmail.length < 3 ||
+                                    //       !wifeEmail.contains('@')) {
                                     //     return 'Enter correct email';
                                     //   } else {
                                     //     return null;
@@ -176,19 +179,32 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                     // },
                                   ),
                                   CustomTextField(
-                                    hintText: 'Enter husband email',
+                                    hintText: 'Enter husband phone',
                                     textInputAction: TextInputAction.next,
-                                    keyboardtype: TextInputType.emailAddress,
-                                    prefix: Icon(Icons.alternate_email_rounded),
-                                    onsave: (husband_email) {
-                                      _formData['husband_email'] =
-                                          husband_email ?? '';
+                                    keyboardtype: TextInputType.phone,
+                                    prefix: Icon(Icons.phone),
+                                    onsave: (husband_phone) {
+                                      _formData['husband_phone'] = husband_phone ?? '';
                                     },
-                                    // validate: (husband_email) {
-                                    //   if (husband_email!.isEmpty ||
-                                    //       husband_email.length < 3 ||
-                                    //       !husband_email.contains('@')) {
-                                    //     return 'Enter correct email';
+                                    // validate: (husband_phone) {
+                                    //   if (husband_phone!.isEmpty || husband_phone.length < 10) {
+                                    //     return 'Phone number should contain 10 digits';
+                                    //   } else {
+                                    //     return null;
+                                    //   }
+                                    // },
+                                  ),
+                                  CustomTextField(
+                                    hintText: 'Nearest hospital phone',
+                                    textInputAction: TextInputAction.next,
+                                    keyboardtype: TextInputType.phone,
+                                    prefix: Icon(Icons.phone),
+                                    onsave: (hospital_phone) {
+                                      _formData['hospital_phone'] = hospital_phone ?? '';
+                                    },
+                                    // validate: (hospital_phone) {
+                                    //   if (hospital_phone!.isEmpty || hospital_phone.length < 10) {
+                                    //     return 'Phone number should contain 10 digits';
                                     //   } else {
                                     //     return null;
                                     //   }

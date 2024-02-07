@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pregathi/widgets/home/ai-chat/chat_screen.dart';
+import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
 
 class AIChat extends StatelessWidget {
   const AIChat({super.key});
