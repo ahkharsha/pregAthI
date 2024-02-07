@@ -49,8 +49,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
           .get();
 
       setState(() {
-        // husbandPhoneNumber = userData['husbandPhone'];
-        husbandPhoneNumber = userData['husbandEmail'];
+        husbandPhoneNumber = userData['husbandPhone'];
         hospitalPhoneNumber = userData['hospitalPhone'];
       });
     }
@@ -119,7 +118,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                     if (index == 0) {
                       // Display husband contact at index 0
                       return buildFixedContactTile(
-                        'Husband Contact',
+                        'Husband',
                         Icons.person,
                         index-2,
                         husbandPhoneNumber,
@@ -127,7 +126,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                     } else if (index == 1) {
                       // Display hospital contact at index 1
                       return buildFixedContactTile(
-                        'Hospital Contact',
+                        'Nearest hospital',
                         Icons.local_hospital,
                         index-2,
                         hospitalPhoneNumber,
