@@ -1,12 +1,18 @@
 // import 'package:background_sms/background_sms.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter/material.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:geocoding/geocoding.dart';
 // import 'package:geolocator/geolocator.dart';
+// import 'package:intl/intl.dart';
 // import 'package:permission_handler/permission_handler.dart';
 // import 'package:pregathi/buttons/main_button.dart';
+// import 'package:pregathi/const/constants.dart';
 // import 'package:pregathi/model/contacts.dart';
 // import 'package:pregathi/db/db_services.dart';
+// import 'package:pregathi/model/emergency_message.dart';
+// import 'package:pregathi/widgets/home/insta_share/wife_emergency_alert.dart';
 
 // class InstaShare extends StatefulWidget {
 //   const InstaShare({super.key});
@@ -17,15 +23,18 @@
 
 // class _InstaShareState extends State<InstaShare> {
 //   Position? _currentPosition;
-//   String? _curentAddress;
+//   String? _currentAddress='Fetching current location...';
 //   LocationPermission? permission;
+//   late String husbandPhoneNumber;
+//   late String hospitalPhoneNumber;
+
 //   _getPermission() async => await [Permission.sms].request();
 //   isPermissionGranted() async => Permission.sms.status.isGranted;
 //   sendSMS(String phoneNumber, String message, {int? simSlot}) async {
 //     await BackgroundSms.sendMessage(
 //             phoneNumber: phoneNumber, message: message, simSlot: simSlot)
 //         .then((SmsStatus status) {
-//       if (status == "sent") {
+//       if (status == SmsStatus.sent) {
 //         Fluttertoast.showToast(msg: "Sent");
 //       } else {
 //         Fluttertoast.showToast(msg: "Oops! Failed to send");
@@ -33,23 +42,44 @@
 //     });
 //   }
 
-//   _getCurrentLocation() async {
-//     permission = await Geolocator.checkPermission();
-//     if (permission == LocationPermission.denied) {
-//       permission = await Geolocator.requestPermission();
-//       if (permission == LocationPermission.denied) {
-//         ScaffoldMessenger.of(context).showSnackBar(
-//             const SnackBar(content: Text('Location permissions are denied')));
-//         return false;
-//       }
-//       if (permission == LocationPermission.deniedForever) {
-//         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-//             content: Text(
-//                 'Location permissions are permanently denied..')));
-//         return false;
-//       }
-//       return true;
+//   setFirebaseEmergency(String currentLocation) async {
+//     final User? user = FirebaseAuth.instance.currentUser;
+//     if (user != null) {
+//       DocumentSnapshot userData = await FirebaseFirestore.instance
+//           .collection('users')
+//           .doc(user.uid)
+//           .get();
+
+//       DocumentReference<Map<String, dynamic>> db =
+//           FirebaseFirestore.instance.collection('emergencies').doc(user.uid);
+//       DateTime now = DateTime.now();
+
+//       List<Placemark> placeMarks = await placemarkFromCoordinates(
+//           _currentPosition!.latitude, _currentPosition!.longitude);
+
+//       Placemark place = placeMarks[0];
+
+//       var formatterDate = DateFormat('dd/MM/yy').format(now);
+//       var formatterTime = DateFormat('kk:mm').format(now);
+//       final userMessage = EmergencyMessageModel(
+//         name: userData['name'],
+//         id: user.uid,
+//         phone: userData['phone'],
+//         wifeEmail: userData['wifeEmail'],
+//         location: currentLocation,
+//         date: formatterDate,
+//         time: formatterTime,
+//         locality: place.locality,
+//         postal: place.postalCode,
+//         profilePic: userData['profilePic'],
+//       );
+
+//       final jsonData = userMessage.toJson();
+//       db.set(jsonData);
 //     }
+//   }
+
+//   _getCurrentLocation() async {
 //     Geolocator.getCurrentPosition(
 //             desiredAccuracy: LocationAccuracy.high,
 //             forceAndroidLocationManager: true)
@@ -71,11 +101,26 @@
 
 //       Placemark place = placeMarks[0];
 //       setState(() {
-//         _curentAddress =
+//         _currentAddress =
 //             "${place.locality},${place.postalCode},${place.street},${place.name},${place.subLocality}";
 //       });
 //     } catch (e) {
 //       Fluttertoast.showToast(msg: e.toString());
+//     }
+//   }
+
+//   Future<void> loadData() async {
+//     final User? user = FirebaseAuth.instance.currentUser;
+//     if (user != null) {
+//       DocumentSnapshot userData = await FirebaseFirestore.instance
+//           .collection('users')
+//           .doc(user.uid)
+//           .get();
+
+//       setState(() {
+//         husbandPhoneNumber = userData['husbandPhone'];
+//         hospitalPhoneNumber = userData['hospitalPhone'];
+//       });
 //     }
 //   }
 
@@ -84,6 +129,7 @@
 //     super.initState();
 //     _getPermission();
 //     _getCurrentLocation();
+//     loadData();
 //   }
 
 //   showModelInstaShare(BuildContext context) {
@@ -92,6 +138,13 @@
 //       builder: (context) {
 //         return Container(
 //           height: MediaQuery.of(context).size.height / 1.4,
+//           decoration: BoxDecoration(
+//             color: Colors.white,
+//             borderRadius: BorderRadius.only(
+//               topLeft: Radius.circular(30),
+//               topRight: Radius.circular(30),
+//             ),
+//           ),
 //           child: Padding(
 //             padding: const EdgeInsets.all(15.0),
 //             child: Column(
@@ -105,48 +158,73 @@
 //                 SizedBox(
 //                   height: 10,
 //                 ),
-//                 MainButton(
-//                     title: "Get Location..",
-//                     onPressed: () {
-//                       _getCurrentLocation();
-//                     }),
-//                 SizedBox(
-//                   height: 10,
+//                 Text(
+//                   _currentAddress!,
+//                   textAlign: TextAlign.center,
 //                 ),
-//                 if (_currentPosition != null) Text(_curentAddress!),
-//                 MainButton(
-//                   title: "Send Alert..",
-//                   onPressed: () async {
-//                     List<TContact> contactList =
-//                         await DatabaseService().getContactList();
-
-//                     if (_currentPosition != null) {
-//                       String msgBody =
-//                           "https://www.google.com/maps/search/?api=1&query=${_currentPosition!.latitude}%2C${_currentPosition!.longitude}. $_curentAddress";
-
-//                       if (await isPermissionGranted()) {
-//                         for (TContact contact in contactList) {
-//                           sendSMS(
-//                             contact.number,
-//                             "Having inconvenience, so reach out at $msgBody",
-//                           );
+//                 Padding(
+//                   padding: const EdgeInsets.only(top: 20.0),
+//                   child: MainButton(
+//                     title: "Send Alert",
+//                     onPressed: () async {
+//                       permission = await Geolocator.checkPermission();
+//                       if (permission == LocationPermission.denied) {
+//                         permission = await Geolocator.requestPermission();
+//                         if (permission == LocationPermission.denied) {
+//                           Fluttertoast.showToast(
+//                               msg: 'Location permissions are denied');
+//                           return false;
 //                         }
-//                       } else {
-//                         Fluttertoast.showToast(msg: "Something is wrong..");
+//                         if (permission == LocationPermission.deniedForever) {
+//                           Fluttertoast.showToast(
+//                               msg:
+//                                   'Location permissions are permanently denied..');
+//                           return false;
+//                         }
+//                         return true;
 //                       }
-//                     } else {
-//                       Fluttertoast.showToast(msg: "Location not available..");
-//                     }
-//                   },
+
+//                       List<TContact> contactList =
+//                           await DatabaseService().getContactList();
+
+//                       if (_currentPosition != null) {
+//                         String msgBody =
+//                             "https://www.google.com/maps/search/?api=1&query=${_currentPosition!.latitude}%2C${_currentPosition!.longitude}. $_currentAddress";
+//                         String firebaseMsg =
+//                             "https://www.google.com/maps/search/?api=1&query=${_currentPosition!.latitude}%2C${_currentPosition!.longitude}";
+
+//                         setFirebaseEmergency(firebaseMsg);
+
+//                         if (await isPermissionGranted()) {
+//                           for (TContact contact in contactList) {
+//                             sendSMS(
+//                               contact.number,
+//                               "Having inconvenience, so reach please out at $msgBody",
+//                             );
+//                           }
+//                           sendSMS(
+//                               husbandPhoneNumber,
+//                               "Having inconvenience, so reach please out at $msgBody",
+//                             );
+//                             sendSMS(
+//                               hospitalPhoneNumber,
+//                               "Having inconvenience, so reach please out at $msgBody",
+//                             );
+
+//                         }
+
+//                         goTo(context, WifeEmergencyScreen());
+//                         // else {
+//                         //   Fluttertoast.showToast(msg: "Something is wrong..");
+//                         // }
+//                       }
+//                       // else {
+//                       //   Fluttertoast.showToast(msg: "Location not available..");
+//                       // }
+//                     },
+//                   ),
 //                 ),
 //               ],
-//             ),
-//           ),
-//           decoration: BoxDecoration(
-//             color: Colors.white,
-//             borderRadius: BorderRadius.only(
-//               topLeft: Radius.circular(30),
-//               topRight: Radius.circular(30),
 //             ),
 //           ),
 //         );
@@ -190,7 +268,7 @@
 //                       ListTile(
 //                         title: Padding(
 //                           padding:
-//                               const EdgeInsets.only(top: 7.0, bottom: 14.0),
+//                               const EdgeInsets.only(top: 6.0, bottom: 14.0),
 //                           child: Text(
 //                             "Send Location",
 //                             style: TextStyle(
@@ -200,23 +278,26 @@
 //                                     MediaQuery.of(context).size.width * 0.06),
 //                           ),
 //                         ),
-//                         subtitle: Text(
-//                           "Click to share your current location..",
-//                           style: TextStyle(
-//                               color: Colors.white,
-//                               fontWeight: FontWeight.bold,
-//                               fontSize:
-//                                   MediaQuery.of(context).size.width * 0.045),
+//                         subtitle: Padding(
+//                           padding: const EdgeInsets.only(bottom: 3.0),
+//                           child: Text(
+//                             "Click to share your current location..",
+//                             style: TextStyle(
+//                                 color: Colors.white,
+//                                 fontWeight: FontWeight.bold,
+//                                 fontSize:
+//                                     MediaQuery.of(context).size.width * 0.045),
+//                           ),
 //                         ),
 //                       ),
 //                     ],
 //                   )),
 //                   ClipRRect(
-//                       borderRadius: BorderRadius.circular(30),
+//                       borderRadius: BorderRadius.circular(20),
 //                       child: Image.asset(
 //                         'assets/images/insta-share/route.jpg',
-//                         height: 180,
-//                         width: 150,
+//                         height: 120,
+//                         width: 130,
 //                       )),
 //                 ],
 //               ),

@@ -4,9 +4,7 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 class Police extends StatelessWidget {
   const Police({super.key});
 
-  _callNumber(String number) async {
-    await FlutterPhoneDirectCaller.callNumber(number);
-  }
+  final String ambulance='100';
   
   @override
   Widget build(BuildContext context) {
@@ -18,7 +16,9 @@ class Police extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: InkWell(
-          onTap: () => _callNumber('100'),
+          onTap: () async {
+            await FlutterPhoneDirectCaller.callNumber(ambulance);
+          },
           child: Container(
             height: 180,
             width: MediaQuery.of(context).size.width * 0.7,

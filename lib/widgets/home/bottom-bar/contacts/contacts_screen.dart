@@ -113,10 +113,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
               Expanded(
                 child: ListView.builder(
                   itemCount: count +
-                      2, // Increase count by 2 for husband and hospital contacts
+                      2,
                   itemBuilder: (BuildContext context, int index) {
                     if (index == 0) {
-                      // Display husband contact at index 0
                       return buildFixedContactTile(
                         'Husband',
                         Icons.person,
@@ -124,7 +123,6 @@ class _ContactsScreenState extends State<ContactsScreen> {
                         husbandPhoneNumber,
                       );
                     } else if (index == 1) {
-                      // Display hospital contact at index 1
                       return buildFixedContactTile(
                         'Nearest hospital',
                         Icons.local_hospital,
@@ -132,7 +130,6 @@ class _ContactsScreenState extends State<ContactsScreen> {
                         hospitalPhoneNumber,
                       );
                     } else {
-                      // Display remaining contacts
                       return buildContactTile(
                         contactList![index - 2].name,
                         Icons.person,
