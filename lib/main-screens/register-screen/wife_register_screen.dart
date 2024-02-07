@@ -48,6 +48,7 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
             husbandEmail: _formData['husband_email'].toString(),
             id: v,
             role: 'wife',
+            profilePic: profilePicDefault,
           );
           final jsonData = user.toJson();
           await db.set(jsonData).whenComplete(() {

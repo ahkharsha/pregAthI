@@ -116,10 +116,10 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
             children: [
               CircleAvatar(
                 backgroundImage: NetworkImage(emergencyDetails['profilePic']),
-                maxRadius: 150,
+                maxRadius: 100,
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               Text(
                 'Mom in emergency!!!',
@@ -129,16 +129,28 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                 ),
               ),
               SizedBox(
-                height: 5,
+                height: 7,
               ),
               Text(
                 'Name: ${emergencyDetails['name']}',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 15,
+                ),
               ),
               Text(
                 'Phone: ${emergencyDetails['phone']}',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 15,
+                ),
               ),
               Text(
                 'Time: ${emergencyDetails['time']} @ ${emergencyDetails['locality']}, ${emergencyDetails['postal']}',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 15,
+                ),
               )
             ],
           ),

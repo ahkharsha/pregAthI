@@ -5,14 +5,17 @@ class UserModel {
   String? wifeEmail;
   String? husbandEmail;
   String? role;
+  String? profilePic;
 
-  UserModel(
-      {this.name,
-      this.wifeEmail,
-      this.id,
-      this.husbandEmail,
-      this.phone,
-      this.role,});
+  UserModel({
+    this.name,
+    this.wifeEmail,
+    this.id,
+    this.husbandEmail,
+    this.phone,
+    this.role,
+    this.profilePic,
+  });
 
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -20,6 +23,7 @@ class UserModel {
         'id': id,
         'wifeEmail': wifeEmail,
         'husbandEmail': husbandEmail,
-        'role':role,
+        'role': role,
+        'profilePic': profilePic,
       };
 }
