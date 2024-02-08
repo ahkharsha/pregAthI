@@ -25,6 +25,7 @@ class _HomeScreenState extends ConsumerState<WifeHomeScreen> {
     Scaffold.of(context).openDrawer();
   }
 
+  //Remove this function to cancel checkUpdates everytime wife home screen is opened
   _checkUpdate() async {
     DocumentSnapshot versionDetails = await FirebaseFirestore.instance
         .collection('pregAthI')
