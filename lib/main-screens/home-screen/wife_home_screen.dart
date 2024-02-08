@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pregathi/community-chat/delegate/search_community_delegate.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/widgets/home/ai-chat/ai_chat.dart';
@@ -7,6 +9,7 @@ import 'package:pregathi/community-chat/community_list_drawer.dart';
 import 'package:pregathi/widgets/home/emergency.dart';
 import 'package:pregathi/widgets/home/services.dart';
 import 'package:pregathi/widgets/home/insta_share/insta_share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WifeHomeScreen extends ConsumerStatefulWidget {
   const WifeHomeScreen({Key? key}) : super(key: key);
@@ -16,10 +19,52 @@ class WifeHomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<WifeHomeScreen> {
-
+  final String currentVersion = "1.0.0";
 
   void drawerDisplay(BuildContext context) {
     Scaffold.of(context).openDrawer();
+  }
+
+  _checkUpdate() async {
+    DocumentSnapshot versionDetails = await FirebaseFirestore.instance
+        .collection('pregAthI')
+        .doc('version')
+        .get();
+
+    if (currentVersion != versionDetails['latestVersion']) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            'Your app is not upto date. Click here to check out the latest version',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 20),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () async {
+                String googleUrl = 'https://github.com/ahkharsha/PregaCare';
+
+                final Uri _url = Uri.parse(googleUrl);
+                try {
+                  await launchUrl(_url);
+                } catch (e) {
+                  Fluttertoast.showToast(msg: 'Error');
+                }
+              },
+              child: Text('Download'),
+            ),
+          ],
+          actionsAlignment: MainAxisAlignment.center,
+        ),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    _checkUpdate();
+    super.initState();
   }
 
   @override

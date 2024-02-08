@@ -16,6 +16,8 @@ import 'package:url_launcher/url_launcher.dart';
 class VolunteerHomeScreen extends StatefulWidget {
   VolunteerHomeScreen({super.key});
 
+  
+
   @override
   State<VolunteerHomeScreen> createState() => _VolunteerHomeScreenState();
 }
@@ -171,6 +173,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
               child: Text('Maps'),
             ),
           ],
+          actionsAlignment: MainAxisAlignment.center,
         );
       },
     );
