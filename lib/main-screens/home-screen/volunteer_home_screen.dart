@@ -23,6 +23,48 @@ class VolunteerHomeScreen extends StatefulWidget {
 }
 
 class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
+  final String currentVersion='1.0.0';
+
+  _checkUpdate() async {
+    DocumentSnapshot versionDetails = await FirebaseFirestore.instance
+        .collection('pregAthI')
+        .doc('version')
+        .get();
+
+    if (currentVersion != versionDetails['latestVersion']) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => PopScope(
+          canPop: false,
+          child: AlertDialog(
+            title: Text(
+              'A newer version of the app is available. Please download to continue.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20),
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () async {
+                  String googleUrl = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+          
+                  final Uri _url = Uri.parse(googleUrl);
+                  try {
+                    await launchUrl(_url);
+                  } catch (e) {
+                    Fluttertoast.showToast(msg: 'Error');
+                  }
+                },
+                child: Text('Download'),
+              ),
+            ],
+            actionsAlignment: MainAxisAlignment.center,
+          ),
+        ),
+      );
+    }
+  }
+
   String? _volunteerLocality;
   String? _volunteerPostal;
   Position? _currentPosition;
@@ -95,7 +137,9 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
 
   @override
   void initState() {
+
     super.initState();
+    _checkUpdate();
     _getPermission();
     _getVolunteerLocation();
   }

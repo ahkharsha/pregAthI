@@ -35,28 +35,32 @@ class _HomeScreenState extends ConsumerState<WifeHomeScreen> {
     if (currentVersion != versionDetails['latestVersion']) {
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: Text(
-            'Your app is not upto date. Click here to check out the latest version',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20),
-          ),
-          actions: [
-            ElevatedButton(
-              onPressed: () async {
-                String googleUrl = 'https://github.com/ahkharsha/PregaCare';
-
-                final Uri _url = Uri.parse(googleUrl);
-                try {
-                  await launchUrl(_url);
-                } catch (e) {
-                  Fluttertoast.showToast(msg: 'Error');
-                }
-              },
-              child: Text('Download'),
+        barrierDismissible: false,
+        builder: (context) => PopScope(
+          canPop: false,
+          child: AlertDialog(
+            title: Text(
+              'A newer version of the app is available. Please download to continue.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20),
             ),
-          ],
-          actionsAlignment: MainAxisAlignment.center,
+            actions: [
+              ElevatedButton(
+                onPressed: () async {
+                  String googleUrl = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+          
+                  final Uri _url = Uri.parse(googleUrl);
+                  try {
+                    await launchUrl(_url);
+                  } catch (e) {
+                    Fluttertoast.showToast(msg: 'Error');
+                  }
+                },
+                child: Text('Download'),
+              ),
+            ],
+            actionsAlignment: MainAxisAlignment.center,
+          ),
         ),
       );
     }

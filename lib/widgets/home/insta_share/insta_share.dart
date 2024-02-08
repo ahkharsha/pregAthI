@@ -30,7 +30,7 @@ class _InstaShareState extends State<InstaShare> {
 
   _getPermission() async => await [Permission.sms].request();
   isPermissionGranted() async => Permission.sms.status.isGranted;
-  sendSMS(String phoneNumber, String message, {int? simSlot}) async {
+  sendSMSwithAlert(String phoneNumber, String message, {int? simSlot}) async {
     await BackgroundSms.sendMessage(
             phoneNumber: phoneNumber, message: message, simSlot: simSlot)
         .then((SmsStatus status) {
@@ -40,6 +40,11 @@ class _InstaShareState extends State<InstaShare> {
         Fluttertoast.showToast(msg: "Oops! Failed to send");
       }
     });
+  }
+
+  sendSMS(String phoneNumber, String message, {int? simSlot}) async {
+    await BackgroundSms.sendMessage(
+            phoneNumber: phoneNumber, message: message, simSlot: simSlot);
   }
 
   setFirebaseEmergency(String currentLocation) async {
@@ -206,7 +211,7 @@ class _InstaShareState extends State<InstaShare> {
                               husbandPhoneNumber,
                               "Having inconvenience, so reach please out at $msgBody",
                             );
-                            sendSMS(
+                            sendSMSwithAlert(
                               hospitalPhoneNumber,
                               "Having inconvenience, so reach please out at $msgBody",
                             );

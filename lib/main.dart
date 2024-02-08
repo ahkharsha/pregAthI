@@ -7,6 +7,7 @@ import 'package:pregathi/main-screens/home-screen/husband_home_screen.dart';
 import 'package:pregathi/main-screens/home-screen/volunteer_home_screen.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/const/constants.dart';
+// import 'package:pregathi/splash_screen.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
 
 void main() async {
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
         ),
         primarySwatch: Colors.blue,
       ),
-      home: FutureBuilder(
+      home: // SplashScreen()
+      FutureBuilder(
         future: UserSharedPreference.getUserRole(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == '') {

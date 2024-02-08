@@ -117,14 +117,14 @@ class _AddContactsScreenState extends State<AddContactsScreen> {
                   itemBuilder: (BuildContext context, int index) {
                     if (index == 0) {
                       return buildFixedContactTile(
-                        'Husband Contact',
+                        'Husband',
                         Icons.person,
                         index - 2,
                         husbandPhoneNumber,
                       );
                     } else if (index == 1) {
                       return buildFixedContactTile(
-                        'Hospital Contact',
+                        'Nearest Hospital',
                         Icons.local_hospital,
                         index - 2,
                         hospitalPhoneNumber,
@@ -155,9 +155,10 @@ class _AddContactsScreenState extends State<AddContactsScreen> {
         child: ListTile(
           title: Text(name),
           leading: Icon(icon),
+          subtitle: Text('${phoneNumber}'),
           trailing: phoneNumber != null
               ? Container(
-                  width: 100,
+                  width: 50,
                   child: Row(
                     children: [
                       IconButton(

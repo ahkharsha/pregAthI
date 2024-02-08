@@ -147,8 +147,8 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                   : contacts[index];
                               return ListTile(
                                 title: Text(contact.displayName!),
-                                //subtitle:
-                                // Text(contact.phones!.elementAt(0).value!),
+                                subtitle:
+                                    Text(contact.phones!.elementAt(0).value!),
                                 leading: contact.avatar != null &&
                                         contact.avatar!.length > 0
                                     ? CircleAvatar(
