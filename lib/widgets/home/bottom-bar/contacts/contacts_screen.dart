@@ -158,7 +158,7 @@ class _AddContactsScreenState extends State<AddContactsScreen> {
           subtitle: Text('${phoneNumber}'),
           trailing: phoneNumber != null
               ? Container(
-                  width: 50,
+                  width: MediaQuery.of(context).size.width * 0.13555,
                   child: Row(
                     children: [
                       IconButton(
@@ -190,9 +190,18 @@ class _AddContactsScreenState extends State<AddContactsScreen> {
           leading: Icon(icon),
           trailing: phoneNumber != null
               ? Container(
-                  width: 100,
+                  width: MediaQuery.of(context).size.width * 0.27,
                   child: Row(
                     children: [
+                      IconButton(
+                        onPressed: () {
+                          deleteCon(contactList![index]);
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
+                      ),
                       IconButton(
                         onPressed: () async {
                           await FlutterPhoneDirectCaller.callNumber(
@@ -200,15 +209,6 @@ class _AddContactsScreenState extends State<AddContactsScreen> {
                         },
                         icon: Icon(
                           Icons.call,
-                          color: Colors.red,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          deleteCon(contactList![index]);
-                        },
-                        icon: Icon(
-                          Icons.delete,
                           color: Colors.red,
                         ),
                       ),
