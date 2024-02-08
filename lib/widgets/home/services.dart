@@ -9,7 +9,7 @@ class Services extends StatelessWidget {
   const Services({Key? key}) : super(key: key);
 
   static Future<void> openMap(String location) async {
-    String googleUrl = '$location';
+    String googleUrl = 'https://www.google.com/maps/search/$location';
 
     /*if (Platform.isAndroid) {
       if (await canLaunchUrl(Uri.parse(googleUrl))) {
@@ -24,7 +24,7 @@ class Services extends StatelessWidget {
       await launchUrl(_url);
     } catch (e) {
       Fluttertoast.showToast(
-          msg: 'Error');
+          msg: 'Error. Couldn\'t open Google Maps');
     }
   }
 
