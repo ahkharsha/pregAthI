@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -12,18 +17,30 @@ import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/volunteer_history.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 class VolunteerHomeScreen extends StatefulWidget {
   VolunteerHomeScreen({super.key});
-
-  
 
   @override
   State<VolunteerHomeScreen> createState() => _VolunteerHomeScreenState();
 }
 
 class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
-  final String currentVersion='1.0.0';
+  late AndroidNotificationChannel channel;
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  final String currentVersion = '1.0.0';
+  String? myToken;
+  final User? user = FirebaseAuth.instance.currentUser;
+
+  String? _volunteerLocality;
+  String? _volunteerPostal;
+  Position? _currentPosition;
+  LocationPermission? permission;
+  late DocumentReference _documentReference;
+
+  final CollectionReference _reference =
+      FirebaseFirestore.instance.collection('emergencies');
 
   _checkUpdate() async {
     DocumentSnapshot versionDetails = await FirebaseFirestore.instance
@@ -46,8 +63,9 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
             actions: [
               ElevatedButton(
                 onPressed: () async {
-                  String googleUrl = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
-          
+                  String googleUrl =
+                      'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+
                   final Uri _url = Uri.parse(googleUrl);
                   try {
                     await launchUrl(_url);
@@ -65,15 +83,6 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
     }
   }
 
-  String? _volunteerLocality;
-  String? _volunteerPostal;
-  Position? _currentPosition;
-  LocationPermission? permission;
-  late DocumentReference _documentReference;
-
-  final CollectionReference _reference =
-      FirebaseFirestore.instance.collection('emergencies');
-
   _getPermission() async => await [Permission.location].request();
 
   _getAddressFromLaLo() async {
@@ -85,6 +94,11 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
       setState(() {
         _volunteerLocality = place.locality;
         _volunteerPostal = place.postalCode;
+        print('Updating in firestore');
+        FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
+          'locality':_volunteerLocality,
+          'postal':_volunteerPostal,
+        });
       });
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
@@ -107,10 +121,9 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
   }
 
   _completeEmergency(Map<String, dynamic> emergency) async {
-    final User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       DocumentReference<Map<String, dynamic>> db =
-          FirebaseFirestore.instance.collection(user.uid).doc(emergency['id']);
+          FirebaseFirestore.instance.collection(user!.uid).doc(emergency['id']);
 
       final data = VolunteerHistory(
           name: emergency['name'],
@@ -135,13 +148,132 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
     goTo(context, VolunteerHomeScreen());
   }
 
+  _getToken() async {
+    await FirebaseMessaging.instance.getToken().then((token) {
+      setState(() {
+        myToken = token;
+      });
+
+      saveToken(token!);
+    });
+  }
+
+  saveToken(String token) async {
+    await FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
+      'token': token,
+    });
+  }
+
+  requestPermission() async {
+    FirebaseMessaging messaging=FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus==AuthorizationStatus.denied) {
+      Fluttertoast.showToast(msg: 'Permission denied');
+    }
+  }
+
+  void sendPushMessage(String token, String body, String title) async {
+    try {
+      await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'key=AAAA9xPglTQ:APA91bEuI1Hg2Mw6dLpBuh2bDvJfgcYOUm_rEUhq3glaPRzICYtTUQEG6iFF1r_EeWx3B_wC9sTDVxk0x1PYgcSh-N9Di4qG-GNF3LVDjhc9F5B_cfEqvdky-Rc1ILwdAc1oqtB5Ho8v',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            'notification': <String, dynamic>{
+              'body': body,
+              'title': title
+            },
+            'priority': 'high',
+            'data': <String, dynamic>{
+              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+              'id': '1',
+              'status': 'done'
+            },
+            "to": token,
+          },
+        ),
+      );
+    } catch (e) {
+      print("error push notification");
+    }
+  }
+
+  void listenFCM() async {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null && !kIsWeb) {
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              // TODO add a proper drawable resource to android, for now using
+              //      one that already exists in example app.
+              icon: 'launch_background',
+            ),
+          ),
+        );
+      }
+    });
+  }
+
+   void loadFCM() async {
+    if (!kIsWeb) {
+      channel = const AndroidNotificationChannel(
+        'high_importance_channel', // id
+        'High Importance Notifications', // title
+        importance: Importance.high,
+        enableVibration: true,
+      );
+
+      flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+      /// Create an Android Notification Channel.
+      ///
+      /// We use this channel in the `AndroidManifest.xml` file to override the
+      /// default FCM channel to enable heads up notifications.
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+          ?.createNotificationChannel(channel);
+
+      /// Update the iOS foreground notification presentation options to allow
+      /// heads up notifications.
+      await FirebaseMessaging.instance
+          .setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    }
+  }
+
+
   @override
   void initState() {
-
     super.initState();
     _checkUpdate();
     _getPermission();
     _getVolunteerLocation();
+    _getToken();
+    requestPermission();
   }
 
   void _showEmergencyAlertDialog(Map<String, dynamic> emergencyDetails) {
@@ -257,11 +389,11 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
             return dialogueBox(
                 context, 'Some error has occurred ${snapshot.error}');
           }
-    
+
           if (snapshot.hasData) {
             QuerySnapshot querySnapshot = snapshot.data;
             List<QueryDocumentSnapshot> documents = querySnapshot.docs;
-    
+
             List<Map<String, dynamic>> items = documents
                 .map(
                   (emergency) => {
@@ -278,14 +410,14 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                   },
                 )
                 .toList();
-    
+
             return ListView.builder(
               itemCount: items.length,
               itemBuilder: (context, index) {
                 Map<String, dynamic> thisItem = items[index];
                 print(_volunteerLocality);
                 print(_volunteerPostal);
-    
+
                 if (_volunteerLocality == thisItem['locality'] ||
                     _volunteerPostal == thisItem['postal']) {
                   return GestureDetector(
@@ -302,13 +434,13 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                     ),
                   );
                 }
-    
+
                 // If the condition is not met, return an empty container
                 return Container();
               },
             );
           }
-    
+
           return Loader();
         },
       ),

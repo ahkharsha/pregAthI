@@ -49,6 +49,7 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
             id: v,
             role: 'volunteer',
             profilePic: volunteerProfileDefault,
+            token:''
           );
           final jsonData = user.toJson();
           await db.set(jsonData).whenComplete(() {

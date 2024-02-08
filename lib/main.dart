@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pregathi/db/shared_pref.dart';
+import 'package:pregathi/firebase_api.dart';
 import 'package:pregathi/main-screens/home-screen/husband_home_screen.dart';
 import 'package:pregathi/main-screens/home-screen/volunteer_home_screen.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
@@ -13,6 +15,8 @@ import 'package:pregathi/widgets/home/bottom_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FirebaseApi().initNotifications();
+  await FirebaseMessaging.instance.getInitialMessage();
   await UserSharedPreference.init();
   runApp(
     const ProviderScope(

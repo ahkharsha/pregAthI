@@ -15,7 +15,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:background_sms/background_sms.dart';
 
 class InstaShare extends StatefulWidget {
-  const InstaShare({Key? key}) : super(key: key);
+  final String? currentAddress;
+  const InstaShare({Key? key, this.currentAddress}) : super(key: key);
 
   @override
   State<InstaShare> createState() => _InstaShareState();
@@ -24,7 +25,7 @@ class InstaShare extends StatefulWidget {
 class _InstaShareState extends State<InstaShare> {
   Position? _currentPosition;
   // ignore: unused_field
-  String? _currentAddress = 'Fetching current location...';
+  String? _currentAddress ;
   LocationPermission? permission;
   late String husbandPhoneNumber;
   late String hospitalPhoneNumber;
@@ -35,6 +36,7 @@ class _InstaShareState extends State<InstaShare> {
     _getPermission();
     _getCurrentLocation();
     loadData();
+    _currentAddress=widget.currentAddress;
   }
 
   @override
@@ -43,7 +45,7 @@ class _InstaShareState extends State<InstaShare> {
       onTap: () {
         showModalBottomSheet(
           context: context,
-          builder: (context) => _InstaShareModalBottomSheet(),
+          builder: (context) => _InstaShareModalBottomSheet(currentAddress: _currentAddress),
         );
       },
       child: Padding(
@@ -227,15 +229,18 @@ class _InstaShareState extends State<InstaShare> {
 }
 
 class _InstaShareModalBottomSheet extends StatefulWidget {
+  final String? currentAddress; // Add this line
+
+  _InstaShareModalBottomSheet({Key? key, this.currentAddress}) : super(key: key);
+
   @override
-  State<_InstaShareModalBottomSheet> createState() =>
-      _InstaShareModalBottomSheetState();
+  State<_InstaShareModalBottomSheet> createState() => _InstaShareModalBottomSheetState();
 }
 
 class _InstaShareModalBottomSheetState
     extends State<_InstaShareModalBottomSheet> {
   Position? _currentPosition;
-  String? _currentAddress = 'Fetching current location...';
+  String? _currentAddress;
   LocationPermission? permission;
   late String husbandPhoneNumber;
   late String hospitalPhoneNumber;
@@ -246,6 +251,7 @@ class _InstaShareModalBottomSheetState
     _getPermission();
     _getCurrentLocation();
     loadData();
+    _currentAddress=_currentAddress;
   }
 
   @override
@@ -272,10 +278,12 @@ class _InstaShareModalBottomSheetState
             SizedBox(
               height: 10,
             ),
-            Text(
-              _currentAddress!,
-              textAlign: TextAlign.center,
-            ),
+            _currentAddress != null
+              ? Text(
+                  _currentAddress!,
+                  textAlign: TextAlign.center,
+                )
+              : smallProgressIndicator(context),
             Padding(
               padding: const EdgeInsets.only(top: 20.0),
               child: MainButton(

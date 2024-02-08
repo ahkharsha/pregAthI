@@ -56,9 +56,24 @@ dialogueBox(BuildContext context, String text) {
 Widget progressIndicator(BuildContext context) {
   return Center(
     child: CircularProgressIndicator(
+
       backgroundColor: primaryColor,
       color: Color.fromARGB(255, 241, 198, 250),
       strokeWidth: 7,
+    ),
+  );
+}
+
+Widget smallProgressIndicator(BuildContext context) {
+  return Center(
+    child: Transform.scale(
+      scale: 0.7,
+      child: CircularProgressIndicator(
+        
+        backgroundColor: primaryColor,
+        color: Color.fromARGB(255, 241, 198, 250),
+        strokeWidth: 7,
+      ),
     ),
   );
 }
