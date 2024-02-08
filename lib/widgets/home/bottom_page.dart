@@ -16,7 +16,7 @@ class _BottomPageState extends State<BottomPage> {
   int currentIndex = 0;
   List<Widget> pages = [
     WifeHomeScreen(),
-    ContactsScreen(),
+    AddContactsScreen(),
     CalendarScreen(),
     ChatScreen(),
     ProfileScreen(),

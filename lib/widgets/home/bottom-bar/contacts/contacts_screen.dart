@@ -11,14 +11,14 @@ import 'package:pregathi/widgets/home/bottom-bar/contacts/add_contacts.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:sqflite/sqflite.dart';
 
-class ContactsScreen extends StatefulWidget {
-  const ContactsScreen({Key? key}) : super(key: key);
+class AddContactsScreen extends StatefulWidget {
+  const AddContactsScreen({Key? key}) : super(key: key);
 
   @override
-  State<ContactsScreen> createState() => _ContactsScreenState();
+  State<AddContactsScreen> createState() => _AddContactsScreenState();
 }
 
-class _ContactsScreenState extends State<ContactsScreen> {
+class _AddContactsScreenState extends State<AddContactsScreen> {
   DatabaseService _databaseHelper = DatabaseService();
   List<TContact>? contactList;
   String? husbandPhoneNumber;
@@ -80,10 +80,11 @@ class _ContactsScreenState extends State<ContactsScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
-            color: Colors.white,
-            onPressed: () {
-              goTo(context, BottomPage());
-            }),
+          color: Colors.white,
+          onPressed: () {
+            goToDisableBack(context, BottomPage());
+          },
+        ),
         title: Text(
           "Trusted Contacts",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
@@ -102,7 +103,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                   bool result = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AddContactsScreen(),
+                      builder: (context) => ContactsScreen(),
                     ),
                   );
                   if (result == true) {
@@ -112,21 +113,20 @@ class _ContactsScreenState extends State<ContactsScreen> {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: count +
-                      2,
+                  itemCount: count + 2,
                   itemBuilder: (BuildContext context, int index) {
                     if (index == 0) {
                       return buildFixedContactTile(
-                        'Husband',
+                        'Husband Contact',
                         Icons.person,
-                        index-2,
+                        index - 2,
                         husbandPhoneNumber,
                       );
                     } else if (index == 1) {
                       return buildFixedContactTile(
-                        'Nearest hospital',
+                        'Hospital Contact',
                         Icons.local_hospital,
-                        index-2,
+                        index - 2,
                         hospitalPhoneNumber,
                       );
                     } else {
@@ -147,7 +147,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
     );
   }
 
-   Widget buildFixedContactTile(
+  Widget buildFixedContactTile(
       String name, IconData icon, int index, String? phoneNumber) {
     return Card(
       child: Padding(

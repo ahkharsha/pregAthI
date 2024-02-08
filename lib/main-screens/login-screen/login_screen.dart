@@ -41,16 +41,16 @@ class _LoginScreenState extends State<LoginScreen> {
             .then((userData) {
           if (userData['role'] == 'wife') {
             UserSharedPreference.setUserRole('wife');
-            goTo(context, BottomPage());
+            goToDisableBack(context, BottomPage());
           } else if (userData['role'] == 'volunteer') {
             UserSharedPreference.setUserRole('volunteer');
-            goTo(context, VolunteerHomeScreen());
+            goToDisableBack(context, VolunteerHomeScreen());
           } else if (userData['role'] == 'husband') {
             UserSharedPreference.setUserRole('husband');
-            goTo(context, HusbandHomeScreen());
+            goToDisableBack(context, HusbandHomeScreen());
           } else {
             UserSharedPreference.setUserRole('');
-            goTo(context, ErrorHomePage());
+            goToDisableBack(context, ErrorHomePage());
           }
           setState(() {
             isLoading = false;

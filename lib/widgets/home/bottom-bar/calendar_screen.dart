@@ -67,7 +67,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         leading: BackButton(
             color: Colors.white,
             onPressed: () {
-              goTo(context, BottomPage());
+              goToDisableBack(context, BottomPage());
             }),
         title: Text(
           "Calender",

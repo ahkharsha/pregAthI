@@ -25,9 +25,6 @@
 //   Position? _currentPosition;
 //   String? _currentAddress='Fetching current location...';
 //   LocationPermission? permission;
-//   late String husbandPhoneNumber;
-//   late String hospitalPhoneNumber;
-
 //   _getPermission() async => await [Permission.sms].request();
 //   isPermissionGranted() async => Permission.sms.status.isGranted;
 //   sendSMS(String phoneNumber, String message, {int? simSlot}) async {
@@ -109,27 +106,11 @@
 //     }
 //   }
 
-//   Future<void> loadData() async {
-//     final User? user = FirebaseAuth.instance.currentUser;
-//     if (user != null) {
-//       DocumentSnapshot userData = await FirebaseFirestore.instance
-//           .collection('users')
-//           .doc(user.uid)
-//           .get();
-
-//       setState(() {
-//         husbandPhoneNumber = userData['husbandPhone'];
-//         hospitalPhoneNumber = userData['hospitalPhone'];
-//       });
-//     }
-//   }
-
 //   @override
 //   void initState() {
 //     super.initState();
 //     _getPermission();
 //     _getCurrentLocation();
-//     loadData();
 //   }
 
 //   showModelInstaShare(BuildContext context) {
@@ -199,18 +180,10 @@
 //                           for (TContact contact in contactList) {
 //                             sendSMS(
 //                               contact.number,
-//                               "Having inconvenience, so reach please out at $msgBody",
+//                               "Having inconvenience, so please reach out at $msgBody",
 //                             );
+//                             print(contact.number);
 //                           }
-//                           sendSMS(
-//                               husbandPhoneNumber,
-//                               "Having inconvenience, so reach please out at $msgBody",
-//                             );
-//                             sendSMS(
-//                               hospitalPhoneNumber,
-//                               "Having inconvenience, so reach please out at $msgBody",
-//                             );
-
 //                         }
 
 //                         goTo(context, WifeEmergencyScreen());

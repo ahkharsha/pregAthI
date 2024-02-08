@@ -25,7 +25,7 @@ class _ChatScreenState extends State<ChatScreen> {
               leading: BackButton(
             color: Colors.white,
             onPressed: () {
-              goTo(context, BottomPage());
+              goToDisableBack(context, BottomPage());
             }),
               title: const Text(
                 "AI Chat",

@@ -6,14 +6,14 @@ import 'package:pregathi/db/db_services.dart';
 import 'package:pregathi/model/contacts.dart';
 import 'package:pregathi/const/constants.dart';
 
-class AddContactsScreen extends StatefulWidget {
-  const AddContactsScreen({super.key});
+class ContactsScreen extends StatefulWidget {
+  const ContactsScreen({super.key});
 
   @override
-  State<AddContactsScreen> createState() => _AddContactsScreenState();
+  State<ContactsScreen> createState() => _ContactsScreenState();
 }
 
-class _AddContactsScreenState extends State<AddContactsScreen> {
+class _ContactsScreenState extends State<ContactsScreen> {
   List<Contact> contacts = [];
   List<Contact> contactsFiltered = [];
   DatabaseService databaseHelper = DatabaseService();
