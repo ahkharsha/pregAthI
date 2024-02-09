@@ -22,13 +22,20 @@ class _WifeEmergencyScreenState extends State<WifeEmergencyScreen> {
   _sendVolunteerNotification() async {
     final QuerySnapshot<Map<String, dynamic>> userQuery =
         await FirebaseFirestore.instance.collection('users').get();
-        
+
+    final DocumentSnapshot<Map<String, dynamic>> wifeData =
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user!.uid)
+            .get();
 
     for (final userData in userQuery.docs) {
       // Check if the user's role is 'volunteer'
-      if (userData['role'] == 'volunteer') {
+      if (userData['role'] == 'volunteer' &&
+          ((wifeData['locality'] == userData['locality']) ||
+              (wifeData['postal'] == userData['postal']))) {
         print(
-            '${userData['name']} is a volunteer and his token is ${userData['token']}');
+            '${userData['name']} is a volunteer and he lives in the same area as mom');
         try {
           await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
               headers: <String, String>{
@@ -45,10 +52,12 @@ class _WifeEmergencyScreenState extends State<WifeEmergencyScreen> {
                 },
                 "notification": <String, dynamic>{
                   "title": 'Emergency!!!',
-                  "body": 'Mom in emergency!',
+                  "body": 'Nearby mom in emergency!',
                 },
                 "to": userData['token'],
+                
               }));
+              print('message sent');
         } catch (e) {
           Fluttertoast.showToast(msg: e.toString());
         }

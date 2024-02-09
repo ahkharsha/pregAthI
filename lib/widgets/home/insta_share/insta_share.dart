@@ -23,6 +23,7 @@ class InstaShare extends StatefulWidget {
 }
 
 class _InstaShareState extends State<InstaShare> {
+  final User? user = FirebaseAuth.instance.currentUser;
   Position? _currentPosition;
   // ignore: unused_field
   String? _currentAddress ;
@@ -206,6 +207,10 @@ class _InstaShareState extends State<InstaShare> {
       setState(() {
         _currentAddress =
             "${place.locality},${place.postalCode},${place.street},${place.name},${place.subLocality}";
+            FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
+          'locality':place.locality,
+          'postal':place.postalCode,
+        });
       });
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
