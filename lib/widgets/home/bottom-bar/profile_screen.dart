@@ -101,6 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ? NetworkImage(profilePic!)
                   : const AssetImage('assets/images/profile/default_profile.png')
                       as ImageProvider,
+             
             ),
           ),
           const SizedBox(width: 20),
@@ -111,11 +112,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 TextFormField(
                   controller: _nameController,
                   decoration: const InputDecoration(labelText: 'Name'),
-                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 TextFormField(
                   controller: _weekController,
-                  decoration: const InputDecoration(labelText: 'Week of Pregnancy'),
+                  decoration:
+                      const InputDecoration(labelText: 'Week of Pregnancy'),
                   style: const TextStyle(fontSize: 18, color: Colors.grey),
                 ),
                 TextFormField(
@@ -131,8 +134,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-
-   Future<void> _pickImage() async {
+  Future<void> _pickImage() async {
     final XFile? pickedImage = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       imageQuality: 50,
@@ -182,7 +184,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           'name': _nameController.text,
           'week': _weekController.text,
           'bio': _bioController.text,
-          if (downloadUrl != null) 'profilePic': downloadUrl,
+          if (downloadUrl != null)
+            'profilePic': downloadUrl
+          else
+            'profilePic': profilePic,
         });
 
         Fluttertoast.showToast(msg: 'Profile updated successfully');
@@ -215,10 +220,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           LinearProgressIndicator(
             value: userWeek / totalWeeks,
             backgroundColor: Colors.grey[300],
-            valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue), // Change to your primaryColor
+            valueColor: const AlwaysStoppedAnimation<Color>(
+                Colors.blue), // Change to your primaryColor
           ),
           const SizedBox(height: 10),
-          Text("Week $userWeek of $totalWeeks", style: const TextStyle(fontSize: 16)),
+          Text("Week $userWeek of $totalWeeks",
+              style: const TextStyle(fontSize: 16)),
           // Additional information or tips can be added here.
         ],
       ),
@@ -265,7 +272,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return ElevatedButton(
         onPressed: () {
           UserSharedPreference.setUserRole('');
-              goTo(context, LoginScreen());
+          goTo(context, LoginScreen());
         },
         child: const Text('Logout'));
   }
