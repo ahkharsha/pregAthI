@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:pregathi/community-chat/delegate/search_community_delegate.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/widgets/home/ai-chat/ai_chat.dart';
@@ -22,10 +20,6 @@ class WifeHomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<WifeHomeScreen> {
   final String currentVersion = "1.0.0";
-
-  // ignore: unused_field
-  String? currentAddress;
-  Position? _currentPosition;
 
   void drawerDisplay(BuildContext context) {
     Scaffold.of(context).openDrawer();
@@ -73,44 +67,12 @@ class _HomeScreenState extends ConsumerState<WifeHomeScreen> {
     }
   }
 
-  _getCurrentLocation() async {
-    Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-      forceAndroidLocationManager: true,
-    ).then((Position position) {
-      setState(() {
-        _currentPosition = position;
-        print(_currentPosition!.latitude);
-        _getAddressFromLaLo();
-      });
-    }).catchError((e) {
-      Fluttertoast.showToast(msg: e.toString());
-    });
-  }
 
-  _getAddressFromLaLo() async {
-    try {
-      List<Placemark> placeMarks = await placemarkFromCoordinates(
-        _currentPosition!.latitude,
-        _currentPosition!.longitude,
-      );
-
-      Placemark place = placeMarks[0];
-      setState(() {
-        currentAddress =
-            "${place.locality},${place.postalCode},${place.street},${place.name},${place.subLocality}";
-            print(currentAddress);
-      });
-    } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
-    }
-  }
 
   @override
   void initState() {
     _checkUpdate();
     super.initState();
-    _getCurrentLocation();
   }
 
   @override
@@ -183,7 +145,7 @@ class _HomeScreenState extends ConsumerState<WifeHomeScreen> {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
-                InstaShare(currentAddress: currentAddress),
+                InstaShare(),
               ],
             ))
           ],
