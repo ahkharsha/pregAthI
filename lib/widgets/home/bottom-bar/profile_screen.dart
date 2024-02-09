@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
@@ -22,7 +21,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _weekController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
-  String? profilePic;
+  String? profilePic=wifeProfileDefault;
+  File? newProfilePic;
   bool isSaving = false;
 
   @override
@@ -95,14 +95,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onTap: () async {
               await _pickImage();
             },
-            child: CircleAvatar(
-              radius: 40,
-              backgroundImage: profilePic != null
-                  ? NetworkImage(profilePic!)
-                  : const AssetImage('assets/images/profile/default_profile.png')
-                      as ImageProvider,
-             
-            ),
+            child: newProfilePic != null
+                ? CircleAvatar(
+                    backgroundImage: FileImage(newProfilePic!),
+                    radius: 45,
+                  )
+                : CircleAvatar(
+                    backgroundImage: NetworkImage(profilePic!),
+                    radius: 45,
+                  ),
           ),
           const SizedBox(width: 20),
           Expanded(
@@ -135,14 +136,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _pickImage() async {
-    final XFile? pickedImage = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 50,
-    );
+    final res = await pickImage();
 
-    if (pickedImage != null) {
+    if (res != null) {
       setState(() {
-        profilePic = pickedImage.path;
+        newProfilePic = File(res.files.first.path!);
       });
     }
   }
@@ -156,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       await uploadTask;
       return await fbStorage.getDownloadURL();
     } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
+      print(e.toString());
     }
     return null;
   }
@@ -220,8 +218,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           LinearProgressIndicator(
             value: userWeek / totalWeeks,
             backgroundColor: Colors.grey[300],
-            valueColor: const AlwaysStoppedAnimation<Color>(
-                Colors.blue), // Change to your primaryColor
+            valueColor: AlwaysStoppedAnimation<Color>(
+                primaryColor), // Change to your primaryColor
           ),
           const SizedBox(height: 10),
           Text("Week $userWeek of $totalWeeks",
