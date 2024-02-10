@@ -7,7 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'package:pregathi/const/loader.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/home-screen/volunteer/volunteer_profile_screen.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
@@ -383,7 +382,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
             );
           }
 
-          return Loader();
+          return progressIndicator(context);
         },
       ),
     );

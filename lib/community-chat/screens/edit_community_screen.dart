@@ -68,7 +68,7 @@ class _EditCommunityScreenState extends ConsumerState<EditCommunityScreen> {
               ],
             ),
             body: isLoading
-                ? const Loader()
+                ? progressIndicator(context)
                 : Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -135,7 +135,7 @@ class _EditCommunityScreenState extends ConsumerState<EditCommunityScreen> {
                     ),
                   ),
           ),
-          loading: () => const Loader(),
+          loading: () => progressIndicator(context),
           error: (error, stackTrace) => ErrorText(error: error.toString()),
         );
   }

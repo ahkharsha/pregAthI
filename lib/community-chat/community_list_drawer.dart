@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/screens/community_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
-import 'package:pregathi/const/loader.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
 import 'package:pregathi/community-chat/screens/create_community_screen.dart';
 
@@ -46,7 +45,7 @@ class CommunityDrawer extends ConsumerWidget {
                   error: (error, stackTrace) => ErrorText(
                     error: error.toString(),
                   ),
-                  loading: () => const Loader(),
+                  loading: () => progressIndicator(context),
                 ),
           ],
         ),

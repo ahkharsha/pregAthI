@@ -1,30 +1,34 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/const/error_text.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
+import 'package:pregathi/model/wife_profile.dart';
+import 'package:pregathi/widgets/home/bottom-bar/profile/profile_controller.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
-import 'package:uuid/uuid.dart';
-import 'dart:io';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class ProfileScreenDummy extends ConsumerStatefulWidget {
+  const ProfileScreenDummy({super.key});
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _ProfileScreenDummyState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenDummyState extends ConsumerState<ProfileScreenDummy> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _weekController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
-  String? profilePic = wifeProfileDefault;
+  final User? user = FirebaseAuth.instance.currentUser;
+  File? profileFile;
+  String? name;
+  String? week;
+  String? bio;
   String? _initialWeek;
-  File? newProfilePic;
-  bool isSaving = false;
 
   @override
   void initState() {
@@ -44,7 +48,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _nameController.text = userData['name'];
         _weekController.text = userData['week'];
         _bioController.text = userData['bio'];
-        profilePic = userData['profilePic'];
         _initialWeek = userData['week'];
       });
     }
@@ -58,52 +61,99 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(
-            color: Colors.white,
-            onPressed: () {
-              goToDisableBack(context, BottomPage());
-            }),
-        title: const Text(
-          "Profile",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-        centerTitle: false,
-        backgroundColor: primaryColor, // Change to your primaryColor
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            _buildProfileHeader(),
-            _buildPregnancyTracker(),
-            _buildHealthSection(),
-            _buildSubmitButton(),
-            _buildLogoutButton(),
-          ],
-        ),
-      ),
-    );
+  void selectProfileImage() async {
+    final res = await pickImage();
+
+    if (res != null) {
+      setState(() {
+        profileFile = File(res.files.first.path!);
+      });
+    }
   }
 
-  Widget _buildProfileHeader() {
+  checkWeekUpdate() async {
+    if (_initialWeek != _weekController.text) {
+      DateTime now = DateTime.now();
+      var current_year = now.year;
+      var current_mon = now.month;
+      var current_day = now.day;
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .update({
+        'weekUpdatedDay': current_day,
+        'weekUpdatedMonth': current_mon,
+        'weekUpdatedYear': current_year,
+      });
+    }
+  }
+
+  void save(WifeProfile wife) {
+    ref.read(profileControllerProvider.notifier).editProfile(
+          profileFile: profileFile,
+          context: context,
+          wife: wife,
+          name: _nameController.text,
+          week: _weekController.text,
+          bio: _bioController.text,
+        );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isLoading = ref.watch(profileControllerProvider);
+
+    return ref.watch(getProfileByUidProvider(user!.uid)).when(
+          data: (wife) => Scaffold(
+            //backgroundColor: Pallete.
+            appBar: AppBar(
+              leading: BackButton(
+                  color: Colors.white,
+                  onPressed: () {
+                    goToDisableBack(context, BottomPage());
+                  }),
+              title: const Text(
+                "Profile",
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+              centerTitle: false,
+              backgroundColor: primaryColor,
+            ),
+            body: isLoading
+                ? progressIndicator(context)
+                : SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        _buildProfileHeader(wife),
+                        _buildPregnancyTracker(),
+                        _buildHealthSection(),
+                        _buildSubmitButton(wife),
+                        _buildLogoutButton(),
+                      ],
+                    ),
+                  ),
+          ),
+          loading: () => progressIndicator(context),
+          error: (error, stackTrace) => ErrorText(error: error.toString()),
+        );
+  }
+
+  Widget _buildProfileHeader(WifeProfile wife) {
     return Container(
       padding: const EdgeInsets.all(20),
       child: Row(
         children: <Widget>[
           GestureDetector(
-            onTap: () async {
-              await _pickImage();
-            },
-            child: newProfilePic != null
+            onTap: selectProfileImage,
+            child: profileFile != null
                 ? CircleAvatar(
-                    backgroundImage: FileImage(newProfilePic!),
+                    backgroundImage: FileImage(profileFile!),
                     radius: 45,
                   )
                 : CircleAvatar(
-                    backgroundImage: NetworkImage(profilePic!),
+                    backgroundImage: NetworkImage(wife.profilePic),
                     radius: 45,
                   ),
           ),
@@ -137,75 +187,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Future<void> _pickImage() async {
-    final res = await pickImage();
-
-    if (res != null) {
-      setState(() {
-        newProfilePic = File(res.files.first.path!);
-      });
-    }
-  }
-
-  Future<String?> _uploadImage(String filePath) async {
-    try {
-      final fileName = const Uuid().v4();
-      final Reference fbStorage =
-          FirebaseStorage.instance.ref('profile').child(fileName);
-      final UploadTask uploadTask = fbStorage.putFile(File(filePath));
-      await uploadTask;
-      return await fbStorage.getDownloadURL();
-    } catch (e) {
-      print(e.toString());
-    }
-    return null;
-  }
-
-  Future<void> _updateProfile() async {
-    final User? user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      setState(() {
-        isSaving = true;
-      });
-
-      // Update profile picture if it's changed
-      String? downloadUrl;
-      if (profilePic != null) {
-        downloadUrl = await _uploadImage(profilePic!);
-      }
-
-      DateTime now = DateTime.now();
-      var current_year = now.year;
-      var current_mon = now.month;
-      var current_day = now.day;
-
-      // Update other profile information
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .update({
-        'name': _nameController.text,
-        'week': _weekController.text,
-        'bio': _bioController.text,
-        if (_initialWeek != _weekController) 'weekUpdatedDay': current_day,
-        if (_initialWeek != _weekController) 'weekUpdatedMonth': current_mon,
-        if (_initialWeek != _weekController) 'weekUpdatedYear': current_year,
-        
-        if (downloadUrl != null)
-          'profilePic': downloadUrl
-        else
-          'profilePic': profilePic,
-      });
-
-      Fluttertoast.showToast(msg: 'Profile updated successfully');
-
-      setState(() {
-        isSaving = false;
-      });
-    }
-  }
-
   Widget _buildPregnancyTracker() {
     // Assuming these are the total weeks of pregnancy.
     // You might want to fetch this value from user input or a database.
@@ -229,8 +210,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 primaryColor), // Change to your primaryColor
           ),
           const SizedBox(height: 10),
-          Text("Week $userWeek",
-              style: const TextStyle(fontSize: 16)),
+          Text("Week $userWeek", style: const TextStyle(fontSize: 16)),
           // Additional information or tips can be added here.
         ],
       ),
@@ -260,17 +240,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildSubmitButton() {
+  Widget _buildSubmitButton(WifeProfile wife) {
     return Padding(
       padding: const EdgeInsets.only(top: 20, bottom: 10),
-      child: isSaving
-          ? smallProgressIndicator(context)
-          : ElevatedButton(
-              onPressed: () {
-                _updateProfile();
-              },
-              child: const Text('Update Profile'),
-            ),
+      child: ElevatedButton(
+        onPressed: () {
+          checkWeekUpdate();
+          save(wife);
+        },
+        child: const Text('Update Profile'),
+      ),
     );
   }
 

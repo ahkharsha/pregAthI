@@ -115,7 +115,7 @@ class CommunityScreen extends ConsumerWidget {
                 },
                 body: const Text("Displaying posts")),
             error: (error, StackTrace) => ErrorText(error: error.toString()),
-            loading: () => const Loader(),
+            loading: () => progressIndicator(context),
           ),
     );
   }

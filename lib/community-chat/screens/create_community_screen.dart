@@ -48,7 +48,7 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
         backgroundColor: primaryColor,
       ),
       body: isLoading
-          ? const Loader()
+          ? progressIndicator(context)
           : Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(

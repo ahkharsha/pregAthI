@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
 import 'package:pregathi/main-screens/home-screen/wife_home_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/contacts/contacts_screen.dart';
-import 'package:pregathi/widgets/home/bottom-bar/profile_screen.dart';
+// import 'package:pregathi/widgets/home/bottom-bar/profile/profile_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/calendar_screen.dart';
+import 'package:pregathi/widgets/home/bottom-bar/profile/profile_screen.dart';
 
 class BottomPage extends StatefulWidget {
   BottomPage({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class _BottomPageState extends State<BottomPage> {
     AddContactsScreen(),
     CalendarScreen(),
     ChatScreen(),
-    ProfileScreen(),
+    ProfileScreenDummy(),
   ];
   onTapped(int index) {
     setState(() {

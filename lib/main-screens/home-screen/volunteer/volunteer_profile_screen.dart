@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/const/loader.dart';
 import 'package:pregathi/main-screens/home-screen/volunteer_home_screen.dart';
 
 class VolunteerProfileScreen extends StatelessWidget {
@@ -89,7 +88,7 @@ class VolunteerProfileScreen extends StatelessWidget {
             );
           }
 
-          return Loader();
+          return progressIndicator(context);
         },
       ),
     );
