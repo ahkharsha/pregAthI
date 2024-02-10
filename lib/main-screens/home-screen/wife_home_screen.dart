@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:pregathi/community-chat/delegate/search_community_delegate.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/user_permission.dart';
 import 'package:pregathi/widgets/home/ai-chat/ai_chat.dart';
 import 'package:pregathi/community-chat/community_list_drawer.dart';
 import 'package:pregathi/widgets/home/emergency.dart';
@@ -15,10 +18,11 @@ class WifeHomeScreen extends ConsumerStatefulWidget {
   const WifeHomeScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _WifeHomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<WifeHomeScreen> {
+class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
+  final User? user = FirebaseAuth.instance.currentUser;
   final String currentVersion = "1.0.0";
 
   void drawerDisplay(BuildContext context) {
@@ -67,12 +71,27 @@ class _HomeScreenState extends ConsumerState<WifeHomeScreen> {
     }
   }
 
+  updateLastLogin() {
+    DateTime now = DateTime.now();
+    var formatterDate = DateFormat('dd/MM/yy').format(now);
+    var formatterTime = DateFormat('kk:mm').format(now);
+    FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
+      'lastLogin': '${formatterDate} at ${formatterTime}',
+    });
+  }
 
+  initPermissions() async {
+    await UserPermission().initSmsPermission();
+    await UserPermission().initContactsPermission();
+    await UserPermission().initLocationPermission();
+  }
 
   @override
   void initState() {
     _checkUpdate();
     super.initState();
+    initPermissions();
+    updateLastLogin();
   }
 
   @override
@@ -113,9 +132,9 @@ class _HomeScreenState extends ConsumerState<WifeHomeScreen> {
             Expanded(
                 child: ListView(
               shrinkWrap: true,
-              children:  [
+              children: [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                   child: Text(
                     'Emergency',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -123,7 +142,7 @@ class _HomeScreenState extends ConsumerState<WifeHomeScreen> {
                 ),
                 Emergency(),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                   child: Text(
                     'Services',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -131,7 +150,7 @@ class _HomeScreenState extends ConsumerState<WifeHomeScreen> {
                 ),
                 Services(),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                   child: Text(
                     'AI Chat',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -139,7 +158,7 @@ class _HomeScreenState extends ConsumerState<WifeHomeScreen> {
                 ),
                 AIChat(),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                   child: Text(
                     'Insta-Share',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

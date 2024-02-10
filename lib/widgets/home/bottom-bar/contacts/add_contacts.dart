@@ -1,7 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:pregathi/db/db_services.dart';
 import 'package:pregathi/model/contacts.dart';
 import 'package:pregathi/const/constants.dart';
@@ -21,7 +20,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
   @override
   void initState() {
     super.initState();
-    askPermissions();
+    fetchContacts();
   }
 
   String flattenPhoneNumber(String phoneStr) {
@@ -57,36 +56,11 @@ class _ContactsScreenState extends State<ContactsScreen> {
     });
   }
 
-  Future<void> askPermissions() async {
-    PermissionStatus permissionStatus = await getContactsPermissions();
-    if (permissionStatus == PermissionStatus.granted) {
-      getFullContacts();
+  fetchContacts() {
+    getFullContacts();
       searchController.addListener(() {
         filterContacts();
       });
-    } else {
-      handleInvalidPermissions(permissionStatus);
-    }
-  }
-
-  handleInvalidPermissions(PermissionStatus permissionStatus) {
-    if (permissionStatus == PermissionStatus.denied) {
-      dialogueBox(context, 'Access to the contacts denied by the user');
-    } else if (permissionStatus == PermissionStatus.permanentlyDenied) {
-      dialogueBox(context, 'Access to the contacts permanently denied');
-    }
-  }
-
-  Future<PermissionStatus> getContactsPermissions() async {
-    PermissionStatus permission = await Permission.contacts.status;
-
-    if (permission != PermissionStatus.granted &&
-        permission != PermissionStatus.permanentlyDenied) {
-      PermissionStatus permissionStatus = await Permission.contacts.request();
-      return permissionStatus;
-    } else {
-      return permission;
-    }
   }
 
   getFullContacts() async {

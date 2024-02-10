@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
 
 class AIChat extends StatelessWidget {
@@ -15,14 +16,11 @@ class AIChat extends StatelessWidget {
         ),
         child: InkWell(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ChatScreen()),
-            );
+            goTo(context, ChatScreen());
           },
           child: Container(
-            height: 180,
-            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.height*0.25,
+            width: MediaQuery.of(context).size.width * 0.7,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               gradient: LinearGradient(
@@ -60,7 +58,7 @@ class AIChat extends StatelessWidget {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 14.0,right: 14),
+                    padding: const EdgeInsets.only(left: 14.0,right: 14,),
                     child: Text(
                       'Click to chat with AI about pregnancy and more...',
                       style: TextStyle(
@@ -69,6 +67,7 @@ class AIChat extends StatelessWidget {
                           fontSize: MediaQuery.of(context).size.width * 0.045),
                     ),
                   ),
+                  SizedBox(height: 15,),
                   Center(
                     child: Container(
                       height: 30,

@@ -29,8 +29,6 @@ class _InstaShareState extends State<InstaShare> {
   late String husbandPhoneNumber;
   late String hospitalPhoneNumber;
 
-  LocationPermission? permission;
-  _getPermission() async => await [Permission.sms].request();
   isPermissionGranted() async => Permission.sms.status.isGranted;
 
   sendSMSwithAlert(String phoneNumber, String message, {int? simSlot}) async {
@@ -70,27 +68,26 @@ class _InstaShareState extends State<InstaShare> {
 
       DocumentReference<Map<String, dynamic>> db =
           FirebaseFirestore.instance.collection('emergencies').doc(user.uid);
-      DateTime now = DateTime.now();
 
       List<Placemark> placeMarks = await placemarkFromCoordinates(
           _currentPosition!.latitude, _currentPosition!.longitude);
 
       Placemark place = placeMarks[0];
 
+      DateTime now = DateTime.now();
       var formatterDate = DateFormat('dd/MM/yy').format(now);
       var formatterTime = DateFormat('kk:mm').format(now);
       final userMessage = EmergencyMessageModel(
-        name: userData['name'],
-        id: user.uid,
-        phone: userData['phone'],
-        wifeEmail: userData['wifeEmail'],
-        location: currentLocation,
-        date: formatterDate,
-        time: formatterTime,
-        locality: place.locality,
-        postal: place.postalCode,
-        profilePic: userData['profilePic']
-      );
+          name: userData['name'],
+          id: user.uid,
+          phone: userData['phone'],
+          wifeEmail: userData['wifeEmail'],
+          location: currentLocation,
+          date: formatterDate,
+          time: formatterTime,
+          locality: place.locality,
+          postal: place.postalCode,
+          profilePic: userData['profilePic']);
 
       final jsonData = userMessage.toJson();
       db.set(jsonData);
@@ -108,7 +105,7 @@ class _InstaShareState extends State<InstaShare> {
         _getAddressFromLaLo();
       });
     }).catchError((e) {
-      Fluttertoast.showToast(msg: e.toString());
+      print(e.toString());
     });
   }
 
@@ -121,9 +118,9 @@ class _InstaShareState extends State<InstaShare> {
       setState(() {
         _curentAddress =
             "${place.locality},${place.postalCode},${place.street},${place.name},${place.subLocality}";
-            FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
-          'locality':place.locality,
-          'postal':place.postalCode,
+        FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
+          'locality': place.locality,
+          'postal': place.postalCode,
         });
       });
     } catch (e) {
@@ -149,7 +146,6 @@ class _InstaShareState extends State<InstaShare> {
   @override
   void initState() {
     super.initState();
-    _getPermission();
     _getCurrentLocation();
     loadData();
   }
@@ -190,34 +186,18 @@ class _InstaShareState extends State<InstaShare> {
                   child: MainButton(
                     title: "Send Alert",
                     onPressed: () async {
-                      permission = await Geolocator.checkPermission();
-                      if (permission == LocationPermission.denied) {
-                        permission = await Geolocator.requestPermission();
-                        if (permission == LocationPermission.denied) {
-                          Fluttertoast.showToast(
-                              msg: 'Location permissions are denied');
-                          return false;
-                        }
-                        if (permission == LocationPermission.deniedForever) {
-                          Fluttertoast.showToast(
-                              msg:
-                                  'Location permissions are permanently denied..');
-                          return false;
-                        }
-                        return true;
-                      }
-
                       List<TContact> contactList =
                           await DatabaseService().getContactList();
 
                       if (_currentPosition != null) {
                         String msgBody =
                             "https://www.google.com/maps/search/?api=1&query=${_currentPosition!.latitude}%2C${_currentPosition!.longitude}. $_curentAddress";
-                        String firebaseMsg="https://www.google.com/maps/search/?api=1&query=${_currentPosition!.latitude}%2C${_currentPosition!.longitude}";
+                        String firebaseMsg =
+                            "https://www.google.com/maps/search/?api=1&query=${_currentPosition!.latitude}%2C${_currentPosition!.longitude}";
 
                         setFirebaseEmergency(firebaseMsg);
 
-                       if (await isPermissionGranted()) {
+                        if (await isPermissionGranted()) {
                           for (TContact contact in contactList) {
                             sendSMS(
                               contact.number,
@@ -225,14 +205,13 @@ class _InstaShareState extends State<InstaShare> {
                             );
                           }
                           sendSMS(
-                              husbandPhoneNumber,
-                              "Having inconvenience, so reach please out at $msgBody",
-                            );
-                            sendSMSwithAlert(
-                              hospitalPhoneNumber,
-                              "Having inconvenience, so reach please out at $msgBody",
-                            );
-
+                            husbandPhoneNumber,
+                            "Having inconvenience, so reach please out at $msgBody",
+                          );
+                          sendSMSwithAlert(
+                            hospitalPhoneNumber,
+                            "Having inconvenience, so reach please out at $msgBody",
+                          );
                         }
 
                         goTo(context, WifeEmergencyScreen());
@@ -267,7 +246,7 @@ class _InstaShareState extends State<InstaShare> {
             borderRadius: BorderRadius.circular(20),
           ),
           child: Container(
-            height: 180,
+            height: MediaQuery.of(context).size.height*0.25,
             width: MediaQuery.of(context).size.width * 0.7,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -283,45 +262,74 @@ class _InstaShareState extends State<InstaShare> {
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
+              child: Column(
                 children: [
-                  Expanded(
-                      child: Column(
+                  Row(
                     children: [
-                      ListTile(
-                        title: Padding(
-                          padding:
-                              const EdgeInsets.only(top: 6.0, bottom: 14.0),
-                          child: Text(
-                            "Send Location",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.06),
-                          ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 6.0, bottom: 14.0),
+                                child: Text(
+                                  "Send Location",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.06),
+                                ),
+                              ),
+                              subtitle: Padding(
+                                padding: const EdgeInsets.only(bottom: 3.0),
+                                child: Text(
+                                  "Click to share your current location..",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.045),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        subtitle: Padding(
-                          padding: const EdgeInsets.only(bottom: 3.0),
-                          child: Text(
-                            "Click to share your current location..",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.045),
-                          ),
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child: Image.asset(
+                          'assets/images/insta-share/route.jpg',
+                          height: 120,
+                          width: 110,
                         ),
                       ),
                     ],
-                  )),
-                  ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.asset(
-                        'assets/images/insta-share/route.jpg',
-                        height: 120,
-                        width: 130,
-                      )),
+                  ),
+                  SizedBox(height: 15,),
+                  Center(
+                    child: Container(
+                      height: 30,
+                      width: 80,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Send',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 208, 9, 248),
+                            fontWeight: FontWeight.bold,
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -331,4 +339,3 @@ class _InstaShareState extends State<InstaShare> {
     );
   }
 }
-  

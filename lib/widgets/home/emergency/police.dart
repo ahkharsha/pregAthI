@@ -21,7 +21,7 @@ class Police extends StatelessWidget {
           onTap: () => _callNumber('100'),
           child: Container(
             height: 180,
-            width: MediaQuery.of(context).size.width * 0.7,
+            width: MediaQuery.of(context).size.width * 0.5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               gradient: LinearGradient(
@@ -59,7 +59,7 @@ class Police extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 6),
                         child: Text(
-                          'Click to call Police',
+                          'Click to call',
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

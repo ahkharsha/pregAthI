@@ -1,23 +1,20 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:intl/intl.dart';
 import 'package:pregathi/const/loader.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/home-screen/volunteer/volunteer_profile_screen.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/volunteer_history.dart';
+import 'package:pregathi/user_permission.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:http/http.dart' as http;
 
 class VolunteerHomeScreen extends StatefulWidget {
   VolunteerHomeScreen({super.key});
@@ -83,8 +80,6 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
     }
   }
 
-  _getPermission() async => await [Permission.location].request();
-
   _getAddressFromLaLo() async {
     try {
       List<Placemark> placeMarks = await placemarkFromCoordinates(
@@ -96,8 +91,8 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
         _volunteerPostal = place.postalCode;
         print('Updating in firestore');
         FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
-          'locality':_volunteerLocality,
-          'postal':_volunteerPostal,
+          'locality': _volunteerLocality,
+          'postal': _volunteerPostal,
         });
       });
     } catch (e) {
@@ -122,8 +117,11 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
 
   _completeEmergency(Map<String, dynamic> emergency) async {
     if (user != null) {
-      DocumentReference<Map<String, dynamic>> db =
-          FirebaseFirestore.instance.collection(user!.uid).doc(emergency['id']);
+      DocumentReference<Map<String, dynamic>> db = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .collection('past-services')
+          .doc(emergency['id']);
 
       final data = VolunteerHistory(
           name: emergency['name'],
@@ -165,7 +163,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
   }
 
   requestPermission() async {
-    FirebaseMessaging messaging=FirebaseMessaging.instance;
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
 
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
@@ -177,103 +175,33 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
       sound: true,
     );
 
-    if (settings.authorizationStatus==AuthorizationStatus.denied) {
+    if (settings.authorizationStatus == AuthorizationStatus.denied) {
       Fluttertoast.showToast(msg: 'Permission denied');
     }
   }
 
-  void sendPushMessage(String token, String body, String title) async {
-    try {
-      await http.post(
-        Uri.parse('https://fcm.googleapis.com/fcm/send'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': 'key=AAAA9xPglTQ:APA91bEuI1Hg2Mw6dLpBuh2bDvJfgcYOUm_rEUhq3glaPRzICYtTUQEG6iFF1r_EeWx3B_wC9sTDVxk0x1PYgcSh-N9Di4qG-GNF3LVDjhc9F5B_cfEqvdky-Rc1ILwdAc1oqtB5Ho8v',
-        },
-        body: jsonEncode(
-          <String, dynamic>{
-            'notification': <String, dynamic>{
-              'body': body,
-              'title': title
-            },
-            'priority': 'high',
-            'data': <String, dynamic>{
-              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-              'id': '1',
-              'status': 'done'
-            },
-            "to": token,
-          },
-        ),
-      );
-    } catch (e) {
-      print("error push notification");
-    }
-  }
-
-  void listenFCM() async {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null && !kIsWeb) {
-        flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              // TODO add a proper drawable resource to android, for now using
-              //      one that already exists in example app.
-              icon: 'launch_background',
-            ),
-          ),
-        );
-      }
+  updateLastLogin() {
+    DateTime now = DateTime.now();
+    var formatterDate = DateFormat('dd/MM/yy').format(now);
+    var formatterTime = DateFormat('kk:mm').format(now);
+    FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
+      'lastLogin': '${formatterDate} at ${formatterTime}',
     });
   }
 
-   void loadFCM() async {
-    if (!kIsWeb) {
-      channel = const AndroidNotificationChannel(
-        'high_importance_channel', // id
-        'High Importance Notifications', // title
-        importance: Importance.high,
-        enableVibration: true,
-      );
-
-      flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-      /// Create an Android Notification Channel.
-      ///
-      /// We use this channel in the `AndroidManifest.xml` file to override the
-      /// default FCM channel to enable heads up notifications.
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-          ?.createNotificationChannel(channel);
-
-      /// Update the iOS foreground notification presentation options to allow
-      /// heads up notifications.
-      await FirebaseMessaging.instance
-          .setForegroundNotificationPresentationOptions(
-        alert: true,
-        badge: true,
-        sound: true,
-      );
-    }
+  initPermissions() async {
+    await UserPermission().initNotificationsPermission();
+    await UserPermission().initLocationPermission();
   }
-
 
   @override
   void initState() {
     super.initState();
     _checkUpdate();
-    _getPermission();
     _getVolunteerLocation();
     _getToken();
-    requestPermission();
+    initPermissions();
+    updateLastLogin();
   }
 
   void _showEmergencyAlertDialog(Map<String, dynamic> emergencyDetails) {
@@ -355,6 +283,16 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
     );
   }
 
+  checkCurrentDate(String time, String date, String locality, String postal) {
+    DateTime now = DateTime.now();
+    var formatterDate = DateFormat('dd/MM/yy').format(now);
+    if (formatterDate == date) {
+      return Text('${time}, Today - ${locality}, ${postal}');
+    } else {
+      return Text('${time}, ${date} - ${locality}, ${postal}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -429,8 +367,11 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                         backgroundImage: NetworkImage(thisItem['profilePic']),
                       ),
                       title: Text('${thisItem['name']}'),
-                      subtitle: Text(
-                          '${thisItem['time']} - ${thisItem['locality']}, ${thisItem['postal']}'),
+                      subtitle: checkCurrentDate(
+                          thisItem['time'],
+                          thisItem['date'],
+                          thisItem['locality'],
+                          thisItem['postal']),
                     ),
                   );
                 }

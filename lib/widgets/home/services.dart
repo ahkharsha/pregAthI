@@ -33,14 +33,17 @@ class Services extends StatelessWidget {
     return Container(
       height: 90,
       width: MediaQuery.of(context).size.width,
-      child: ListView(
-        physics: BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        children: [
-          Hospital(onMapFunction: openMap),
-          Pharmacy(onMapFunction: openMap),
-          PoliceStation(onMapFunction: openMap),
-        ],
+      child: Center(
+        child: ListView(
+          shrinkWrap: true,
+          physics: BouncingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          children: [
+            Hospital(onMapFunction: openMap),
+            Pharmacy(onMapFunction: openMap),
+            PoliceStation(onMapFunction: openMap),
+          ],
+        ),
       ),
     );
   }
