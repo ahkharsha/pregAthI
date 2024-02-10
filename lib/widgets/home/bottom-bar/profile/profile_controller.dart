@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/wife_profile.dart';
 import 'package:pregathi/providers/storage_repository_provider.dart';
@@ -71,7 +70,7 @@ class ProfileController extends StateNotifier<bool> {
     state = false;
     res.fold(
       (l) => showSnackBar(context, l.message),
-      (r) => Fluttertoast.showToast(msg: 'Profile updated successfully'),
+      (r) => dialogueBoxWithButton(context, 'Profile updated succesfully')
     );
   }
 }
