@@ -24,21 +24,7 @@ class VolunteerHomeScreen extends StatefulWidget {
 }
 
 class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
-  late AndroidNotificationChannel channel;
-  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   final String currentVersion = '1.0.0';
-  String? myToken;
-  final User? user = FirebaseAuth.instance.currentUser;
-
-  String? _volunteerLocality;
-  String? _volunteerPostal;
-  Position? _currentPosition;
-  LocationPermission? permission;
-  late DocumentReference _documentReference;
-
-  final CollectionReference _reference =
-      FirebaseFirestore.instance.collection('emergencies');
-
   _checkUpdate() async {
     DocumentSnapshot versionDetails = await FirebaseFirestore.instance
         .collection('pregAthI')
@@ -79,6 +65,21 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
       );
     }
   }
+
+  late AndroidNotificationChannel channel;
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+  String? myToken;
+  final User? user = FirebaseAuth.instance.currentUser;
+
+  String? _volunteerLocality;
+  String? _volunteerPostal;
+  Position? _currentPosition;
+  LocationPermission? permission;
+  late DocumentReference _documentReference;
+
+  final CollectionReference _reference =
+      FirebaseFirestore.instance.collection('emergencies');
 
   _getAddressFromLaLo() async {
     try {
@@ -185,7 +186,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
     var formatterDate = DateFormat('dd/MM/yy').format(now);
     var formatterTime = DateFormat('kk:mm').format(now);
     FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
-      'lastLogin': '${formatterDate} at ${formatterTime}',
+      'lastLogin': '${formatterTime}, ${formatterDate}',
     });
   }
 

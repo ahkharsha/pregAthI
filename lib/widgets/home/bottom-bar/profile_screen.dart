@@ -22,6 +22,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _weekController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   String? profilePic = wifeProfileDefault;
+  String? _initialWeek;
   File? newProfilePic;
   bool isSaving = false;
 
@@ -44,6 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _weekController.text = userData['week'];
         _bioController.text = userData['bio'];
         profilePic = userData['profilePic'];
+        _initialWeek = userData['week'];
       });
     }
   }
@@ -173,6 +175,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         downloadUrl = await _uploadImage(profilePic!);
       }
 
+      DateTime now = DateTime.now();
+      var current_year = now.year;
+      var current_mon = now.month;
+      var current_day = now.day;
+
       // Update other profile information
       await FirebaseFirestore.instance
           .collection('users')
@@ -181,6 +188,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         'name': _nameController.text,
         'week': _weekController.text,
         'bio': _bioController.text,
+        if (_initialWeek != _weekController) 'weekUpdatedDay': current_day,
+        if (_initialWeek != _weekController) 'weekUpdatedMonth': current_mon,
+        if (_initialWeek != _weekController) 'weekUpdatedYear': current_year,
+        
         if (downloadUrl != null)
           'profilePic': downloadUrl
         else
@@ -198,7 +209,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildPregnancyTracker() {
     // Assuming these are the total weeks of pregnancy.
     // You might want to fetch this value from user input or a database.
-    final int totalWeeks = 35;
+    final int totalWeeks = 36;
 
     // Fetch the user-inputted week of pregnancy (default to 0 if not set)
     int userWeek = int.tryParse(_weekController.text) ?? 0;
@@ -218,7 +229,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 primaryColor), // Change to your primaryColor
           ),
           const SizedBox(height: 10),
-          Text("Week $userWeek of $totalWeeks",
+          Text("Week $userWeek",
               style: const TextStyle(fontSize: 16)),
           // Additional information or tips can be added here.
         ],

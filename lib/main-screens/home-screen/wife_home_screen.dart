@@ -1,3 +1,4 @@
+import 'package:basics/basics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +77,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
     var formatterDate = DateFormat('dd/MM/yy').format(now);
     var formatterTime = DateFormat('kk:mm').format(now);
     FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
-      'lastLogin': '${formatterDate} at ${formatterTime}',
+      'lastLogin': '${formatterTime}, ${formatterDate}',
     });
   }
 
@@ -86,12 +87,38 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
     await UserPermission().initLocationPermission();
   }
 
+  updatedWifeWeek() async {
+    DateTime now = DateTime.now();
+    DocumentReference<Map<String, dynamic>> _reference =
+        FirebaseFirestore.instance.collection('users').doc(user!.uid);
+    var current_year = now.year;
+    var current_mon = now.month;
+    var current_day = now.day;
+    DocumentSnapshot userData = await _reference.get();
+    // ignore: unused_local_variable
+    int week = 0;
+    int diffDays = DateTime(userData['weekUpdatedYear'],
+            userData['weekUpdatedMonth'], userData['weekUpdatedDay'])
+        .calendarDaysTill(current_year, current_mon, current_day);
+
+    if (diffDays > 7) {
+      while (diffDays >= 7) {
+        week += 1;
+        diffDays -= 7;
+      }
+      _reference.update({
+        'week': week.toString(),
+      });
+    }
+  }
+
   @override
   void initState() {
     _checkUpdate();
     super.initState();
     initPermissions();
     updateLastLogin();
+    updatedWifeWeek();
   }
 
   @override
