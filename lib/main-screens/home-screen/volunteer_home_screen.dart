@@ -314,7 +314,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
           IconButton(
             onPressed: () {
               UserSharedPreference.setUserRole('');
-              goTo(context, LoginScreen());
+              goToDisableBack(context, LoginScreen());
             },
             icon: Icon(Icons.logout),
           ),

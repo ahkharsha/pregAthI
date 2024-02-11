@@ -258,7 +258,7 @@ class _ProfileScreenDummyState extends ConsumerState<ProfileScreenDummy> {
     return ElevatedButton(
         onPressed: () {
           UserSharedPreference.setUserRole('');
-          goTo(context, LoginScreen());
+          goToDisableBack(context, LoginScreen());
         },
         child: const Text('Logout'));
   }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/main-screens/register_select_screen.dart';
+import 'package:pregathi/main-screens/verification-screens/wife_verfication.dart';
 import 'package:pregathi/model/wife_user.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/buttons/main_button.dart';
@@ -55,7 +56,7 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
           );
           final jsonData = user.toJson();
           await db.set(jsonData).whenComplete(() {
-            goTo(context, LoginScreen());
+            goToDisableBack(context, WifeEmailVerify());
             setState(() {
               isLoading = false;
             });
@@ -281,7 +282,7 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                   child: SubButton(
                                       title: 'Already have an account? Login',
                                       onPressed: () {
-                                        goTo(context, LoginScreen());
+                                        goToDisableBack(context, LoginScreen());
                                       }),
                                 ),
                                 Padding(
@@ -289,7 +290,7 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                   child: SubButton(
                                       title: 'Back to User select',
                                       onPressed: () {
-                                        goTo(context, RegisterSelectScreen());
+                                        goToDisableBack(context, RegisterSelectScreen());
                                       }),
                                 ),
                               ],

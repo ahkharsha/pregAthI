@@ -55,7 +55,7 @@ class RegisterSelectScreen extends StatelessWidget {
                     child: SubButton(
                         title: 'Already have an account? Login',
                         onPressed: () {
-                          goTo(context, LoginScreen());
+                          goToDisableBack(context, LoginScreen());
                         }),
                   ),
                 ),

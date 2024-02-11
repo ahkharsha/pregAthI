@@ -27,21 +27,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: _formData['email'].toString());
       goToDisableBack(context, LoginScreen());
-      
+
       Future.delayed(const Duration(microseconds: 1), () {
         dialogueBoxWithButton(context,
-          'The password reset link has been sent sucessfully if an account with that email exists!');
+            'The password reset link has been sent sucessfully if an account with that email exists!');
       });
-      
     } on FirebaseAuthException catch (e) {
       dialogueBox(context, e.toString());
-      
     } catch (e) {
       dialogueBox(context, e.toString());
     }
     setState(() {
-        isLoading = false;
-      });
+      isLoading = false;
+    });
   }
 
   @override
@@ -116,21 +114,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                             resetPassword();
                                           }
                                         }),
-                                        SubButton(
-                                      title: 'Back to Login',
-                                      onPressed: () {
-                                        goToDisableBack(context, LoginScreen());
-                                      }),
+                                    SubButton(
+                                        title: 'Back to Login',
+                                        onPressed: () {
+                                          goToDisableBack(
+                                              context, LoginScreen());
+                                        }),
                                   ],
                                 ),
-                              ),
-                            ),
-                            Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  
-                                ],
                               ),
                             ),
                           ],
