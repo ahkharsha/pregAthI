@@ -6,6 +6,7 @@ import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/home-screen/error_home_screen.dart';
 import 'package:pregathi/main-screens/home-screen/husband_home_screen.dart';
 import 'package:pregathi/main-screens/home-screen/volunteer_home_screen.dart';
+import 'package:pregathi/main-screens/login-screen/forgot_pwd.dart';
 import 'package:pregathi/main-screens/register_select_screen.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:pregathi/const/constants.dart';
@@ -188,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 SubButton(
                                     title: 'Forgot password',
                                     onPressed: () {
-                                      //Yet to implement
+                                      goTo(context, ForgotPasswordScreen());
                                     }),
                               ],
                             ),
