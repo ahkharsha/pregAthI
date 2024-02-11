@@ -96,16 +96,21 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
     var current_day = now.day;
     DocumentSnapshot userData = await _reference.get();
     // ignore: unused_local_variable
-    int week = 0;
+    int diffWeek = 0;
+    int week = int.tryParse(userData['weekUpdated'] ?? '') ?? 0;
+
     int diffDays = DateTime(userData['weekUpdatedYear'],
             userData['weekUpdatedMonth'], userData['weekUpdatedDay'])
         .calendarDaysTill(current_year, current_mon, current_day);
 
     if (diffDays > 7) {
       while (diffDays >= 7) {
-        week += 1;
+        diffWeek += 1;
         diffDays -= 7;
       }
+
+      week += diffWeek;
+
       _reference.update({
         'week': week.toString(),
       });
@@ -179,19 +184,19 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                   child: Text(
-                    'AI Chat',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                AIChat(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
-                  child: Text(
                     'Insta-Share',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
                 InstaShare(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
+                  child: Text(
+                    'AI Chat',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                AIChat(),
               ],
             ))
           ],

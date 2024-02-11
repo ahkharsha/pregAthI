@@ -85,6 +85,7 @@ class _ProfileScreenDummyState extends ConsumerState<ProfileScreenDummy> {
         'weekUpdatedDay': current_day,
         'weekUpdatedMonth': current_mon,
         'weekUpdatedYear': current_year,
+        'weekUpdated': _weekController.text,
       });
     }
   }

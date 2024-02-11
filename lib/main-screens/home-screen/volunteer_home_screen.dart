@@ -358,6 +358,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
 
                 if (_volunteerLocality == thisItem['locality'] ||
                     _volunteerPostal == thisItem['postal']) {
+                      print('${thisItem['name']} lives in the same locality as the volunteer');
                   return GestureDetector(
                     onTap: () {
                       _showEmergencyAlertDialog(thisItem);
@@ -374,6 +375,8 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                           thisItem['postal']),
                     ),
                   );
+                } else {
+                  print('${thisItem['name']} does not live in the same locality as the volunteer');
                 }
 
                 // If the condition is not met, return an empty container
