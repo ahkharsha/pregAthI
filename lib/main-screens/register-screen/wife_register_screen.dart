@@ -61,7 +61,7 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
               isLoading = false;
             });
             Future.delayed(const Duration(microseconds: 1),() {
-              dialogueBox(context, 'Registration successful. Login to proceed');
+              dialogueBoxWithButton(context, 'Registration successful. Verify your email to proceed');
               });
           });
         }
