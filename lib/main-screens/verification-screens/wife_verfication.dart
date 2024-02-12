@@ -29,6 +29,7 @@ class _WifeEmailVerifyState extends State<WifeEmailVerify> {
 
     if (!isEmailVerified) {
       sendVerificationEmail();
+      showSnackBar(context, 'Verification email sent successfully!');
     }
 
     timer = Timer.periodic(
@@ -58,6 +59,7 @@ class _WifeEmailVerifyState extends State<WifeEmailVerify> {
     try {
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
+      showSnackBar(context, 'Verification email sent successfully!');
 
       setState(() => canResendEmail = false);
       await Future.delayed(Duration(seconds: 5));

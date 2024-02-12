@@ -29,6 +29,7 @@ class _VolunteerEmailVerifyState extends State<VolunteerEmailVerify> {
 
     if (!isEmailVerified) {
       sendVerificationEmail();
+      showSnackBar(context, 'Verification email sent successfully!');
     }
 
     timer = Timer.periodic(
@@ -58,6 +59,7 @@ class _VolunteerEmailVerifyState extends State<VolunteerEmailVerify> {
     try {
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
+      showSnackBar(context, 'Verification email sent successfully!');
 
       setState(() => canResendEmail = false);
       await Future.delayed(Duration(seconds: 5));

@@ -44,12 +44,12 @@ class _LoginScreenState extends State<LoginScreen> {
             .then((userData) {
           if (userData['role'] == 'wife') {
             UserSharedPreference.setUserRole('wife');
-            goToDisableBack(context, BottomPage());
-            // goToDisableBack(context, WifeEmailVerify());
+            // goToDisableBack(context, BottomPage());
+            goToDisableBack(context, WifeEmailVerify());
           } else if (userData['role'] == 'volunteer') {
             UserSharedPreference.setUserRole('volunteer');
-            goToDisableBack(context, VolunteerHomeScreen());
-            // goToDisableBack(context, VolunteerEmailVerify());
+            // goToDisableBack(context, VolunteerHomeScreen());
+            goToDisableBack(context, VolunteerEmailVerify());
           } else if (userData['role'] == 'husband') {
             UserSharedPreference.setUserRole('husband');
             goToDisableBack(context, HusbandHomeScreen());
