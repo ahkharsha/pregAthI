@@ -29,7 +29,6 @@ class _WifeEmailVerifyState extends State<WifeEmailVerify> {
 
     if (!isEmailVerified) {
       sendVerificationEmail();
-      showSnackBar(context, 'Verification email sent successfully!');
     }
 
     timer = Timer.periodic(
@@ -124,7 +123,8 @@ class _WifeEmailVerifyState extends State<WifeEmailVerify> {
                                 }),
                             SubButton(
                                 title: 'Cancel',
-                                onPressed: () {
+                                onPressed: () async {
+                                  await FirebaseAuth.instance.signOut();
                                   UserSharedPreference.setUserRole('');
                                   goToDisableBack(context, LoginScreen());
                                 }),

@@ -29,7 +29,6 @@ class _VolunteerEmailVerifyState extends State<VolunteerEmailVerify> {
 
     if (!isEmailVerified) {
       sendVerificationEmail();
-      showSnackBar(context, 'Verification email sent successfully!');
     }
 
     timer = Timer.periodic(
@@ -124,7 +123,8 @@ class _VolunteerEmailVerifyState extends State<VolunteerEmailVerify> {
                                 }),
                             SubButton(
                                 title: 'Cancel',
-                                onPressed: () {
+                                onPressed: () async {
+                                  await FirebaseAuth.instance.signOut();
                                   UserSharedPreference.setUserRole('');
                                   goToDisableBack(context, LoginScreen());
                                 }),

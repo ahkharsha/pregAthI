@@ -32,6 +32,8 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
 
   //Remove this function to cancel checkUpdates everytime wife home screen is opened
   _checkUpdate() async {
+    print('The uid of the current user is');
+    print(user!.uid);
     DocumentSnapshot versionDetails = await FirebaseFirestore.instance
         .collection('pregAthI')
         .doc('version')

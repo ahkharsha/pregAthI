@@ -1,10 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
 import 'package:pregathi/main-screens/home-screen/wife_home_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/contacts/contacts_screen.dart';
-// import 'package:pregathi/widgets/home/bottom-bar/profile/profile_screen.dart';
+import 'package:pregathi/widgets/home/bottom-bar/profile_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/calendar_screen.dart';
-import 'package:pregathi/widgets/home/bottom-bar/profile/profile_screen.dart';
+// import 'package:pregathi/widgets/home/bottom-bar/profile-(error)/profile_screen.dart';
 
 class BottomPage extends StatefulWidget {
   BottomPage({Key? key}) : super(key: key);
@@ -14,15 +15,26 @@ class BottomPage extends StatefulWidget {
 }
 
 class _BottomPageState extends State<BottomPage> {
-  int currentIndex = 0;
-  List<Widget> pages = [
-    WifeHomeScreen(),
-    AddContactsScreen(),
-    CalendarScreen(),
-    ChatScreen(),
-    ProfileScreenDummy(),
-  ];
-  onTapped(int index) {
+  late final String uid;
+  late int currentIndex;
+  late List<Widget> pages;
+
+  @override
+  void initState() {
+    super.initState();
+    uid = FirebaseAuth.instance.currentUser!.uid;
+    currentIndex = 0;
+    pages = [
+      WifeHomeScreen(),
+      AddContactsScreen(),
+      CalendarScreen(),
+      ChatScreen(),
+      // ProfileScreen(uid: uid),
+      ProfileScreen(),
+    ];
+  }
+
+  void onTapped(int index) {
     setState(() {
       currentIndex = index;
     });

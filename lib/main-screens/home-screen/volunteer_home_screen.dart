@@ -312,7 +312,8 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
         backgroundColor: primaryColor,
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
               UserSharedPreference.setUserRole('');
               goToDisableBack(context, LoginScreen());
             },

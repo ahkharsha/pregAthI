@@ -8,8 +8,8 @@ import 'package:pregathi/main-screens/home-screen/husband_home_screen.dart';
 import 'package:pregathi/main-screens/home-screen/volunteer_home_screen.dart';
 import 'package:pregathi/main-screens/login-screen/forgot_pwd.dart';
 import 'package:pregathi/main-screens/register_select_screen.dart';
-import 'package:pregathi/main-screens/verification-screens/volunteer_verification.dart';
-import 'package:pregathi/main-screens/verification-screens/wife_verfication.dart';
+// import 'package:pregathi/main-screens/verification-screens/volunteer_verification.dart';
+// import 'package:pregathi/main-screens/verification-screens/wife_verfication.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/buttons/main_button.dart';
@@ -44,12 +44,12 @@ class _LoginScreenState extends State<LoginScreen> {
             .then((userData) {
           if (userData['role'] == 'wife') {
             UserSharedPreference.setUserRole('wife');
-            // goToDisableBack(context, BottomPage());
-            goToDisableBack(context, WifeEmailVerify());
+            goToDisableBack(context, BottomPage());
+            // goToDisableBack(context, WifeEmailVerify());
           } else if (userData['role'] == 'volunteer') {
             UserSharedPreference.setUserRole('volunteer');
-            // goToDisableBack(context, VolunteerHomeScreen());
-            goToDisableBack(context, VolunteerEmailVerify());
+            goToDisableBack(context, VolunteerHomeScreen());
+            // goToDisableBack(context, VolunteerEmailVerify());
           } else if (userData['role'] == 'husband') {
             UserSharedPreference.setUserRole('husband');
             goToDisableBack(context, HusbandHomeScreen());
