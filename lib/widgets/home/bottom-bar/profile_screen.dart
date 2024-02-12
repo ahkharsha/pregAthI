@@ -264,7 +264,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           'profilePic': profilePic,
       });
 
-      dialogueBox(context, 'Profile updated successfully!');
+      dialogueBoxWithButton(context, 'Profile updated successfully!');
 
       setState(() {
         isSaving = false;
