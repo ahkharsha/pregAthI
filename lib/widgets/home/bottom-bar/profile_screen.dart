@@ -236,35 +236,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _updateProfile() async {
-    final User? user = FirebaseAuth.instance.currentUser;
+    try {
+      final User? user = FirebaseAuth.instance.currentUser;
 
-    setState(() {
-      isSaving = true;
-    });
+      setState(() {
+        isSaving = true;
+      });
 
-    // Update profile picture if it's changed
-    String? downloadUrl;
-    if (newProfilePic != null) {
-      print(newProfilePic);
-      downloadUrl = await _uploadImage(newProfilePic!);
+      // Update profile picture if it's changed
+      String? downloadUrl;
+      if (newProfilePic != null) {
+        print(newProfilePic);
+        downloadUrl = await _uploadImage(newProfilePic!);
+      }
+
+      // Update other profile information
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .update({
+        'name': _nameController.text,
+        'week': _weekController.text,
+        'bio': _bioController.text,
+        if (downloadUrl != null)
+          'profilePic': downloadUrl
+        else
+          'profilePic': profilePic,
+      });
+
+      dialogueBox(context, 'Profile updated successfully!');
+
+      setState(() {
+        isSaving = false;
+      });
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Error. Could not update profile.');
     }
-
-    // Update other profile information
-    await FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
-      'name': _nameController.text,
-      'week': _weekController.text,
-      'bio': _bioController.text,
-      if (downloadUrl != null)
-        'profilePic': downloadUrl
-      else
-        'profilePic': profilePic,
-    });
-
-    Fluttertoast.showToast(msg: 'Profile updated successfully');
-
-    setState(() {
-      isSaving = false;
-    });
   }
 
   Future<String?> _uploadImage(File filePath) async {
