@@ -309,7 +309,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         onPressed: () async {
           showDeleteDialog(context);
         },
-        child: const Text('Delete Account'));
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.red,
+        ),
+        child: const Text(
+          'Delete Account',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ));
   }
 }
 
@@ -385,10 +393,7 @@ class _DeleteDialogContentState extends State<DeleteDialogContent> {
     DateTime now = DateTime.now();
     var formatterDate = DateFormat('dd/MM/yy').format(now);
     var formatterTime = DateFormat('kk:mm').format(now);
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.uid)
-        .update({
+    FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
       'deletionDate': '${formatterTime}, ${formatterDate}',
     });
     DocumentReference copyFrom =
@@ -403,8 +408,6 @@ class _DeleteDialogContentState extends State<DeleteDialogContent> {
             ),
           },
         );
-
-    
 
     Future.delayed(const Duration(milliseconds: 500), () {
       FirebaseFirestore.instance.collection('users').doc(user!.uid).delete();
