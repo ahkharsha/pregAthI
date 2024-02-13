@@ -347,11 +347,12 @@ class _DeleteDialogContentState extends State<DeleteDialogContent> {
       ),
       content: SizedBox(
         // Wrap content in a SizedBox to control height
-        height: 120.0, // Set desired height
+        height: 150.0, // Set desired height
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Enter CONFIRM to delete your account'),
+            Text('Note: This action is irreversible'),
             TextField(
               controller: _deleteDialogController,
               decoration: InputDecoration(
