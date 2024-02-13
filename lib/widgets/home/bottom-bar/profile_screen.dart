@@ -339,13 +339,11 @@ class _DeleteDialogContentState extends State<DeleteDialogContent> {
       ),
       content: SizedBox(
         // Wrap content in a SizedBox to control height
-        height: 160.0, // Set desired height
+        height: 120.0, // Set desired height
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Enter CONFIRM to delete your account'),
-            Text(
-                'Note: Once deleted, you cannot create another account using the same email'),
             TextField(
               controller: _deleteDialogController,
               decoration: InputDecoration(
@@ -360,32 +358,12 @@ class _DeleteDialogContentState extends State<DeleteDialogContent> {
           title: 'Delete',
           onPressed: () async {
             if (_deleteDialogController.text == 'CONFIRM') {
-              DocumentReference copyFrom =
-                  FirebaseFirestore.instance.collection('users').doc(user!.uid);
-              DocumentReference copyTo = FirebaseFirestore.instance
-                  .collection('deleted-users')
-                  .doc(user!.uid);
+              storeUserData();
 
-              copyFrom.get().then(
-                    (value) => {
-                      copyTo.set(
-                        value.data(),
-                      ),
-                    },
-                  );
-              DateTime now = DateTime.now();
-              var formatterDate = DateFormat('dd/MM/yy').format(now);
-              var formatterTime = DateFormat('kk:mm').format(now);
-              FirebaseFirestore.instance
-                  .collection('deleted-users')
-                  .doc(user!.uid)
-                  .update({
-                'deletionDate': '${formatterTime}, ${formatterDate}',
+              Future.delayed(const Duration(milliseconds: 500), () {
+                deleteUserAccount();
               });
-              await FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(user!.uid)
-                  .delete();
+
               UserSharedPreference.setUserRole('');
               goToDisableBack(context, LoginScreen());
               Future.delayed(const Duration(microseconds: 1), () {
@@ -401,5 +379,50 @@ class _DeleteDialogContentState extends State<DeleteDialogContent> {
         ),
       ],
     );
+  }
+
+  storeUserData() {
+    DateTime now = DateTime.now();
+    var formatterDate = DateFormat('dd/MM/yy').format(now);
+    var formatterTime = DateFormat('kk:mm').format(now);
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .update({
+      'deletionDate': '${formatterTime}, ${formatterDate}',
+    });
+    DocumentReference copyFrom =
+        FirebaseFirestore.instance.collection('users').doc(user!.uid);
+    DocumentReference copyTo =
+        FirebaseFirestore.instance.collection('deleted-users').doc(user!.uid);
+
+    copyFrom.get().then(
+          (value) => {
+            copyTo.set(
+              value.data(),
+            ),
+          },
+        );
+
+    
+
+    Future.delayed(const Duration(milliseconds: 500), () {
+      FirebaseFirestore.instance.collection('users').doc(user!.uid).delete();
+    });
+  }
+
+  deleteUserAccount() async {
+    try {
+      await FirebaseAuth.instance.currentUser!.delete();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "requires-recent-login") {
+        dialogueBox(context,
+            'Account deletion requires a Re-Login. Try deleting the account after you login again');
+      } else {
+        showSnackBar(context, e.toString());
+      }
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
   }
 }
