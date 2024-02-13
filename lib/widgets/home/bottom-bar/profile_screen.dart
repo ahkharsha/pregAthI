@@ -352,7 +352,7 @@ class _DeleteDialogContentState extends State<DeleteDialogContent> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Enter CONFIRM to delete your account'),
-            Text('Note: This action is irreversible'),
+            Text('Note: This action is permanent'),
             TextField(
               controller: _deleteDialogController,
               decoration: InputDecoration(
