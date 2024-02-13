@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
@@ -85,6 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   _buildHealthSection(),
                   _buildSubmitButton(),
                   _buildLogoutButton(),
+                  _buildDeleteAccountButton(),
                 ],
               ),
             ),
@@ -289,12 +291,106 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildLogoutButton() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: ElevatedButton(
+          onPressed: () async {
+            await FirebaseAuth.instance.signOut();
+            UserSharedPreference.setUserRole('');
+            goTo(context, LoginScreen());
+          },
+          child: const Text('Logout')),
+    );
+  }
+
+  Widget _buildDeleteAccountButton() {
     return ElevatedButton(
         onPressed: () async {
-          await FirebaseAuth.instance.signOut();
-          UserSharedPreference.setUserRole('');
-          goTo(context, LoginScreen());
+          showDeleteDialog(context);
         },
-        child: const Text('Logout'));
+        child: const Text('Delete Account'));
   }
 }
+
+showDeleteDialog(BuildContext context) async {
+  return showDialog(
+    context: context,
+    builder: (context) => DeleteDialogContent(),
+  );
+}
+
+class DeleteDialogContent extends StatefulWidget {
+  @override
+  _DeleteDialogContentState createState() => _DeleteDialogContentState();
+}
+
+class _DeleteDialogContentState extends State<DeleteDialogContent> {
+  final TextEditingController _deleteDialogController = TextEditingController();
+  final User? user = FirebaseAuth.instance.currentUser;
+  bool _validate = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        'Confirm Account Deletion',
+        textAlign: TextAlign.center,
+      ),
+      content: SizedBox( // Wrap content in a SizedBox to control height
+        height: 175.0, // Set desired height
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Enter CONFIRM to delete your account'),
+            Text(
+              'Note: Once deleted, you cannot create another account using the same email'),
+            TextField(
+              controller: _deleteDialogController,
+              decoration: InputDecoration(
+                hintText: "CONFIRM",
+                errorText: _validate
+                    ? 'Please enter CONFIRM'
+                    : null),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        SubButton(
+          title: 'Delete',
+          onPressed: () {
+              if (_deleteDialogController.text == 'CONFIRM') {
+                DocumentReference copyFrom = FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(user!.uid);
+                DocumentReference copyTo = FirebaseFirestore.instance
+                    .collection('deleted-users')
+                    .doc(user!.uid);
+
+                copyFrom.get().then(
+                      (value) => {
+                    copyTo.set(
+                      value.data(),
+                    ),
+                  },
+                );
+                UserSharedPreference.setUserRole('');
+                _deleteDialogController.dispose();
+                goToDisableBack(context, LoginScreen());
+                Future.delayed(const Duration(microseconds: 1), () {
+                  dialogueBoxWithButton(
+                      context, 'Your account has been deleted successfully!');
+                });
+              } else {
+                setState(() {
+                  _validate = true;
+                });
+                
+              }
+          },
+        ),
+      ],
+    );
+  }
+}
+
