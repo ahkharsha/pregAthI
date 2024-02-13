@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
@@ -336,21 +337,20 @@ class _DeleteDialogContentState extends State<DeleteDialogContent> {
         'Confirm Account Deletion',
         textAlign: TextAlign.center,
       ),
-      content: SizedBox( // Wrap content in a SizedBox to control height
-        height: 175.0, // Set desired height
+      content: SizedBox(
+        // Wrap content in a SizedBox to control height
+        height: 160.0, // Set desired height
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Enter CONFIRM to delete your account'),
             Text(
-              'Note: Once deleted, you cannot create another account using the same email'),
+                'Note: Once deleted, you cannot create another account using the same email'),
             TextField(
               controller: _deleteDialogController,
               decoration: InputDecoration(
-                hintText: "CONFIRM",
-                errorText: _validate
-                    ? 'Please enter CONFIRM'
-                    : null),
+                  hintText: "CONFIRM",
+                  errorText: _validate ? 'Please enter CONFIRM' : null),
             ),
           ],
         ),
@@ -358,39 +358,48 @@ class _DeleteDialogContentState extends State<DeleteDialogContent> {
       actions: [
         SubButton(
           title: 'Delete',
-          onPressed: () {
-              if (_deleteDialogController.text == 'CONFIRM') {
-                DocumentReference copyFrom = FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(user!.uid);
-                DocumentReference copyTo = FirebaseFirestore.instance
-                    .collection('deleted-users')
-                    .doc(user!.uid);
+          onPressed: () async {
+            if (_deleteDialogController.text == 'CONFIRM') {
+              DocumentReference copyFrom =
+                  FirebaseFirestore.instance.collection('users').doc(user!.uid);
+              DocumentReference copyTo = FirebaseFirestore.instance
+                  .collection('deleted-users')
+                  .doc(user!.uid);
 
-                copyFrom.get().then(
-                      (value) => {
-                    copyTo.set(
-                      value.data(),
-                    ),
-                  },
-                );
-                UserSharedPreference.setUserRole('');
-                _deleteDialogController.dispose();
-                goToDisableBack(context, LoginScreen());
-                Future.delayed(const Duration(microseconds: 1), () {
-                  dialogueBoxWithButton(
-                      context, 'Your account has been deleted successfully!');
-                });
-              } else {
-                setState(() {
-                  _validate = true;
-                });
-                
-              }
+              copyFrom.get().then(
+                    (value) => {
+                      copyTo.set(
+                        value.data(),
+                      ),
+                    },
+                  );
+              DateTime now = DateTime.now();
+              var formatterDate = DateFormat('dd/MM/yy').format(now);
+              var formatterTime = DateFormat('kk:mm').format(now);
+              FirebaseFirestore.instance
+                  .collection('deleted-users')
+                  .doc(user!.uid)
+                  .update({
+                'deletionDate': '${formatterTime}, ${formatterDate}',
+              });
+              await FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(user!.uid)
+                  .delete();
+              UserSharedPreference.setUserRole('');
+              goToDisableBack(context, LoginScreen());
+              Future.delayed(const Duration(microseconds: 1), () {
+                dialogueBoxWithButton(
+                    context, 'Your account has been deleted successfully!');
+              });
+            } else {
+              setState(() {
+                _validate = true;
+              });
+            }
           },
         ),
       ],
     );
   }
 }
-
