@@ -25,8 +25,7 @@ class _DeleteDialogContentState extends State<DeleteDialogContent> {
         textAlign: TextAlign.center,
       ),
       content: SizedBox(
-        // Wrap content in a SizedBox to control height
-        height: 150.0, // Set desired height
+        height: 150.0,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
