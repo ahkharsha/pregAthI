@@ -72,12 +72,9 @@ class CommunityController extends StateNotifier<bool> {
     }
   }
 
-  
   void joinCommunity(Community community, BuildContext context) async {
     state = true;
     final User? user = FirebaseAuth.instance.currentUser;
-    
-      
 
     Either<Failure, void> res;
     if (community.members.contains(user!.uid)) {
@@ -111,7 +108,7 @@ class CommunityController extends StateNotifier<bool> {
     required BuildContext context,
     required Community community,
   }) async {
-    state=true;
+    state = true;
     if (profileFile != null) {
       final res = await _storageRepository.storeFile(
         path: 'communities/profile',
@@ -139,14 +136,24 @@ class CommunityController extends StateNotifier<bool> {
     }
 
     final res = await _communityRepository.editCommunity(community);
-    state=false;
+    state = false;
     res.fold(
       (l) => showSnackBar(context, l.message),
       (r) => Navigator.of(context).pop(),
     );
   }
 
-   Stream<List<Community>> searchCommunity(String query) {
+  Stream<List<Community>> searchCommunity(String query) {
     return _communityRepository.searchCommunity(query);
+  }
+
+  void addMods(
+      String communityName, List<String> uids, BuildContext context) async {
+    final res = await _communityRepository.addMods(communityName, uids);
+
+    res.fold(
+      (l) => showSnackBar(context, l.message),
+      (r) => Navigator.of(context).pop(),
+    );
   }
 }

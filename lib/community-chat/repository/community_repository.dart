@@ -58,7 +58,7 @@ class CommunityRepository {
     }
   }
 
-   FutureVoid joinCommunity(String communityName, String userId) async {
+  FutureVoid joinCommunity(String communityName, String userId) async {
     try {
       return right(_communities.doc(communityName).update({
         'members': FieldValue.arrayUnion([userId]),
@@ -70,7 +70,7 @@ class CommunityRepository {
     }
   }
 
-   FutureVoid leaveCommunity(String communityName, String userId) async {
+  FutureVoid leaveCommunity(String communityName, String userId) async {
     try {
       return right(_communities.doc(communityName).update({
         'members': FieldValue.arrayRemove([userId]),
@@ -103,6 +103,18 @@ class CommunityRepository {
       }
       return communities;
     });
+  }
+
+  FutureVoid addMods(String communityName, List<String> uids) async {
+    try {
+      return right(_communities.doc(communityName).update({
+        'mods':uids,
+      }));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
   }
 
   CollectionReference get _communities =>

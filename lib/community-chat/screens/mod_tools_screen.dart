@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pregathi/community-chat/screens/add_mods_screen.dart';
 import 'package:pregathi/community-chat/screens/edit_community_screen.dart';
 import 'package:pregathi/const/constants.dart';
 
@@ -17,7 +18,7 @@ class ModToolsScreen extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.add_moderator),
             title: const Text('Add Moderators'),
-            onTap: () {},
+            onTap: () {goTo(context, AddModsScreen(name: name,));},
           ),
           ListTile(
             leading: const Icon(Icons.edit),
