@@ -66,6 +66,7 @@ class CommunityDrawer extends ConsumerWidget {
                             goTo(context,
                                 CommunityScreen(name: '${thisItem['name']}'));
                           },
+                          trailing: Icon(Icons.push_pin_rounded),
                         );
                       }
 
@@ -79,6 +80,7 @@ class CommunityDrawer extends ConsumerWidget {
                             goTo(context,
                                 CommunityScreen(name: '${thisItem['name']}'));
                           },
+                          trailing: Icon(Icons.push_pin_rounded),
                         );
                       }
 
@@ -92,6 +94,7 @@ class CommunityDrawer extends ConsumerWidget {
                             goTo(context,
                                 CommunityScreen(name: '${thisItem['name']}'));
                           },
+                          trailing: Icon(Icons.push_pin_rounded),
                         );
                       }
 
