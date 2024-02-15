@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:pregathi/community-chat/delegate/search_community_delegate.dart';
 import 'package:pregathi/const/constants.dart';
@@ -25,6 +27,18 @@ class WifeHomeScreen extends ConsumerStatefulWidget {
 class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
   final User? user = FirebaseAuth.instance.currentUser;
   final String currentVersion = "1.0.0";
+  Position? _currentPosition;
+  String? _currentAddress;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkUpdate();
+    _getCurrentLocation();
+    initPermissions();
+    updateLastLogin();
+    updatedWifeWeek();
+  }
 
   void drawerDisplay(BuildContext context) {
     Scaffold.of(context).openDrawer();
@@ -119,13 +133,40 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
     }
   }
 
-  @override
-  void initState() {
-    _checkUpdate();
-    super.initState();
-    initPermissions();
-    updateLastLogin();
-    updatedWifeWeek();
+  _getCurrentLocation() async {
+    Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+      forceAndroidLocationManager: true,
+    ).then((Position position) {
+      setState(() {
+        _currentPosition = position;
+        _getAddressFromLaLo();
+      });
+    }).catchError((e) {
+      Fluttertoast.showToast(msg: e.toString());
+    });
+  }
+
+  _getAddressFromLaLo() async {
+    try {
+      List<Placemark> placeMarks = await placemarkFromCoordinates(
+        _currentPosition!.latitude,
+        _currentPosition!.longitude,
+      );
+
+      Placemark place = placeMarks[0];
+      setState(() {
+        _currentAddress =
+            "${place.locality},${place.postalCode},${place.street},${place.name},${place.subLocality}";
+        FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
+          'currentAddress': _currentAddress,
+          'currentLatitude': _currentPosition!.latitude.toString(),
+          'currentLongitude': _currentPosition!.longitude.toString(),
+        });
+      });
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
   }
 
   @override
