@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -55,8 +56,8 @@ class CommunityDrawer extends ConsumerWidget {
                           FirebaseAuth.instance.currentUser!.uid;
                       Map<String, dynamic> thisItem = items[index];
                       print(thisItem['members']);
-
-                      if (thisItem['name'] == '1st Trimester') {
+                      
+                      if (thisItem['name'] == '1st Trimester' || thisItem['name'] == '2nd Trimester' || thisItem['name'] == '3rd Trimester') {
                         return ListTile(
                           leading: CircleAvatar(
                             backgroundImage: NetworkImage(thisItem['avatar']),
@@ -66,35 +67,10 @@ class CommunityDrawer extends ConsumerWidget {
                             goTo(context,
                                 CommunityScreen(name: '${thisItem['name']}'));
                           },
-                          trailing: Icon(Icons.push_pin_rounded),
-                        );
-                      }
-
-                      if (thisItem['name'] == '2nd Trimester') {
-                        return ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(thisItem['avatar']),
+                          trailing: Transform.rotate(
+                            angle: 45 * math.pi / 180,
+                            child: Icon(Icons.push_pin_rounded),
                           ),
-                          title: Text('${thisItem['name']}'),
-                          onTap: () {
-                            goTo(context,
-                                CommunityScreen(name: '${thisItem['name']}'));
-                          },
-                          trailing: Icon(Icons.push_pin_rounded),
-                        );
-                      }
-
-                      if (thisItem['name'] == '3rd Trimester') {
-                        return ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(thisItem['avatar']),
-                          ),
-                          title: Text('${thisItem['name']}'),
-                          onTap: () {
-                            goTo(context,
-                                CommunityScreen(name: '${thisItem['name']}'));
-                          },
-                          trailing: Icon(Icons.push_pin_rounded),
                         );
                       }
 
