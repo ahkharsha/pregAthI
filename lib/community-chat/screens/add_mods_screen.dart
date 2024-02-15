@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
+import 'package:pregathi/community-chat/screens/community_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
 
@@ -63,6 +64,11 @@ class _AddModsScreenState extends ConsumerState<AddModsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+            color: Colors.white,
+            onPressed: () {
+              goToDisableBack(context, CommunityScreen(name: widget.name));
+            }),
         backgroundColor: primaryColor,
         actions: [
           IconButton(
@@ -82,7 +88,8 @@ class _AddModsScreenState extends ConsumerState<AddModsScreen> {
                 return FutureBuilder<CheckboxListTile>(
                   future: _buildCheckboxTile(member),
                   builder: (context, snapshot) {
-                    if (community.mods.contains(member) && (ctr >=0 && ctr<=community.mods.length)) {
+                    if (community.mods.contains(member) &&
+                        (ctr >= 0 && ctr <= community.mods.length)) {
                       // print(ctr);
                       // print('My uid is');
                       // print(member);

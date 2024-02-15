@@ -3,6 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
+import 'package:pregathi/community-chat/screens/community_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
 import 'package:pregathi/model/community.dart';
@@ -57,14 +58,27 @@ class _EditCommunityScreenState extends ConsumerState<EditCommunityScreen> {
           data: (community) => Scaffold(
             //backgroundColor: Pallete.
             appBar: AppBar(
-              title: const Text('Edit Community'),
+              title: const Text(
+                'Edit Community',
+                style: TextStyle(color: Colors.white),
+              ),
               centerTitle: false,
+              leading: BackButton(
+                  color: Colors.white,
+                  onPressed: () {
+                    goToDisableBack(
+                        context, CommunityScreen(name: widget.name));
+                  }),
               actions: [
                 TextButton(
                   onPressed: () => save(community),
-                  child: const Text('Save'),
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 )
               ],
+              backgroundColor: primaryColor,
             ),
             body: isLoading
                 ? progressIndicator(context)

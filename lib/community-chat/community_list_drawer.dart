@@ -1,9 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/screens/community_screen.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/const/error_text.dart';
-import 'package:pregathi/community-chat/controller/community_controller.dart';
 import 'package:pregathi/community-chat/screens/create_community_screen.dart';
 
 class CommunityDrawer extends ConsumerWidget {
@@ -22,31 +22,61 @@ class CommunityDrawer extends ConsumerWidget {
                 goTo(context, CreateCommunityScreen());
               },
             ),
-            ref.watch(userCommunitiesProvider).when(
-                  data: (communities) => Expanded(
+            FutureBuilder(
+              future:
+                  FirebaseFirestore.instance.collection('communities').get(),
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                if (snapshot.hasError) {
+                  return dialogueBox(
+                      context, 'Some error has occurred ${snapshot.error}');
+                }
+
+                if (snapshot.hasData) {
+                  QuerySnapshot querySnapshot = snapshot.data;
+                  List<QueryDocumentSnapshot> documents = querySnapshot.docs;
+
+                  List<Map<String, dynamic>> items = documents
+                      .map(
+                        (community) => {
+                          'members': community['members'],
+                          'name':community['name'],
+                          'avatar':community['avatar'],
+                        },
+                      )
+                      .toList();
+
+                  return Expanded(
                     child: ListView.builder(
-                      itemCount: communities.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final community = communities[index];
-                        return ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(community.avatar),
-                          ),
-                          title: Text('${community.name}'),
-                          onTap: () {
-                            goTo(context,
-                                CommunityScreen(name: '${community.name}'));
-                          },
-                     
-                        );
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final String userUid =
+                            FirebaseAuth.instance.currentUser!.uid;
+                        Map<String, dynamic> thisItem = items[index];
+                        print(thisItem['members']);
+                    
+                        if (thisItem['members'].contains(userUid)) {
+                          return ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage: NetworkImage(thisItem['avatar']),
+                            ),
+                            title: Text('${thisItem['name']}'),
+                            onTap: () {
+                              goTo(context,
+                                  CommunityScreen(name: '${thisItem['name']}'));
+                            },
+                       
+                          );
+                        }
+                    
+                        return Container();
                       },
                     ),
-                  ),
-                  error: (error, stackTrace) => ErrorText(
-                    error: error.toString(),
-                  ),
-                  loading: () => progressIndicator(context),
-                ),
+                  );
+                }
+
+                return progressIndicator(context);
+              },
+            ),
           ],
         ),
       ),
