@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:pregathi/community-chat/screens/community_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/failure.dart';
 import 'package:pregathi/model/community.dart';
@@ -149,11 +150,17 @@ class CommunityController extends StateNotifier<bool> {
 
   void addMods(
       String communityName, List<String> uids, BuildContext context) async {
+    final User? user = FirebaseAuth.instance.currentUser;
     final res = await _communityRepository.addMods(communityName, uids);
 
     res.fold(
       (l) => showSnackBar(context, l.message),
-      (r) => Navigator.of(context).pop(),
+      (r) => {
+        if (!uids.contains(user!.uid))
+          goToDisableBack(context, CommunityScreen(name: communityName))
+        else
+          Navigator.of(context).pop()
+      },
     );
   }
 }
