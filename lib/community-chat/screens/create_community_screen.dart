@@ -29,7 +29,6 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(communityControllerProvider);
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
@@ -46,9 +45,7 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
         ),
         backgroundColor: primaryColor,
       ),
-      body: isLoading
-          ? progressIndicator(context)
-          : Padding(
+      body:  Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(
                 children: [

@@ -104,7 +104,7 @@ class CommunityScreen extends ConsumerWidget {
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
                               child:
-                                  Text('Members : ${community.members.length}'),
+                                  Text('PregMoms : ${community.members.length}'),
                             ),
                           ],
                         ),
