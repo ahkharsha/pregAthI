@@ -27,8 +27,9 @@ class _TextChatState extends State<TextChat> {
     setState(() {
       loading = true;
       textChat.add({
-        "role": "You",
+        "role": "Me",
         "text": prompt,
+        "avatar": "Me",
       });
       _textController.clear();
     });
@@ -40,6 +41,7 @@ class _TextChatState extends State<TextChat> {
         textChat.add({
           "role": "AI Doc",
           "text": value.text,
+          "avatar": 'AI',
         });
       });
       scrollToTheEnd();
@@ -49,6 +51,7 @@ class _TextChatState extends State<TextChat> {
         textChat.add({
           "role": "AI Doc",
           "text": error.toString(),
+          "avatar": 'AI',
         });
       });
       scrollToTheEnd();
@@ -73,7 +76,7 @@ class _TextChatState extends State<TextChat> {
               return ListTile(
                 isThreeLine: true,
                 leading: CircleAvatar(
-                  child: Text(textChat[index]["role"].substring(0, 1)),
+                  child: Text(textChat[index]["avatar"].substring(0,2)),
                 ),
                 title: Text(textChat[index]["role"]),
                 subtitle: Text(textChat[index]["text"]),

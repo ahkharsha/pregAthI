@@ -29,31 +29,43 @@ class _ImageChatState extends State<ImageChat> {
     apiKey: apiKey,
   );
 
-  void fromTextAndImage({required String query, required File image,required String prompt}) {
+  void fromTextAndImage(
+      {required String query, required File image, required String prompt}) {
     setState(() {
       loading = true;
       textAndImageChat.add({
-        "role": "You",
+        "role": "Me",
         "text": prompt,
         "image": image,
+        "avatar": "Me",
       });
       _textController.clear();
       imageFile = null;
     });
     scrollToTheEnd();
 
-    gemini.generateFromTextAndImages(query: query+ " "+prompt, image: image).then((value) {
+    gemini
+        .generateFromTextAndImages(query: query + " " + prompt, image: image)
+        .then((value) {
       setState(() {
         loading = false;
-        textAndImageChat
-            .add({"role": "AI Doc", "text": value.text, "image": ""});
+        textAndImageChat.add({
+          "role": "AI Doc",
+          "text": value.text,
+          "image": "",
+          "avatar": 'Me',
+        });
       });
       scrollToTheEnd();
     }).onError((error, stackTrace) {
       setState(() {
         loading = false;
-        textAndImageChat
-            .add({"role": "AI Doc", "text": error.toString(), "image": ""});
+        textAndImageChat.add({
+          "role": "AI Doc",
+          "text": error.toString(),
+          "image": "",
+          "avatar": 'Me',
+        });
       });
       scrollToTheEnd();
     });
@@ -136,7 +148,11 @@ class _ImageChatState extends State<ImageChat> {
                           content: Text("Please select an image")));
                       return;
                     }
-                    fromTextAndImage(image: imageFile!, query: "Consider yourself an AI doctor. I am a pregnant lady, only answer question related to pregnancy. if the question by me is not related to pregnacy, politely say you don't know the answers for questions which are not related to pregnancy, and request them to ask something related to pregnancy. Make sure you are always polite, patient, gentle and understanding of me. Ask me follow up questions if you need more info about me. Talk to me in a friendly manner. Please don't repeat my question while answering it. Answer my questions in under 45 words. Don't highlight your answers in bold or asterisk. My question is as follows:", prompt: _textController.text);
+                    fromTextAndImage(
+                        image: imageFile!,
+                        query:
+                            "Consider yourself an AI doctor. I am a pregnant lady, only answer question related to pregnancy. if the question by me is not related to pregnacy, politely say you don't know the answers for questions which are not related to pregnancy, and request them to ask something related to pregnancy. Make sure you are always polite, patient, gentle and understanding of me. Ask me follow up questions if you need more info about me. Talk to me in a friendly manner. Please don't repeat my question while answering it. Answer my questions in under 45 words. Don't highlight your answers in bold or asterisk. My question is as follows:",
+                        prompt: _textController.text);
                   },
                 ),
               ],
