@@ -7,11 +7,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:pregathi/community-chat/community_home.dart';
 import 'package:pregathi/community-chat/delegate/search_community_delegate.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/user_permission.dart';
 import 'package:pregathi/widgets/home/ai-chat/ai_chat.dart';
-import 'package:pregathi/community-chat/community_list_drawer.dart';
+// import 'package:pregathi/community-chat/community_list_drawer.dart';
 import 'package:pregathi/widgets/home/emergency.dart';
 import 'package:pregathi/widgets/home/services.dart';
 import 'package:pregathi/widgets/home/insta_share/insta_share.dart';
@@ -40,9 +41,9 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
     updatedWifeWeek();
   }
 
-  void drawerDisplay(BuildContext context) {
-    Scaffold.of(context).openDrawer();
-  }
+  // void drawerDisplay(BuildContext context) {
+  //   Scaffold.of(context).openDrawer();
+  // }
 
   //Remove this function to cancel checkUpdates everytime wife home screen is opened
   _checkUpdate() async {
@@ -180,14 +181,20 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
               color: const Color.fromARGB(255, 0, 0, 0),
               fontSize: 25),
         ),
-        leading: Builder(builder: (context) {
-          return IconButton(
-            onPressed: () => drawerDisplay(context),
-            //icon: Icon(Icons.groups),
-            icon: Icon(Icons.menu),
-          );
-        }),
+        // leading: Builder(builder: (context) {
+        //   return IconButton(
+        //     onPressed: () => drawerDisplay(context),
+        //     //icon: Icon(Icons.groups),
+        //     icon: Icon(Icons.menu),
+        //   );
+        // }),
         actions: [
+          IconButton(
+            onPressed: () {
+              goTo(context, CommunityHome());
+            },
+            icon: const Icon(Icons.people_alt),
+          ),
           IconButton(
             onPressed: () {
               showSearch(
@@ -200,7 +207,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
         centerTitle: true,
         backgroundColor: primaryColor,
       ),
-      drawer: CommunityDrawer(),
+      // drawer: CommunityDrawer(),
       body: SafeArea(
         child: Column(
           children: [
