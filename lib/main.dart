@@ -8,8 +8,10 @@ import 'package:pregathi/main-screens/home-screen/husband_home_screen.dart';
 import 'package:pregathi/main-screens/home-screen/volunteer_home_screen.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/const/constants.dart';
-// import 'package:pregathi/splash_screen.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'multi-language/classes/language_constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,8 +25,32 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state?.setLocale(newLocale);
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale? _locale;
+  void setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  @override
+  void didChangeDependencies() async {
+    getLocale().then((locale) => setLocale(locale));
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -36,8 +62,10 @@ class MyApp extends StatelessWidget {
         ),
         primarySwatch: Colors.blue,
       ),
-      home: // SplashScreen()
-      FutureBuilder(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: _locale,
+      home: FutureBuilder(
         future: UserSharedPreference.getUserRole(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == '') {
@@ -47,7 +75,7 @@ class MyApp extends StatelessWidget {
           } else if (snapshot.data == 'volunteer') {
             return VolunteerHomeScreen();
           } else if (snapshot.data == 'husband') {
-            return HusbandHomeScreen();
+            return const HusbandHomeScreen();
           }
           return progressIndicator(context);
         },
