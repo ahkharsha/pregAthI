@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
 
+
+import 'ai_chat.dart';
 class AIChat extends StatelessWidget {
   const AIChat({super.key});
 
@@ -49,7 +52,7 @@ class AIChat extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'AI Chat',
+                        translation(context).aiChat,
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -60,7 +63,7 @@ class AIChat extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 14.0,right: 14,),
                     child: Text(
-                      'Click to chat with AI about pregnancy and more...',
+                      translation(context).aboutChat,
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

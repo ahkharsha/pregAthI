@@ -9,12 +9,17 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:pregathi/community-chat/community_home.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/main.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:pregathi/user_permission.dart';
 import 'package:pregathi/widgets/home/ai-chat/ai_chat.dart';
 import 'package:pregathi/widgets/home/emergency.dart';
 import 'package:pregathi/widgets/home/services.dart';
 import 'package:pregathi/widgets/home/insta_share/insta_share.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:pregathi/multi-language/classes/language.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WifeHomeScreen extends ConsumerStatefulWidget {
   const WifeHomeScreen({Key? key}) : super(key: key);
@@ -55,7 +60,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
         builder: (context) => PopScope(
           canPop: false,
           child: AlertDialog(
-            title: Text(
+            title: const Text(
               'A newer version of the app is available. Please download to continue.',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20),
@@ -73,7 +78,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                     Fluttertoast.showToast(msg: 'Error');
                   }
                 },
-                child: Text('Download'),
+                child: const Text('Download'),
               ),
             ],
             actionsAlignment: MainAxisAlignment.center,
@@ -168,21 +173,55 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "pregAthI",
           style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: const Color.fromARGB(255, 0, 0, 0),
-              fontSize: 25),
+            fontWeight: FontWeight.bold,
+            color: Color.fromARGB(255, 0, 0, 0),
+            fontSize: 25,
+          ),
         ),
         actions: [
           IconButton(
             onPressed: () {
-              goTo(context, CommunityHome());
+              goTo(context, const CommunityHome());
             },
             icon: const Icon(
               Icons.groups,
               color: Colors.white,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DropdownButton<Language>(
+              underline: const SizedBox(),
+              icon: const Icon(
+                Icons.language,
+                color: Colors.white,
+              ),
+              onChanged: (Language? language) async {
+                if (language != null) {
+                  Locale _locale = await setLocale(language.languageCode);
+                  MyApp.setLocale(context, _locale);
+                }
+              },
+              items: Language.languageList()
+                  .map<DropdownMenuItem<Language>>(
+                    (e) => DropdownMenuItem<Language>(
+                      value: e,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(
+                            e.flag,
+                            style: const TextStyle(fontSize: 30),
+                          ),
+                          Text(e.name)
+                        ],
+                      ),
+                    ),
+                  )
+                  .toList(),
             ),
           ),
         ],
@@ -200,35 +239,36 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                   child: Text(
-                    'Emergency',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    translation(context).name,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
-                Emergency(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
+                const Emergency(),
+                const Padding(
+                  padding: EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                   child: Text(
                     'Services',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
-                Services(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
+                const Services(),
+                const Padding(
+                  padding: EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                   child: Text(
                     'Insta-Share',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
-                InstaShare(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
+                const InstaShare(),
+                const Padding(
+                  padding: EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                   child: Text(
                     'AI Chat',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
-                AIChat(),
+                const AIChat(),
               ],
             ))
           ],
