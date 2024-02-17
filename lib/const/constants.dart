@@ -1,6 +1,8 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/buttons/sub_button.dart';
+import 'package:pregathi/community-chat/feed/feed_screen.dart';
+import 'package:pregathi/community-chat/post/screens/add_post_screen.dart';
 
 // ignore: constant_identifier_names
 const apiKey = "AIzaSyCAYDrBcb41UV2-2inRihCUS80VdRWv6vs";
@@ -16,6 +18,14 @@ const volunteerProfileDefault =
     'https://thumbs.dreamstime.com/b/abstract-stained-pattern-rectangle-background-blue-sky-over-fiery-red-orange-color-modern-painting-art-watercolor-effe-texture-123047399.jpg';
 
 Color primaryColor = Color.fromARGB(255, 208, 9, 248);
+
+const tabWidgets = [
+  FeedScreen(),
+  AddPostScreen(),
+];
+
+  const IconData upIcon = IconData(0xe800, fontFamily: 'MyFlutterApp', fontPackage: null);
+ const IconData downIcon = IconData(0xe801, fontFamily: 'MyFlutterApp', fontPackage: null);
 
 void goTo(BuildContext context, Widget nextScreen) {
   Navigator.push(

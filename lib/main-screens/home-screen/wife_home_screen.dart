@@ -7,7 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'package:pregathi/community-chat/community_home.dart';
+// import 'package:pregathi/community-chat/community_home.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/user_permission.dart';
 import 'package:pregathi/widgets/home/ai-chat/ai_chat.dart';
@@ -138,7 +138,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
         _getAddressFromLaLo();
       });
     }).catchError((e) {
-      Fluttertoast.showToast(msg: e.toString());
+      print(e.toString());
     });
   }
 
@@ -160,7 +160,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
         });
       });
     } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
+      print(e.toString());
     }
   }
 
@@ -175,17 +175,17 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
               color: const Color.fromARGB(255, 0, 0, 0),
               fontSize: 25),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              goTo(context, CommunityHome());
-            },
-            icon: const Icon(
-              Icons.groups,
-              color: Colors.white,
-            ),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       goTo(context, CommunityHome());
+        //     },
+        //     icon: const Icon(
+        //       Icons.groups,
+        //       color: Colors.white,
+        //     ),
+        //   ),
+        // ],
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: primaryColor,
