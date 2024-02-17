@@ -156,7 +156,7 @@ class _InstaShareState extends State<InstaShare> {
       simSlot: simSlot,
     ).then((SmsStatus status) {
       if (status == SmsStatus.sent) {
-        Fluttertoast.showToast(msg: "Message sent");
+        Fluttertoast.showToast(msg: translation(context).send);
       } else {
         Fluttertoast.showToast(msg: "Oops! Failed to send message");
       }

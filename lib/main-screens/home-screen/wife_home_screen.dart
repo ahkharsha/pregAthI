@@ -173,9 +173,9 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "pregAthI",
-          style: TextStyle(
+        title:  Text(
+          translation(context).pregAthI,
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Color.fromARGB(255, 0, 0, 0),
             fontSize: 25,
