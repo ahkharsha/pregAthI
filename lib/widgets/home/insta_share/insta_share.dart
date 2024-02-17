@@ -9,6 +9,7 @@ import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/db_services.dart';
 import 'package:pregathi/model/contacts.dart';
 import 'package:pregathi/model/emergency_message.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:pregathi/widgets/home/insta_share/wife_emergency_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -40,7 +41,7 @@ class _InstaShareState extends State<InstaShare> {
       onTap: () {
         showModalBottomSheet(
           context: context,
-          builder: (context) => _InstaShareModalBottomSheet(),
+          builder: (context) => const _InstaShareModalBottomSheet(),
         );
       },
       child: Padding(
@@ -55,7 +56,7 @@ class _InstaShareState extends State<InstaShare> {
             width: MediaQuery.of(context).size.width * 0.7,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
@@ -79,7 +80,7 @@ class _InstaShareState extends State<InstaShare> {
                                 padding: const EdgeInsets.only(
                                     top: 6.0, bottom: 14.0),
                                 child: Text(
-                                  "Send Location",
+                                  translation(context).sendLocation,
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -91,7 +92,7 @@ class _InstaShareState extends State<InstaShare> {
                               subtitle: Padding(
                                 padding: const EdgeInsets.only(bottom: 3.0),
                                 child: Text(
-                                  "Click to share your current location..",
+                                  translation(context).instaShareAbout,
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -114,7 +115,7 @@ class _InstaShareState extends State<InstaShare> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Center(
@@ -127,9 +128,9 @@ class _InstaShareState extends State<InstaShare> {
                       ),
                       child: Center(
                         child: Text(
-                          'Send',
+                          translation(context).send,
                           style: TextStyle(
-                            color: Color.fromARGB(255, 208, 9, 248),
+                            color: const Color.fromARGB(255, 208, 9, 248),
                             fontWeight: FontWeight.bold,
                             fontSize: MediaQuery.of(context).size.width * 0.05,
                           ),
@@ -238,7 +239,7 @@ class _InstaShareModalBottomSheetState
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height / 1.4,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(30),
@@ -250,12 +251,12 @@ class _InstaShareModalBottomSheetState
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Send current location immediately to emergency contacts..",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 24),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             _currentAddress != null

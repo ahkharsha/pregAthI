@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 
 class Pharmacy extends StatelessWidget {
   final Function? onMapFunction;
@@ -32,7 +33,7 @@ class Pharmacy extends StatelessWidget {
               ),
             ),
           ),
-          Text('Pharmacy')
+          Text(translation(context).pharmacy)
         ],
       ),
     );

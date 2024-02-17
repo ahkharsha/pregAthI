@@ -239,33 +239,33 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                   child: Text(
-                    translation(context).name,
+                    translation(context).emergency,
                     style: const TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const Emergency(),
-                const Padding(
-                  padding: EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
+                 Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                   child: Text(
-                    'Services',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                     translation(context).services,
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const Services(),
-                const Padding(
-                  padding: EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
+                 Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                   child: Text(
-                    'Insta-Share',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    translation(context).instaShare,
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const InstaShare(),
-                const Padding(
-                  padding: EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                   child: Text(
-                    'AI Chat',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    translation(context).aiChat,
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const AIChat(),

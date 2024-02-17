@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 
 class Hospital extends StatelessWidget {
   final Function? onMapFunction;
@@ -8,7 +9,7 @@ class Hospital extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20,right: 20),
+      padding: const EdgeInsets.only(left: 20, right: 20),
       child: Column(
         children: [
           InkWell(
@@ -32,7 +33,9 @@ class Hospital extends StatelessWidget {
               ),
             ),
           ),
-          Text('Hospitals')
+          Text(
+            translation(context).hospitals,
+          )
         ],
       ),
     );

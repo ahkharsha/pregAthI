@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 
 class Ambulance extends StatelessWidget {
   const Ambulance({super.key});
@@ -24,7 +25,7 @@ class Ambulance extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
@@ -50,7 +51,7 @@ class Ambulance extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Ambulance',
+                        translation(context).ambulance,
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -59,7 +60,7 @@ class Ambulance extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 6),
                         child: Text(
-                          'Click to call',
+                          translation(context).clickToCall,
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

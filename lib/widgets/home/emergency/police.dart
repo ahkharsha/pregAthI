@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 
 class Police extends StatelessWidget {
   const Police({super.key});
@@ -24,7 +25,7 @@ class Police extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
@@ -50,7 +51,7 @@ class Police extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Police',
+                        translation(context).police,
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -59,7 +60,7 @@ class Police extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 6),
                         child: Text(
-                          'Click to call',
+                          translation(context).clickToCall,
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -77,7 +78,7 @@ class Police extends StatelessWidget {
                           child: Text(
                             '100',
                             style: TextStyle(
-                              color: Color.fromARGB(255, 208, 9, 248),
+                              color: const Color.fromARGB(255, 208, 9, 248),
                               fontWeight: FontWeight.bold,
                               fontSize: MediaQuery.of(context).size.width * 0.05,
                             ),

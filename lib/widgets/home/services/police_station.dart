@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 
 class PoliceStation extends StatelessWidget {
   final Function? onMapFunction;
@@ -31,7 +32,7 @@ class PoliceStation extends StatelessWidget {
               ),
             ),
           ),
-          Text('Police Stations')
+          Text(translation(context).police)
         ],
       ),
     );
