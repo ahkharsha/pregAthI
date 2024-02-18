@@ -31,5 +31,6 @@
     "deleteAccount": "खाता मिटाएं",
     "pregnancyTracker": "गर्भावस्था ट्रैकर",
     "theEmailentered": "दर्ज किया गया ईमेल",
-    "resetPassword":"पासवर्ड रीसेट"
+    "resetPassword":"पासवर्ड रीसेट",
+    "enterEmail": "ईमेल दर्ज करें"
   }
