@@ -4,6 +4,7 @@ import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/buttons/main_button.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:pregathi/widgets/textfield.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   Future resetPassword() async {
     _formKey.currentState!.save();
-    print('The email entered is');
+    print(translation(context).theEmailentered);
     print(_formData['email'].toString());
     try {
       setState(() {

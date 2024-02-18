@@ -29,5 +29,6 @@
     "diologueUpdateProfileFailure": "Error. Could not update profile.",
     "logout": "Logout",
     "deleteAccount": "Delete Account",
-    "pregnancyTracker": "Pregnancy Tracker"
+    "pregnancyTracker": "Pregnancy Tracker",
+    "theEmailentered": "The email entered is"
 }

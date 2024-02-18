@@ -29,5 +29,6 @@
     "diologueUpdateProfileFailure": "त्रुटि। प्रोफ़ाइल अपडेट नहीं की जा सकी",
     "logout": "लॉगआउट",
     "deleteAccount": "खाता मिटाएं",
-    "pregnancyTracker": "गर्भावस्था ट्रैकर"
+    "pregnancyTracker": "गर्भावस्था ट्रैकर",
+    "theEmailentered": "दर्ज किया गया ईमेल"
   }
