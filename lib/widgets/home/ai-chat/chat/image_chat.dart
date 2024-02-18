@@ -90,7 +90,7 @@ class _ImageChatState extends State<ImageChat> {
                   isThreeLine: true,
                   leading: CircleAvatar(
                     child:
-                        Text(textAndImageChat[index]["role"].substring(0, 1)),
+                        Text(textAndImageChat[index]["avatar"].substring(0,2)),
                   ),
                   title: Text(textAndImageChat[index]["role"]),
                   subtitle: Text(textAndImageChat[index]["text"]),
