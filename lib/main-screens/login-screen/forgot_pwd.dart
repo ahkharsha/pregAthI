@@ -89,7 +89,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     CustomTextField(
-                                      hintText: 'Enter Email',
+                                      hintText: translation(context).enterEmail,
                                       textInputAction: TextInputAction.next,
                                       keyboardtype: TextInputType.emailAddress,
                                       prefix:
@@ -108,7 +108,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                       // },
                                     ),
                                     MainButton(
-                                        title: 'Reset Password',
+                                        title: translation(context).resetPassword,
                                         onPressed: () {
                                           if (_formKey.currentState!
                                               .validate()) {
