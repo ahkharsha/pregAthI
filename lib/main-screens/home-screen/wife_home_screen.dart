@@ -173,7 +173,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text(
+        title: Text(
           translation(context).pregAthI,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
@@ -181,16 +181,16 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
             fontSize: 25,
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              goTo(context, const CommunityHome());
-            },
-            icon: const Icon(
-              Icons.groups,
-              color: Colors.white,
-            ),
+        leading: IconButton(
+          onPressed: () {
+            goTo(context, const CommunityHome());
+          },
+          icon: const Icon(
+            Icons.groups,
+            color: Colors.white,
           ),
+        ),
+        actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: DropdownButton<Language>(
@@ -233,44 +233,52 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
         child: Column(
           children: [
             Expanded(
-                child: ListView(
-              shrinkWrap: true,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
-                  child: Text(
-                    translation(context).emergency,
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
+                    child: Text(
+                      translation(context).emergency,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-                const Emergency(),
-                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
-                  child: Text(
-                     translation(context).services,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  const Emergency(),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
+                    child: Text(
+                      translation(context).services,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-                const Services(),
-                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
-                  child: Text(
-                    translation(context).instaShare,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  const Services(),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
+                    child: Text(
+                      translation(context).instaShare,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-                const InstaShare(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
-                  child: Text(
-                    translation(context).aiChat,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  const InstaShare(),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
+                    child: Text(
+                      translation(context).aiChat,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-                const AIChat(),
-              ],
-            ))
+                  const AIChat(),
+                ],
+              ),
+            ),
           ],
         ),
       ),
