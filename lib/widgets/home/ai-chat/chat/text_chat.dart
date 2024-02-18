@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_gemini/google_gemini.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 
 class TextChat extends StatefulWidget {
   const TextChat({
@@ -27,7 +28,7 @@ class _TextChatState extends State<TextChat> {
     setState(() {
       loading = true;
       textChat.add({
-        "role": "Me",
+        "role": translation(context).me,
         "text": query,
         "avatar": "Me",
       });
@@ -39,9 +40,9 @@ class _TextChatState extends State<TextChat> {
       setState(() {
         loading = false;
         textChat.add({
-          "role": "AI Doc",
+          "role": translation(context).aiDoc,
           "text": value.text,
-          "avatar": 'AI',
+          "avatar": "AI",
         });
       });
       scrollToTheEnd();
@@ -49,7 +50,7 @@ class _TextChatState extends State<TextChat> {
       setState(() {
         loading = false;
         textChat.add({
-          "role": "AI Doc",
+          "role": translation(context).aiDoc,
           "text": error.toString(),
           "avatar": 'AI',
         });
@@ -98,7 +99,7 @@ class _TextChatState extends State<TextChat> {
                 child: TextField(
                   controller: _textController,
                   decoration: InputDecoration(
-                    hintText: "Type a message ....",
+                    hintText: translation(context).typeMessage,
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide.none),

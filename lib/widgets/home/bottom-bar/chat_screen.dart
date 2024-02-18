@@ -3,6 +3,7 @@ import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/widgets/home/ai-chat/chat/image_chat.dart';
 import 'package:pregathi/widgets/home/ai-chat/chat/text_chat.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({
@@ -23,24 +24,24 @@ class _ChatScreenState extends State<ChatScreen> {
             appBar: AppBar(
               backgroundColor: primaryColor,
               leading: BackButton(
-            color: Colors.white,
-            onPressed: () {
-              goToDisableBack(context, BottomPage());
-            }),
-              title: const Text(
-                "AI Chat",
+                  color: Colors.white,
+                  onPressed: () {
+                    goToDisableBack(context, BottomPage());
+                  }),
+              title:Text(
+                translation(context).aiChat,
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
               ),
               centerTitle: false,
-              bottom: const TabBar(
+              bottom:TabBar(
                 labelColor: Colors.black,
                 indicatorColor: Colors.black,
                 indicatorSize: TabBarIndicatorSize.label,
                 indicatorWeight: 5,
                 tabs: [
-                  Tab(text: "Text"),
-                  Tab(text: "Image"),
+                  Tab(text: translation(context).text),
+                  Tab(text: translation(context).image),
                 ],
               ),
             ),

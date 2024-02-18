@@ -32,5 +32,10 @@
     "pregnancyTracker": "गर्भावस्था ट्रैकर",
     "theEmailentered": "दर्ज किया गया ईमेल",
     "resetPassword":"पासवर्ड रीसेट",
-    "enterEmail": "ईमेल दर्ज"
+    "enterEmail": "ईमेल दर्ज",
+    "text":"लिखित संदेश",
+    "image":"चित्र",
+    "aiDoc":"ए.आई. डॉक",
+    "me":"मैं",
+    "typeMessage":"संदेश लिखें ...."
   }

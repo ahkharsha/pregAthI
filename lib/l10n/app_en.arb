@@ -32,5 +32,10 @@
     "pregnancyTracker": "Pregnancy Tracker",
     "theEmailentered": "The email entered is",
     "resetPassword":"Reset Password",
-    "enterEmail": "Enter Email"
+    "enterEmail": "Enter Email",
+    "text":"Text",
+    "image":"Image",
+    "aiDoc":"AI Doc",
+    "me":"Me",
+    "typeMessage":"Type a message ...."
 }

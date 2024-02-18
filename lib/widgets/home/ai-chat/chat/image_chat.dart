@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_gemini/google_gemini.dart';
 import 'package:image_picker/image_picker.dart';
@@ -34,7 +34,7 @@ class _ImageChatState extends State<ImageChat> {
     setState(() {
       loading = true;
       textAndImageChat.add({
-        "role": "Me",
+        "role": translation(context).me,
         "text": query,
         "image": image,
         "avatar": "Me",
@@ -50,10 +50,10 @@ class _ImageChatState extends State<ImageChat> {
       setState(() {
         loading = false;
         textAndImageChat.add({
-          "role": "AI Doc",
+          "role": translation(context).aiDoc,
           "text": value.text,
           "image": "",
-          "avatar": 'Me',
+          "avatar": "AI",
         });
       });
       scrollToTheEnd();
@@ -61,10 +61,10 @@ class _ImageChatState extends State<ImageChat> {
       setState(() {
         loading = false;
         textAndImageChat.add({
-          "role": "AI Doc",
+          "role":  translation(context).aiDoc,
           "text": error.toString(),
           "image": "",
-          "avatar": 'Me',
+          "avatar": "AI",
         });
       });
       scrollToTheEnd();
@@ -118,7 +118,7 @@ class _ImageChatState extends State<ImageChat> {
                   child: TextField(
                     controller: _textController,
                     decoration: InputDecoration(
-                      hintText: "Write a message",
+                      hintText: translation(context).typeMessage,
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide.none),
