@@ -14,5 +14,20 @@
     "pharmacy": "फार्मेसी",
     "policeStations": "पुलिस स्टेशन",
     "sent": "संदेश भेजा गया",
-    "pregAthI": "प्रेगथी"
+    "pregAthI": "प्रेगथी",
+    "name":"नाम",
+    "weekOfPregnancy":"गर्भावस्था का सप्ताह",
+    "bio": "प्रोफ़ाइल बायो",
+    "week": "सप्ताह",
+    "healthTips": "स्वास्थ्य सुझाव",
+    "dailyExercise": "रोज़ाना व्यायाम",
+    "aboutDailyExercise": "30 मिनट की साइकिल या योग की सिफारिश की जाती है।",
+    "balancedDiet": "संतुलित आहार",
+    "aboutBalancedDiet": "फल, सब्ज़ी, और पूरे अनाज़ शामिल करें।",
+    "updateProfile": "प्रोफ़ाइल अपडेट",
+    "diologueUpdateProfileSuccess": "प्रोफ़ाइल सफलतापूर्वक अपडेट की गई है",
+    "diologueUpdateProfileFailure": "त्रुटि। प्रोफ़ाइल अपडेट नहीं की जा सकी",
+    "logout": "लॉगआउट",
+    "deleteAccount": "खाता मिटाएं",
+    "pregnancyTracker": "गर्भावस्था ट्रैकर"
   }

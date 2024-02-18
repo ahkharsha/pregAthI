@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:pregathi/widgets/home/bottom-bar/profile_delete.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:uuid/uuid.dart';
@@ -119,19 +120,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: <Widget>[
                 TextFormField(
                   controller: _nameController,
-                  decoration: const InputDecoration(labelText: 'Name'),
+                  decoration:
+                      InputDecoration(labelText: translation(context).name),
                   style: const TextStyle(
                       fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 TextFormField(
                   controller: _weekController,
                   decoration:
-                      const InputDecoration(labelText: 'Week of Pregnancy'),
+                      InputDecoration(labelText: translation(context).weekOfPregnancy),
                   style: const TextStyle(fontSize: 18, color: Colors.grey),
                 ),
                 TextFormField(
                   controller: _bioController,
-                  decoration: const InputDecoration(labelText: 'Bio'),
+                  decoration:
+                      InputDecoration(labelText: translation(context).bio),
                   style: const TextStyle(fontSize: 16),
                 ),
               ],
@@ -165,8 +168,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Text("Pregnancy Tracker",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+           Text(translation(context).pregnancyTracker,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
           LinearProgressIndicator(
             value: userWeek / totalWeeks,
@@ -175,7 +178,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 primaryColor), // Change to your primaryColor
           ),
           const SizedBox(height: 10),
-          Text("Week $userWeek", style: const TextStyle(fontSize: 16)),
+          Text("${translation(context).week} $userWeek", style: const TextStyle(fontSize: 16)),
           // Additional information or tips can be added here.
         ],
       ),
@@ -185,20 +188,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildHealthSection() {
     return Container(
       padding: const EdgeInsets.all(20),
-      child: const Column(
+      child:  Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Health Tips",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          Text(translation(context).healthTips,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           ListTile(
-            leading: Icon(Icons.fitness_center),
-            title: Text("Daily Exercise"),
-            subtitle: Text("30 minutes of walking or yoga is recommended."),
+            leading: const Icon(Icons.fitness_center),
+            title: Text(translation(context).dailyExercise),
+            subtitle: Text(translation(context).aboutDailyExercise),
           ),
           ListTile(
-            leading: Icon(Icons.restaurant),
-            title: Text("Balanced Diet"),
-            subtitle: Text("Include fruits, vegetables, and whole grains."),
+            leading:const Icon(Icons.restaurant),
+            title: Text(translation(context).balancedDiet),
+            subtitle: Text(translation(context).aboutBalancedDiet),
           ),
         ],
       ),
@@ -213,7 +216,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           checkWeekUpdate();
           _updateProfile();
         },
-        child: const Text('Update Profile'),
+        child:  Text(translation(context).updateProfile),
       ),
     );
   }
@@ -266,13 +269,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           'profilePic': profilePic,
       });
 
-      dialogueBoxWithButton(context, 'Profile updated successfully!');
+      dialogueBoxWithButton(context, translation(context).diologueUpdateProfileSuccess);
 
       setState(() {
         isSaving = false;
       });
     } catch (e) {
-      Fluttertoast.showToast(msg: 'Error. Could not update profile.');
+      Fluttertoast.showToast(msg: translation(context).diologueUpdateProfileFailure);
     }
   }
 
@@ -299,7 +302,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             UserSharedPreference.setUserRole('');
             goTo(context, LoginScreen());
           },
-          child: const Text('Logout')),
+          child:  Text(translation(context).logout)),
     );
   }
 
@@ -311,9 +314,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.red,
         ),
-        child: const Text(
-          'Delete Account',
-          style: TextStyle(
+        child: Text(
+          translation(context).deleteAccount,
+          style: const TextStyle(
             color: Colors.white,
           ),
         ));
@@ -326,4 +329,3 @@ showDeleteDialog(BuildContext context) async {
     builder: (context) => DeleteDialogContent(),
   );
 }
-

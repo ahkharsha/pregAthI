@@ -14,5 +14,20 @@
     "pharmacy": "Pharmacy",
     "policeStations": "Police Stations",
     "sent": "Message Sent",
-    "pregAthI": "pregAthI"
+    "pregAthI": "pregAthI",
+    "name": "Name",
+    "weekOfPregnancy": "Week of Pregnancy",
+    "bio": "Bio",
+    "week": "Week",
+    "healthTips": "Health Tips",
+    "dailyExercise":"Daily Exercise",
+    "aboutDailyExercise": "30 minutes of walking or yoga is recommended.",
+    "balancedDiet": "Balanced Diet",
+    "aboutBalancedDiet": "Include fruits, vegetables, and whole grains.",
+    "updateProfile": "Update Profile",
+    "diologueUpdateProfileSuccess": "Profile updated successfully",
+    "diologueUpdateProfileFailure": "Error. Could not update profile.",
+    "logout": "Logout",
+    "deleteAccount": "Delete Account",
+    "pregnancyTracker": "Pregnancy Tracker"
 }
