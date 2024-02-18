@@ -65,7 +65,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    'Reset Password',
+                                    translation(context).resetPassword,
                                     style: TextStyle(
                                       fontSize: 40,
                                       fontWeight: FontWeight.bold,

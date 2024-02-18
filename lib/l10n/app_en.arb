@@ -30,5 +30,6 @@
     "logout": "Logout",
     "deleteAccount": "Delete Account",
     "pregnancyTracker": "Pregnancy Tracker",
-    "theEmailentered": "The email entered is"
+    "theEmailentered": "The email entered is",
+    "resetPassword":"Reset Password"
 }

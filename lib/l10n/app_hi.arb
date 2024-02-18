@@ -30,5 +30,6 @@
     "logout": "लॉगआउट",
     "deleteAccount": "खाता मिटाएं",
     "pregnancyTracker": "गर्भावस्था ट्रैकर",
-    "theEmailentered": "दर्ज किया गया ईमेल"
+    "theEmailentered": "दर्ज किया गया ईमेल",
+    "resetPassword":"पासवर्ड रीसेट"
   }
