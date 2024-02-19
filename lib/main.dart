@@ -11,6 +11,7 @@ import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'multi-language/classes/language_constants.dart';
+import 'package:sizer/sizer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,33 +53,37 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'pregAthI',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: GoogleFonts.firaSansTextTheme(
-          Theme.of(context).textTheme,
-        ),
-        primarySwatch: Colors.blue,
-      ),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: _locale,
-      home: FutureBuilder(
-        future: UserSharedPreference.getUserRole(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.data == '') {
-            return LoginScreen();
-          } else if (snapshot.data == 'wife') {
-            return BottomPage();
-          } else if (snapshot.data == 'volunteer') {
-            return VolunteerHomeScreen();
-          } else if (snapshot.data == 'husband') {
-            return const HusbandHomeScreen();
-          }
-          return progressIndicator(context);
-        },
-      ),
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        return MaterialApp(
+          title: 'pregAthI',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            textTheme: GoogleFonts.firaSansTextTheme(
+              Theme.of(context).textTheme,
+            ),
+            primarySwatch: Colors.blue,
+          ),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: _locale,
+          home: FutureBuilder(
+            future: UserSharedPreference.getUserRole(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.data == '') {
+                return LoginScreen();
+              } else if (snapshot.data == 'wife') {
+                return BottomPage();
+              } else if (snapshot.data == 'volunteer') {
+                return VolunteerHomeScreen();
+              } else if (snapshot.data == 'husband') {
+                return const HusbandHomeScreen();
+              }
+              return progressIndicator(context);
+            },
+          ),
+        );
+      },
     );
   }
 }

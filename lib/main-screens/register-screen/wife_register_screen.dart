@@ -9,6 +9,7 @@ import 'package:pregathi/model/wife_user.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/buttons/main_button.dart';
 import 'package:pregathi/widgets/textfield.dart';
+import 'package:sizer/sizer.dart';
 
 class WifeRegisterScreen extends StatefulWidget {
   @override
@@ -108,15 +109,15 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                 Text(
                                   'User Register',
                                   style: TextStyle(
-                                    fontSize: 40,
+                                    fontSize: 32.sp,
                                     fontWeight: FontWeight.bold,
                                     color: primaryColor,
                                   ),
                                 ),
                                 Image.asset(
                                   'assets/images/login/wife.png',
-                                  height: 100,
-                                  width: 100,
+                                  height: 20.h,
+                                  width: 30.w,
                                 ),
                               ],
                             ),

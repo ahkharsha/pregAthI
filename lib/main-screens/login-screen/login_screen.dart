@@ -14,6 +14,7 @@ import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/buttons/main_button.dart';
 import 'package:pregathi/widgets/textfield.dart';
+import 'package:sizer/sizer.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -105,21 +106,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Text(
                                   'User Login',
                                   style: TextStyle(
-                                    fontSize: 40,
+                                    fontSize: 35.sp,
                                     fontWeight: FontWeight.bold,
                                     color: primaryColor,
                                   ),
                                 ),
                                 Image.asset(
                                   'assets/images/login/login_logo.png',
-                                  height: 100,
-                                  width: 100,
+                                  height: 20.h,
+                                  width: 30.w,
                                 ),
                               ],
                             ),
                           ),
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.4,
+                            height: MediaQuery.of(context).size.height * 0.35,
                             child: Form(
                               key: _formKey,
                               child: Column(

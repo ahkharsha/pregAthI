@@ -6,6 +6,7 @@ import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/buttons/main_button.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:pregathi/widgets/textfield.dart';
+import 'package:sizer/sizer.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   @override
@@ -67,15 +68,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   Text(
                                     translation(context).resetPassword,
                                     style: TextStyle(
-                                      fontSize: 40,
+                                      fontSize: 32.sp,
                                       fontWeight: FontWeight.bold,
                                       color: primaryColor,
                                     ),
                                   ),
                                   Image.asset(
                                     'assets/images/login/forgot_pwd.png',
-                                    height: 100,
-                                    width: 100,
+                                    height: 20.h,
+                                    width: 30.w,
                                   ),
                                 ],
                               ),

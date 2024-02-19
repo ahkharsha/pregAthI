@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:sizer/sizer.dart';
 
 class ErrorHomePage extends StatelessWidget {
   const ErrorHomePage({super.key});
@@ -18,8 +19,8 @@ class ErrorHomePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('An unexpected error occured.',style: TextStyle(fontSize: 17, color: Colors.black),),
-            Text('Restart the app to continue',style: TextStyle(fontSize: 17,color: Colors.black),)
+            Text('An unexpected error occured.',style: TextStyle(fontSize: 11.sp, color: Colors.black),),
+            Text('Restart the app to continue',style: TextStyle(fontSize: 11.sp,color: Colors.black),)
           ],
         )),
       ),

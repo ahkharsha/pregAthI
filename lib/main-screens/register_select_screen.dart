@@ -5,6 +5,7 @@ import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/widgets/register/display_husband_register.dart';
 import 'package:pregathi/widgets/register/display_volunteer_register.dart';
 import 'package:pregathi/widgets/register/display_wife_register.dart';
+import 'package:sizer/sizer.dart';
 
 class RegisterSelectScreen extends StatelessWidget {
   const RegisterSelectScreen({super.key});
@@ -29,7 +30,7 @@ class RegisterSelectScreen extends StatelessWidget {
                         child: Text(
                           'Register',
                           style: TextStyle(
-                            fontSize: 40,
+                            fontSize: 32.sp,
                             fontWeight: FontWeight.bold,
                             color: primaryColor,
                           ),

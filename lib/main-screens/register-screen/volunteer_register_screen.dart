@@ -9,6 +9,7 @@ import 'package:pregathi/model/volunteer_user.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/buttons/main_button.dart';
 import 'package:pregathi/widgets/textfield.dart';
+import 'package:sizer/sizer.dart';
 
 class VolunteerRegisterScreen extends StatefulWidget {
   @override
@@ -106,15 +107,15 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                 Text(
                                   'Volunteer Register',
                                   style: TextStyle(
-                                    fontSize: 40,
+                                    fontSize:32.sp,
                                     fontWeight: FontWeight.bold,
                                     color: primaryColor,
                                   ),
                                 ),
                                 Image.asset(
                                   'assets/images/login/volunteer.png',
-                                  height: 100,
-                                  width: 100,
+                                  height: 20.h,
+                                  width: 30.w,
                                 ),
                               ],
                             ),

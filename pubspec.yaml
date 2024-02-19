@@ -68,6 +68,7 @@ dependencies:
   basics: ^0.10.0
   uuid: ^4.3.3
   any_link_preview: ^3.0.1
+  sizer: ^2.0.15
 
 dev_dependencies:
   flutter_test:
@@ -120,9 +121,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: MyFlutterApp
-       fonts:
-         - asset: assets/fonts/MyFlutterApp.ttf
+    - family: MyFlutterApp
+      fonts:
+        - asset: assets/fonts/MyFlutterApp.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

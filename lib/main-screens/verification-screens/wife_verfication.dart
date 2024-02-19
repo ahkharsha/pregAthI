@@ -8,6 +8,7 @@ import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
+import 'package:sizer/sizer.dart';
 
 class WifeEmailVerify extends StatefulWidget {
   const WifeEmailVerify({super.key});
@@ -88,16 +89,16 @@ class _WifeEmailVerifyState extends State<WifeEmailVerify> {
                             Text(
                               'Verify email',
                               style: TextStyle(
-                                fontSize: 40,
+                                fontSize: 35.sp,
                                 fontWeight: FontWeight.bold,
                                 color: primaryColor,
                               ),
                             ),
-                            SizedBox(height: 15,),
+                            SizedBox(height: 10.h,),
                             Image.asset(
                               'assets/images/login/email_verification.png',
-                              height: 100,
-                              width: 100,
+                              height: 20.h,
+                              width: 30.w,
                             ),
                             Padding(
                               padding:
@@ -106,13 +107,13 @@ class _WifeEmailVerifyState extends State<WifeEmailVerify> {
                                 'A verification mail has been sent to your email',
                                 style: TextStyle(
                                   color: primaryColor,
-                                  fontSize: 20,
+                                  fontSize: 15.h,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 4.h,
                             ),
                             MainButton(
                                 title: 'Resend email',
