@@ -9,6 +9,7 @@ import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/failure.dart';
 import 'package:pregathi/model/community.dart';
 import 'package:pregathi/community-chat/repository/community_repository.dart';
+import 'package:pregathi/model/post.dart';
 import 'package:pregathi/providers/storage_repository_provider.dart';
 
 final userCommunitiesProvider = StreamProvider((ref) {
@@ -35,6 +36,10 @@ final getCommunityByNameProvider = StreamProvider.family((ref, String name) {
 
 final searchCommunityProvider = StreamProvider.family((ref, String query) {
   return ref.watch(communityControllerProvider.notifier).searchCommunity(query);
+});
+
+final getCommunityPostsProvider = StreamProvider.family((ref, String name) {
+  return ref.read(communityControllerProvider.notifier).getCommunityPosts(name);
 });
 
 class CommunityController extends StateNotifier<bool> {
@@ -162,5 +167,8 @@ class CommunityController extends StateNotifier<bool> {
           Navigator.of(context).pop()
       },
     );
+  }
+  Stream<List<Post>> getCommunityPosts(String name) {
+    return _communityRepository.getCommunityPosts(name);
   }
 }

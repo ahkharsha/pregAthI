@@ -7,19 +7,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'package:pregathi/community-chat/community_home.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/main.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:pregathi/user_permission.dart';
 import 'package:pregathi/widgets/home/ai-chat/ai_chat.dart';
+import 'package:pregathi/widgets/home/bottom-bar/profile_screen.dart';
 import 'package:pregathi/widgets/home/emergency.dart';
 import 'package:pregathi/widgets/home/services.dart';
 import 'package:pregathi/widgets/home/insta_share/insta_share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pregathi/multi-language/classes/language.dart';
-import 'package:pregathi/multi-language/classes/language_constants.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WifeHomeScreen extends ConsumerStatefulWidget {
   const WifeHomeScreen({Key? key}) : super(key: key);
@@ -183,10 +181,10 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
         ),
         leading: IconButton(
           onPressed: () {
-            goTo(context, const CommunityHome());
+            goTo(context, const ProfileScreen());
           },
           icon: const Icon(
-            Icons.groups,
+            Icons.person,
             color: Colors.white,
           ),
         ),

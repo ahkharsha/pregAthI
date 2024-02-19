@@ -6,7 +6,7 @@ import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
-
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 class DeleteDialogContent extends StatefulWidget {
   @override
   _DeleteDialogContentState createState() => _DeleteDialogContentState();
@@ -29,8 +29,8 @@ class _DeleteDialogContentState extends State<DeleteDialogContent> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Enter CONFIRM to delete your account'),
-            Text('Note: This action is permanent'),
+            Text(translation(context).enterConfirm),
+            Text(translation(context).noteDelete),
             TextField(
               controller: _deleteDialogController,
               decoration: InputDecoration(

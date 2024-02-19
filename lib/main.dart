@@ -9,7 +9,6 @@ import 'package:pregathi/main-screens/home-screen/volunteer_home_screen.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'multi-language/classes/language_constants.dart';
 

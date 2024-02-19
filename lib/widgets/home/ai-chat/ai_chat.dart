@@ -3,8 +3,6 @@ import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
 
-
-import 'ai_chat.dart';
 class AIChat extends StatelessWidget {
   const AIChat({super.key});
 

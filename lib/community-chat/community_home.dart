@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/community_list_drawer.dart';
@@ -12,8 +13,16 @@ class CommunityHome extends ConsumerStatefulWidget {
 }
 
 class _CommunityHomeState extends ConsumerState<CommunityHome> {
+  int _page = 0;
+
   void drawerDisplay(BuildContext context) {
     Scaffold.of(context).openDrawer();
+  }
+
+  void onPageChanged(int page) {
+    setState(() {
+      _page = page;
+    });
   }
 
   @override
@@ -53,7 +62,23 @@ class _CommunityHomeState extends ConsumerState<CommunityHome> {
         backgroundColor: primaryColor,
       ),
       drawer: CommunityDrawer(),
-      body: Container(),
+      body: tabWidgets[_page],
+      bottomNavigationBar: CupertinoTabBar(
+        activeColor: primaryColor,
+        backgroundColor: Colors.white,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: '',
+          ),
+        ],
+        onTap: onPageChanged,
+        currentIndex: _page,
+      ),
     );
   }
 }

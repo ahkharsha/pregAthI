@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
+import 'package:pregathi/community-chat/community_home.dart';
 import 'package:pregathi/main-screens/home-screen/wife_home_screen.dart';
+import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/contacts/contacts_screen.dart';
-import 'package:pregathi/widgets/home/bottom-bar/profile_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/calendar_screen.dart';
 // import 'package:pregathi/widgets/home/bottom-bar/profile-(error)/profile_screen.dart';
 
@@ -27,10 +27,9 @@ class _BottomPageState extends State<BottomPage> {
     pages = [
       WifeHomeScreen(),
       AddContactsScreen(),
-      CalendarScreen(),
+      CommunityHome(),
       ChatScreen(),
-      // ProfileScreen(uid: uid),
-      ProfileScreen(),
+      CalendarScreen(),
     ];
   }
 
@@ -60,9 +59,9 @@ class _BottomPageState extends State<BottomPage> {
                 Icons.contacts,
               )),
           BottomNavigationBarItem(
-              label: 'Calender',
+              label: 'Chat',
               icon: Icon(
-                Icons.calendar_month_rounded,
+                Icons.groups,
               )),
           BottomNavigationBarItem(
               label: 'AI Chat',
@@ -70,9 +69,9 @@ class _BottomPageState extends State<BottomPage> {
                 Icons.mark_unread_chat_alt_rounded,
               )),
           BottomNavigationBarItem(
-              label: 'Profile',
+              label: 'Calender',
               icon: Icon(
-                Icons.person,
+                Icons.calendar_month_rounded,
               )),
         ],
       ),
