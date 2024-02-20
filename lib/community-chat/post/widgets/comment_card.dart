@@ -47,15 +47,6 @@ class CommentCard extends ConsumerWidget {
                 ),
               ],
             ),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.reply),
-                ),
-                const Text('Reply'),
-              ],
-            ),
           ],
         ),
       

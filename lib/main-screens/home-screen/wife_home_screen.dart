@@ -141,7 +141,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
         _getAddressFromLaLo();
       });
     }).catchError((e) {
-      Fluttertoast.showToast(msg: e.toString());
+      print(e.toString());
     });
   }
 
@@ -163,7 +163,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
         });
       });
     } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
+      print(e.toString());
     }
   }
 

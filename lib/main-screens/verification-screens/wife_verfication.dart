@@ -29,6 +29,7 @@ class _WifeEmailVerifyState extends State<WifeEmailVerify> {
     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
 
     if (!isEmailVerified) {
+       UserSharedPreference.setUserRole('');
       sendVerificationEmail();
     }
 
@@ -70,73 +71,78 @@ class _WifeEmailVerifyState extends State<WifeEmailVerify> {
   }
 
   @override
-  Widget build(BuildContext context) => isEmailVerified
-      ? BottomPage()
-      : Scaffold(
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Stack(
+Widget build(BuildContext context) {
+  if (isEmailVerified) {
+     UserSharedPreference.setUserRole('wife');
+    return BottomPage();
+  } else {
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Stack(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.6,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              'Verify email',
-                              style: TextStyle(
-                                fontSize: 35.sp,
-                                fontWeight: FontWeight.bold,
-                                color: primaryColor,
-                              ),
-                            ),
-                            SizedBox(height: 10.h,),
-                            Image.asset(
-                              'assets/images/login/email_verification.png',
-                              height: 20.h,
-                              width: 30.w,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20,top: 15),
-                              child: Text(
-                                'A verification mail has been sent to your email',
-                                style: TextStyle(
-                                  color: primaryColor,
-                                  fontSize: 15.h,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 4.h,
-                            ),
-                            MainButton(
-                                title: 'Resend email',
-                                onPressed: () async {
-                                  canResendEmail
-                                      ? sendVerificationEmail()
-                                      : null;
-                                }),
-                            SubButton(
-                                title: 'Cancel',
-                                onPressed: () async {
-                                  await FirebaseAuth.instance.signOut();
-                                  UserSharedPreference.setUserRole('');
-                                  goToDisableBack(context, LoginScreen());
-                                }),
-                          ],
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          'Verify email',
+                          style: TextStyle(
+                            fontSize: 35.sp,
+                            fontWeight: FontWeight.bold,
+                            color: primaryColor,
+                          ),
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 10.h,),
+                        Image.asset(
+                          'assets/images/login/email_verification.png',
+                          height: 20.h,
+                          width: 30.w,
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 20, right: 20,top: 15),
+                          child: Text(
+                            'A verification mail has been sent to your email',
+                            style: TextStyle(
+                              color: primaryColor,
+                              fontSize: 15.h,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 4.h,
+                        ),
+                        MainButton(
+                            title: 'Resend email',
+                            onPressed: () async {
+                              canResendEmail
+                                  ? sendVerificationEmail()
+                                  : null;
+                            }),
+                        SubButton(
+                            title: 'Cancel',
+                            onPressed: () async {
+                              await FirebaseAuth.instance.signOut();
+                              goToDisableBack(context, LoginScreen());
+                            }),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ),
+            ],
           ),
-        );
+        ),
+      ),
+    );
+  }
+}
+
 }
