@@ -15,7 +15,7 @@ import 'package:pregathi/model/post.dart';
 class PostCard extends ConsumerWidget {
   final Post post;
   const PostCard({
-    super.key,
+    Key? key,
     required this.post,
   });
 
@@ -36,12 +36,11 @@ class PostCard extends ConsumerWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 5, bottom: 20.0, left: 15, right: 15),
+          padding:
+              const EdgeInsets.only(top: 5, bottom: 20.0, left: 15, right: 15),
           child: Container(
             decoration: BoxDecoration(
-              color: boxColor,
-              borderRadius: BorderRadius.circular(15)
-            ),
+                color: boxColor, borderRadius: BorderRadius.circular(15)),
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               children: [
@@ -105,7 +104,8 @@ class PostCard extends ConsumerWidget {
                                 ),
                                 if (post.uid == user!.uid)
                                   IconButton(
-                                    onPressed: () => deletePostConfirmation(post, ref, context),
+                                    onPressed: () => deletePostConfirmation(
+                                        post, ref, context),
                                     icon: Icon(
                                       Icons.delete,
                                       color: Colors.red,
@@ -116,7 +116,8 @@ class PostCard extends ConsumerWidget {
                             Padding(
                               padding: const EdgeInsets.only(top: 10.0),
                               child: Padding(
-                                padding: const EdgeInsets.only(left:13.0, bottom: 10),
+                                padding: const EdgeInsets.only(
+                                    left: 13.0, bottom: 10),
                                 child: Text(
                                   post.title,
                                   style: const TextStyle(
@@ -129,9 +130,10 @@ class PostCard extends ConsumerWidget {
                             ),
                             if (isTypeImage)
                               Padding(
-                                padding: const EdgeInsets.only(right:15.0),
+                                padding: const EdgeInsets.only(right: 15.0),
                                 child: SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.35,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.35,
                                   width: double.infinity,
                                   child: Image.network(
                                     post.link!,
@@ -141,9 +143,8 @@ class PostCard extends ConsumerWidget {
                               ),
                             if (isTypeLink)
                               Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 18, right: 33
-                                ),
+                                padding:
+                                    const EdgeInsets.only(left: 18, right: 33),
                                 child: AnyLinkPreview(
                                   displayDirection:
                                       UIDirection.uiDirectionHorizontal,
@@ -153,8 +154,8 @@ class PostCard extends ConsumerWidget {
                             if (isTypeText)
                               Container(
                                 alignment: Alignment.bottomLeft,
-                                padding:
-                                    const EdgeInsets.only(left: 15.0, right: 30),
+                                padding: const EdgeInsets.only(
+                                    left: 15.0, right: 30),
                                 child: Text(
                                   post.description!,
                                   style: const TextStyle(
@@ -173,12 +174,13 @@ class PostCard extends ConsumerWidget {
                                         upIcon,
                                         size: 30,
                                         color: post.upvotes.contains(user.uid)
-                                            ? const Color.fromARGB(255, 24, 205, 30)
+                                            ? const Color.fromARGB(
+                                                255, 24, 205, 30)
                                             : null,
                                       ),
                                     ),
                                     Text(
-                                      '${post.upvotes.length - post.downvotes.length == 0 ? 'Vote' : post.upvotes.length - post.downvotes.length}',
+                                      '${post.upvotes.length}',
                                     ),
                                     IconButton(
                                       onPressed: () => downvotePost(ref),
@@ -189,6 +191,9 @@ class PostCard extends ConsumerWidget {
                                             ? Color.fromARGB(255, 23, 188, 243)
                                             : null,
                                       ),
+                                    ),
+                                    Text(
+                                      '${post.downvotes.length}',
                                     ),
                                   ],
                                 ),
@@ -202,7 +207,7 @@ class PostCard extends ConsumerWidget {
                                       ),
                                     ),
                                     Text(
-                                      '${post.commentCount == 0 ? 'Comment' : post.commentCount}',
+                                      '${post.commentCount}',
                                     ),
                                   ],
                                 ),
@@ -214,7 +219,8 @@ class PostCard extends ConsumerWidget {
                                         if (data.mods.contains(user.uid)) {
                                           return IconButton(
                                             onPressed: () =>
-                                                deletePostConfirmation(post, ref, context),
+                                                deletePostConfirmation(
+                                                    post, ref, context),
                                             icon: const Icon(
                                               Icons.admin_panel_settings,
                                               color: Colors.red,
