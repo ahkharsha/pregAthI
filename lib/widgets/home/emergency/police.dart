@@ -30,9 +30,9 @@ class Police extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color.fromARGB(255, 208, 9, 248),
-                  Color.fromARGB(255, 226, 98, 252),
-                  Color.fromARGB(255, 237, 189, 248),
+              Color.fromARGB(255, 128, 71, 119),
+                Color.fromARGB(255, 196, 138, 190),
+                Color.fromARGB(255, 250, 195, 237)
                 ],
               ),
             ),
@@ -79,7 +79,7 @@ class Police extends StatelessWidget {
                           child: Text(
                             '100',
                             style: TextStyle(
-                              color: const Color.fromARGB(255, 208, 9, 248),
+                              color: Color.fromARGB(255, 159, 102, 150),
                               fontWeight: FontWeight.bold,
                               fontSize: MediaQuery.of(context).size.width * 0.05,
                             ),

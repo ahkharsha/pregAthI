@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/community-chat/community_home.dart';
 import 'package:pregathi/main-screens/home-screen/wife_home_screen.dart';
+import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/contacts/contacts_screen.dart';
 
 class BottomPage extends StatefulWidget {
@@ -24,6 +25,7 @@ class _BottomPageState extends State<BottomPage> {
     pages = [
       WifeHomeScreen(),
       ContactsScreen(),
+      ChatScreen(),
       CommunityHome(),
     ];
   }
@@ -52,6 +54,11 @@ class _BottomPageState extends State<BottomPage> {
               label: 'Contacts',
               icon: Icon(
                 Icons.contacts,
+              )),
+          BottomNavigationBarItem(
+              label: 'AI Chat',
+              icon: Icon(
+                Icons.mark_unread_chat_alt_rounded,
               )),
           BottomNavigationBarItem(
               label: 'Community',

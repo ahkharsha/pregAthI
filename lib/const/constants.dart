@@ -17,7 +17,7 @@ const wifeProfileDefault =
 const volunteerProfileDefault =
     'https://thumbs.dreamstime.com/b/abstract-stained-pattern-rectangle-background-blue-sky-over-fiery-red-orange-color-modern-painting-art-watercolor-effe-texture-123047399.jpg';
 
-Color primaryColor = Color.fromARGB(255, 208, 9, 248);
+Color primaryColor = Color.fromARGB(255, 182, 117, 172);
 
 const tabWidgets = [
   FeedScreen(),

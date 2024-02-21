@@ -60,9 +60,9 @@ class _InstaShareState extends State<InstaShare> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color.fromARGB(255, 208, 9, 248),
-                  Color.fromARGB(255, 226, 98, 252),
-                  Color.fromARGB(255, 237, 189, 248),
+                  Color.fromARGB(255, 131, 72, 123),
+                Color.fromARGB(255, 201, 148, 194),
+                Color.fromARGB(255, 230, 202, 223)
                 ],
               ),
             ),
@@ -130,7 +130,7 @@ class _InstaShareState extends State<InstaShare> {
                         child: Text(
                           translation(context).send,
                           style: TextStyle(
-                            color: const Color.fromARGB(255, 208, 9, 248),
+                            color: Color.fromARGB(255, 159, 102, 150),
                             fontWeight: FontWeight.bold,
                             fontSize: MediaQuery.of(context).size.width * 0.05,
                           ),

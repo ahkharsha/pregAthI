@@ -7,6 +7,7 @@ import 'package:pregathi/buttons/full_screen_button.dart';
 import 'package:pregathi/db/db_services.dart';
 import 'package:pregathi/model/contacts.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/widgets/home/bottom-bar/contacts/add_contacts.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -102,7 +103,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                   bool result = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ContactsScreen(),
+                      builder: (context) => AddContactsScreen(),
                     ),
                   );
                   if (result == true) {
