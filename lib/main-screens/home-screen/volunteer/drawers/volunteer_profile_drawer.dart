@@ -3,11 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/widgets/home/bottom-bar/profile_screen.dart';
+import 'package:pregathi/main-screens/home-screen/volunteer/volunteer_profile_screen.dart';
 import 'package:sizer/sizer.dart';
 
-class WifeProfileDrawer extends ConsumerWidget {
-  const WifeProfileDrawer({Key? key});
+class VolunteerProfileDrawer extends ConsumerWidget {
+  const VolunteerProfileDrawer({Key? key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -67,7 +67,7 @@ class WifeProfileDrawer extends ConsumerWidget {
               title: Text("Profile"),
               leading: Icon(Icons.person),
               onTap: () {
-                goTo(context, WifeProfileScreen());
+                goTo(context, VolunteerProfileScreen());
               },
             ),
             ListTile(

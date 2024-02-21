@@ -21,10 +21,10 @@ class ContactsScreen extends StatefulWidget {
 class _ContactsScreenState extends State<ContactsScreen> {
   DatabaseService _databaseHelper = DatabaseService();
   List<TContact>? contactList;
-  String? husbandPhoneNumber;
-  String? hospitalPhoneNumber;
+  String? husbandPhoneNumber='';
+  String? hospitalPhoneNumber='';
 
-  int count = 0; // Initialize count to 0
+  int count = 0;
 
   void listShow() {
     Future<Database> dbFuture = _databaseHelper.initializeDatabase();

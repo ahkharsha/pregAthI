@@ -7,6 +7,7 @@ import 'package:pregathi/community-chat/screens/community_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
 import 'package:pregathi/model/community.dart';
+import 'package:sizer/sizer.dart';
 
 class EditCommunityScreen extends ConsumerStatefulWidget {
   final String name;
@@ -72,11 +73,14 @@ class _EditCommunityScreenState extends ConsumerState<EditCommunityScreen> {
               actions: [
                 TextButton(
                   onPressed: () => save(community),
-                  child: const Text(
+                  child: Text(
                     'Save',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15.sp,
+                    ),
                   ),
-                )
+                ),
               ],
               backgroundColor: primaryColor,
             ),

@@ -9,6 +9,7 @@ import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:pregathi/widgets/home/bottom-bar/profile_delete.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
+import 'package:sizer/sizer.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:io';
 
@@ -75,7 +76,22 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: false,
-        backgroundColor: primaryColor, // Change to your primaryColor
+        backgroundColor: primaryColor,
+        actions: [
+          TextButton(
+            onPressed: () {
+              checkWeekUpdate();
+              _updateProfile();
+            },
+            child: Text(
+              'Save',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 15.sp,
+              ),
+            ),
+          ),
+        ],
       ),
       body: isSaving
           ? progressIndicator(context)
@@ -85,8 +101,6 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
                   _buildProfileHeader(),
                   _buildPregnancyTracker(),
                   _buildHealthSection(),
-                  _buildSubmitButton(),
-                  _buildLogoutButton(),
                   _buildDeleteAccountButton(),
                 ],
               ),
@@ -127,8 +141,8 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
                 ),
                 TextFormField(
                   controller: _weekController,
-                  decoration:
-                      InputDecoration(labelText: translation(context).weekOfPregnancy),
+                  decoration: InputDecoration(
+                      labelText: translation(context).weekOfPregnancy),
                   style: const TextStyle(fontSize: 18, color: Colors.grey),
                 ),
                 TextFormField(
@@ -168,8 +182,9 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-           Text(translation(context).pregnancyTracker,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          Text(translation(context).pregnancyTracker,
+              style:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
           LinearProgressIndicator(
             value: userWeek / totalWeeks,
@@ -178,7 +193,8 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
                 primaryColor), // Change to your primaryColor
           ),
           const SizedBox(height: 10),
-          Text("${translation(context).week} $userWeek", style: const TextStyle(fontSize: 16)),
+          Text("${translation(context).week} $userWeek",
+              style: const TextStyle(fontSize: 16)),
           // Additional information or tips can be added here.
         ],
       ),
@@ -188,35 +204,23 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
   Widget _buildHealthSection() {
     return Container(
       padding: const EdgeInsets.all(20),
-      child:  Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(translation(context).healthTips,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              style:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           ListTile(
             leading: const Icon(Icons.fitness_center),
             title: Text(translation(context).dailyExercise),
             subtitle: Text(translation(context).aboutDailyExercise),
           ),
           ListTile(
-            leading:const Icon(Icons.restaurant),
+            leading: const Icon(Icons.restaurant),
             title: Text(translation(context).balancedDiet),
             subtitle: Text(translation(context).aboutBalancedDiet),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSubmitButton() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 10),
-      child: ElevatedButton(
-        onPressed: () {
-          checkWeekUpdate();
-          _updateProfile();
-        },
-        child:  Text(translation(context).updateProfile),
       ),
     );
   }
@@ -269,13 +273,15 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
           'profilePic': profilePic,
       });
 
-      dialogueBoxWithButton(context, translation(context).diologueUpdateProfileSuccess);
+      dialogueBoxWithButton(
+          context, translation(context).diologueUpdateProfileSuccess);
 
       setState(() {
         isSaving = false;
       });
     } catch (e) {
-      Fluttertoast.showToast(msg: translation(context).diologueUpdateProfileFailure);
+      Fluttertoast.showToast(
+          msg: translation(context).diologueUpdateProfileFailure);
     }
   }
 
@@ -302,7 +308,7 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
             UserSharedPreference.setUserRole('');
             goTo(context, LoginScreen());
           },
-          child:  Text(translation(context).logout)),
+          child: Text(translation(context).logout)),
     );
   }
 
@@ -316,8 +322,9 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
         ),
         child: Text(
           translation(context).deleteAccount,
-          style: const TextStyle(
+          style:  TextStyle(
             color: Colors.white,
+            fontSize: 12.sp,
           ),
         ));
   }

@@ -5,7 +5,7 @@ import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/home-screen/error_home_screen.dart';
 
-import 'package:pregathi/main-screens/home-screen/volunteer_home_screen.dart';
+import 'package:pregathi/main-screens/home-screen/volunteer/volunteer_home_screen.dart';
 import 'package:pregathi/main-screens/login-screen/forgot_pwd.dart';
 import 'package:pregathi/main-screens/register_select_screen.dart';
 // import 'package:pregathi/main-screens/verification-screens/volunteer_verification.dart';

@@ -1,8 +1,11 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/community-chat/feed/feed_screen.dart';
 import 'package:pregathi/community-chat/post/screens/add_post_screen.dart';
+import 'package:pregathi/db/shared_pref.dart';
+import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 
 // ignore: constant_identifier_names
 const apiKey = "AIzaSyCAYDrBcb41UV2-2inRihCUS80VdRWv6vs";
@@ -84,6 +87,36 @@ dialogueBoxWithButton(BuildContext context, String text) {
           title: 'Ok',
           onPressed: () {
             Navigator.of(context).pop();
+          },
+        ),
+      ],
+      actionsAlignment: MainAxisAlignment.center,
+    ),
+  );
+}
+
+logoutConfirmation(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(
+        'Do you want to log out?',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 20),
+      ),
+      actions: [
+        SubButton(
+          title: 'No',
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        SubButton(
+          title: 'Yes',
+          onPressed: () async {
+            goToDisableBack(context, LoginScreen());
+            await FirebaseAuth.instance.signOut();
+            UserSharedPreference.setUserRole('');
           },
         ),
       ],

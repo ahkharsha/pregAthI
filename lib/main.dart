@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pregathi/db/shared_pref.dart';
 
-import 'package:pregathi/main-screens/home-screen/volunteer_home_screen.dart';
+import 'package:pregathi/main-screens/home-screen/volunteer/volunteer_home_screen.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';

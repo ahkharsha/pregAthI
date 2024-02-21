@@ -80,9 +80,6 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
   LocationPermission? permission;
   late DocumentReference _documentReference;
 
-  final CollectionReference _reference =
-      FirebaseFirestore.instance.collection('emergencies');
-
   @override
   void initState() {
     super.initState();
@@ -333,74 +330,104 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
           ),
         ],
       ),
-      body: StreamBuilder(
-        stream: _reference.snapshots(),
-        key: streamBuilderKey,
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return dialogueBox(
-                context, 'Some error has occurred ${snapshot.error}');
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return progressIndicator(context);
-          }
-
-          List<DocumentSnapshot> documents = snapshot.data!.docs;
-          List<Map<String, dynamic>> items = documents
-              .map(
-                (emergency) => {
-                  'id': emergency['id'],
-                  'name': emergency['name'],
-                  'location': emergency['location'],
-                  'date': emergency['date'],
-                  'phone': emergency['phone'],
-                  'time': emergency['time'],
-                  'wifeEmail': emergency['wifeEmail'],
-                  'locality': emergency['locality'],
-                  'postal': emergency['postal'],
-                  'profilePic': emergency['profilePic']
-                },
-              )
-              .toList();
-
-          return ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              Map<String, dynamic> thisItem = items[index];
-
-              print('the location is $_volunteerLocality');
-              print('the pin code is $_volunteerPostal');
-
-              if (_volunteerLocality == thisItem['locality'] ||
-                  _volunteerPostal == thisItem['postal']) {
-                print(
-                    '${thisItem['name']} lives in the same locality as the volunteer');
-                return GestureDetector(
-                  onTap: () {
-                    _showEmergencyAlertDialog(thisItem);
-                  },
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(thisItem['profilePic']),
-                    ),
-                    title: Text('${thisItem['name']}'),
-                    subtitle: checkCurrentDate(
-                        thisItem['time'],
-                        thisItem['date'],
-                        thisItem['locality'],
-                        thisItem['postal']),
-                  ),
-                );
-              } else {
-                print(
-                    '${thisItem['name']} does not live in the same locality as the volunteer');
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 10.0,
+              bottom: 8,
+              left: 15,
+              right: 15,
+            ),
+            child: Text(
+              'Current emergencies',
+              style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+            ),
+          ),
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('emergencies')
+                .snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return dialogueBox(
+                    context, 'Some error has occurred ${snapshot.error}');
               }
 
-              return Container();
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return progressIndicator(context);
+              }
+
+              List<Map<String, dynamic>> items = snapshot.data!.docs
+                  .map(
+                    (emergency) => {
+                      'id': emergency['id'],
+                      'name': emergency['name'],
+                      'location': emergency['location'],
+                      'date': emergency['date'],
+                      'phone': emergency['phone'],
+                      'time': emergency['time'],
+                      'wifeEmail': emergency['wifeEmail'],
+                      'locality': emergency['locality'],
+                      'postal': emergency['postal'],
+                      'profilePic': emergency['profilePic']
+                    },
+                  )
+                  .toList();
+
+              return Expanded(
+                child: items.length == 0
+                    ? Column(
+                        children: [
+                          Center(
+                            child: Text(
+                              'There are no emergencies right now',
+                            ),
+                          ),
+                        ],
+                      )
+                    : ListView.builder(
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          Map<String, dynamic> thisItem = items[index];
+
+                          print('the location is $_volunteerLocality');
+                          print('the pin code is $_volunteerPostal');
+
+                          if (_volunteerLocality == thisItem['locality'] ||
+                              _volunteerPostal == thisItem['postal']) {
+                            print(
+                                '${thisItem['name']} lives in the same locality as the volunteer');
+                            return GestureDetector(
+                              onTap: () {
+                                _showEmergencyAlertDialog(thisItem);
+                              },
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  backgroundImage:
+                                      NetworkImage(thisItem['profilePic']),
+                                ),
+                                title: Text('${thisItem['name']}'),
+                                subtitle: checkCurrentDate(
+                                    thisItem['time'],
+                                    thisItem['date'],
+                                    thisItem['locality'],
+                                    thisItem['postal']),
+                              ),
+                            );
+                          } else {
+                            print(
+                                '${thisItem['name']} does not live in the same locality as the volunteer');
+                          }
+
+                          return Container();
+                        },
+                      ),
+              );
             },
-          );
-        },
+          ),
+        ],
       ),
     );
   }
