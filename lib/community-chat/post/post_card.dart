@@ -186,7 +186,7 @@ class PostCard extends ConsumerWidget {
                                         downIcon,
                                         size: 30,
                                         color: post.downvotes.contains(user.uid)
-                                            ? const Color.fromARGB(255, 12, 96, 223)
+                                            ? Color.fromARGB(255, 23, 188, 243)
                                             : null,
                                       ),
                                     ),

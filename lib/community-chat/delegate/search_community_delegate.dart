@@ -10,6 +10,9 @@ class SearchCommunityDelegate extends SearchDelegate {
   SearchCommunityDelegate(this.ref);
 
   @override
+  String get searchFieldLabel => 'Search Communities'; // Change the hint text
+
+  @override
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
@@ -34,25 +37,26 @@ class SearchCommunityDelegate extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     return ref.watch(searchCommunityProvider(query)).when(
-          data: (communites) => ListView.builder(
-            itemCount: communites.length,
-            itemBuilder: (BuildContext context, int index) {
-              final community = communites[index];
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(community.avatar),
-                ),
-                title: Text('${community.name}'),
-                onTap: () {
-                  goTo(context, CommunityScreen(name: "${community.name}"));
-                },
-              );
+      data: (communites) => ListView.builder(
+        itemCount: communites.length,
+        itemBuilder: (BuildContext context, int index) {
+          final community = communites[index];
+          return ListTile(
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(community.avatar),
+            ),
+            title: Text('${community.name}'),
+            onTap: () {
+              goTo(context, CommunityScreen(name: "${community.name}"));
             },
-          ),
-          error: (error, stackTrace) => ErrorText(
-            error: error.toString(),
-          ),
-          loading: () => progressIndicator(context) ,
-        );
+          );
+        },
+      ),
+      error: (error, stackTrace) => ErrorText(
+        error: error.toString(),
+      ),
+      loading: () => progressIndicator(context),
+    );
   }
 }
+

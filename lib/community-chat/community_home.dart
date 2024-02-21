@@ -68,11 +68,23 @@ class _CommunityHomeState extends ConsumerState<CommunityHome> {
         backgroundColor: Colors.white,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Padding(
+              padding: EdgeInsets.only(
+                top: 8.0,
+                bottom: 8,
+              ),
+              child: Icon(Icons.home),
+            ),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add),
+            icon: Padding(
+              padding: EdgeInsets.only(
+                bottom: 8.0,
+                top: 8,
+              ),
+              child: Icon(Icons.add),
+            ),
             label: '',
           ),
         ],
