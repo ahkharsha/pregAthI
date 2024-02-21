@@ -7,7 +7,7 @@ import 'package:pregathi/community-chat/post/screens/add_post_screen.dart';
 // ignore: constant_identifier_names
 const apiKey = "AIzaSyCAYDrBcb41UV2-2inRihCUS80VdRWv6vs";
 const bannerDefault =
-    'https://thumbs.dreamstime.com/b/abstract-stained-pattern-rectangle-background-blue-sky-over-fiery-red-orange-color-modern-painting-art-watercolor-effe-texture-123047399.jpg';
+    'https://cdn-icons-png.flaticon.com/128/1474/1474494.png';
 const avatarDefault =
     'https://external-preview.redd.it/5kh5OreeLd85QsqYO1Xz_4XSLYwZntfjqou-8fyBFoE.png?auto=webp&s=dbdabd04c399ce9c761ff899f5d38656d1de87c2';
 
@@ -17,7 +17,9 @@ const wifeProfileDefault =
 const volunteerProfileDefault =
     'https://thumbs.dreamstime.com/b/abstract-stained-pattern-rectangle-background-blue-sky-over-fiery-red-orange-color-modern-painting-art-watercolor-effe-texture-123047399.jpg';
 
-Color primaryColor = Color.fromARGB(255, 182, 117, 172);
+Color primaryColor = Color.fromARGB(255, 174, 110, 165);
+Color textColor = Color.fromARGB(255, 174, 110, 165);
+Color boxColor= Color.fromARGB(255, 252, 213, 246);
 
 const tabWidgets = [
   FeedScreen(),

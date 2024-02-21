@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
+import 'package:sizer/sizer.dart';
 
 class AIChat extends StatelessWidget {
   const AIChat({super.key});
@@ -24,15 +25,7 @@ class AIChat extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.7,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                Color.fromARGB(255, 128, 71, 119),
-                Color.fromARGB(255, 196, 138, 190),
-                Color.fromARGB(255, 250, 195, 237)
-                ],
-              ),
+              color: boxColor
             ),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -44,15 +37,16 @@ class AIChat extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: CircleAvatar(
-                          radius: 25,
+                          radius: 22.sp,
                           backgroundColor: Colors.white.withOpacity(0),
                           child: Image.asset('assets/images/ai-chat/ai.png'),
+                          
                         ),
                       ),
                       Text(
                         translation(context).aiChat,
                         style: TextStyle(
-                            color: Colors.white,
+                            color: textColor,
                             fontWeight: FontWeight.bold,
                             fontSize: MediaQuery.of(context).size.width * 0.06),
                       ),
@@ -63,7 +57,7 @@ class AIChat extends StatelessWidget {
                     child: Text(
                       translation(context).aboutChat,
                       style: TextStyle(
-                          color: Colors.white,
+                          color: textColor,
                           fontWeight: FontWeight.bold,
                           fontSize: MediaQuery.of(context).size.width * 0.045),
                     ),
@@ -71,8 +65,8 @@ class AIChat extends StatelessWidget {
                   SizedBox(height: 15,),
                   Center(
                     child: Container(
-                      height: 30,
-                      width: 80,
+                      height: 4.h,
+                      width: 20.w,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),

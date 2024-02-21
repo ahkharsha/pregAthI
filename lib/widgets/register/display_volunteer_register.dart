@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/main-screens/register-screen/volunteer_register_screen.dart';
 
 class DisplayVolunteerRegister extends StatelessWidget {
@@ -25,15 +26,7 @@ class DisplayVolunteerRegister extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color.fromARGB(255, 208, 9, 248),
-                  Color.fromARGB(255, 226, 98, 252),
-                  Color.fromARGB(255, 237, 189, 248),
-                ],
-              ),
+               color: boxColor
             ),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -57,7 +50,7 @@ class DisplayVolunteerRegister extends StatelessWidget {
                         child: Text(
                           'Volunteer',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 208, 9, 248),
+                            color: textColor,
                             fontWeight: FontWeight.bold,
                             fontSize: MediaQuery.of(context).size.width * 0.05,
                           ),

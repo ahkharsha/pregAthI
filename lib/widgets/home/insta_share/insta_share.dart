@@ -14,6 +14,7 @@ import 'package:pregathi/widgets/home/insta_share/wife_emergency_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:background_sms/background_sms.dart';
+import 'package:sizer/sizer.dart';
 
 class InstaShare extends StatefulWidget {
   const InstaShare({Key? key}) : super(key: key);
@@ -56,15 +57,7 @@ class _InstaShareState extends State<InstaShare> {
             width: MediaQuery.of(context).size.width * 0.7,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color.fromARGB(255, 131, 72, 123),
-                Color.fromARGB(255, 201, 148, 194),
-                Color.fromARGB(255, 230, 202, 223)
-                ],
-              ),
+             color: boxColor
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -82,7 +75,7 @@ class _InstaShareState extends State<InstaShare> {
                                 child: Text(
                                   translation(context).sendLocation,
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: textColor,
                                       fontWeight: FontWeight.bold,
                                       fontSize:
                                           MediaQuery.of(context).size.width *
@@ -94,14 +87,14 @@ class _InstaShareState extends State<InstaShare> {
                                 child: Text(
                                   translation(context).instaShareAbout,
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: textColor,
                                       fontWeight: FontWeight.bold,
                                       fontSize:
                                           MediaQuery.of(context).size.width *
                                               0.045),
                                 ),
                               ),
-                            ),
+                            )
                           ],
                         ),
                       ),
@@ -109,8 +102,8 @@ class _InstaShareState extends State<InstaShare> {
                         borderRadius: BorderRadius.circular(25),
                         child: Image.asset(
                           'assets/images/insta-share/route.jpg',
-                          height: 120,
-                          width: 110,
+                          height: 15.h,
+                          width: 30.w,
                         ),
                       ),
                     ],
@@ -120,8 +113,8 @@ class _InstaShareState extends State<InstaShare> {
                   ),
                   Center(
                     child: Container(
-                      height: 30,
-                      width: 80,
+                      height: 4.h,
+                      width: 20.w,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
@@ -252,8 +245,10 @@ class _InstaShareModalBottomSheetState
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
+
               "Send current location immediately to emergency contacts..",
               textAlign: TextAlign.center,
+              
               style: TextStyle(fontSize: 24),
             ),
             const SizedBox(

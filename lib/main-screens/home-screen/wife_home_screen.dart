@@ -25,8 +25,7 @@ class WifeHomeScreen extends ConsumerStatefulWidget {
   const WifeHomeScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _WifeHomeScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _WifeHomeScreenState();
 }
 
 class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
@@ -35,11 +34,13 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
   final String currentVersion = "1.0.0";
   Position? _currentPosition;
   String? _currentAddress;
+  String? profilePic = wifeProfileDefault;
 
   @override
   void initState() {
     super.initState();
     _checkUpdate();
+    _getProfilePic();
     _getCurrentLocation();
     initPermissions();
     updateLastLogin();
@@ -96,7 +97,16 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
       );
     }
   }
-
+  _getProfilePic() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    DocumentReference<Map<String, dynamic>> _reference =
+        FirebaseFirestore.instance.collection('users').doc(user!.uid);
+    DocumentSnapshot userData = await _reference.get();
+    
+    setState(() {
+      profilePic = userData['profilePic'];
+    });
+  }
   updateLastLogin() {
     DateTime now = DateTime.now();
     var formatterDate = DateFormat('dd/MM/yy').format(now);
@@ -234,13 +244,21 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                   .toList(),
             ),
           ),
-          IconButton(
-            onPressed: openProfileDrawer,
-            icon: Icon(
-              Icons.person,
-              color: Colors.white,
+          Padding(
+            padding: EdgeInsets.only(
+                right: MediaQuery.of(context).size.width * 0.045),
+            child: GestureDetector(
+              onTap: openProfileDrawer,
+              child: CircleAvatar(
+                backgroundColor: Colors.black,
+                radius: 15.5,
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(profilePic!),
+                  radius: 15,
+                ),
+              ),
             ),
-          )
+          ),
         ],
         automaticallyImplyLeading: false,
         centerTitle: true,

@@ -69,6 +69,7 @@ dependencies:
   uuid: ^4.3.3
   any_link_preview: ^3.0.1
   sizer: ^2.0.15
+  curved_labeled_navigation_bar: ^2.0.2
 
 dev_dependencies:
   flutter_test:

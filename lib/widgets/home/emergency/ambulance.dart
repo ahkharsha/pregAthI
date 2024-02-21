@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:sizer/sizer.dart';
 
@@ -26,16 +27,8 @@ class Ambulance extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-              Color.fromARGB(255, 128, 71, 119),
-                Color.fromARGB(255, 196, 138, 190),
-                Color.fromARGB(255, 250, 195, 237)
-                ],
-              ),
-            ),
+              color: boxColor),
+             
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
@@ -54,7 +47,7 @@ class Ambulance extends StatelessWidget {
                       Text(
                         translation(context).ambulance,
                         style: TextStyle(
-                            color: Colors.white,
+                            color:textColor,
                             fontWeight: FontWeight.bold,
                             fontSize: MediaQuery.of(context).size.width * 0.06),
                       ),
@@ -63,7 +56,7 @@ class Ambulance extends StatelessWidget {
                         child: Text(
                           translation(context).clickToCall,
                           style: TextStyle(
-                              color: Colors.white,
+                              color: textColor,
                               fontWeight: FontWeight.bold,
                               fontSize: MediaQuery.of(context).size.width * 0.045),
                         ),
