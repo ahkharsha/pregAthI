@@ -7,18 +7,17 @@ import 'package:pregathi/buttons/full_screen_button.dart';
 import 'package:pregathi/db/db_services.dart';
 import 'package:pregathi/model/contacts.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/widgets/home/bottom-bar/contacts/add_contacts.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:sqflite/sqflite.dart';
 
-class AddContactsScreen extends StatefulWidget {
-  const AddContactsScreen({Key? key}) : super(key: key);
+class ContactsScreen extends StatefulWidget {
+  const ContactsScreen({Key? key}) : super(key: key);
 
   @override
-  State<AddContactsScreen> createState() => _AddContactsScreenState();
+  State<ContactsScreen> createState() => _ContactsScreenState();
 }
 
-class _AddContactsScreenState extends State<AddContactsScreen> {
+class _ContactsScreenState extends State<ContactsScreen> {
   DatabaseService _databaseHelper = DatabaseService();
   List<TContact>? contactList;
   String? husbandPhoneNumber;

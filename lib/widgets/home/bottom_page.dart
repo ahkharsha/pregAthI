@@ -2,10 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/community-chat/community_home.dart';
 import 'package:pregathi/main-screens/home-screen/wife_home_screen.dart';
-import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/contacts/contacts_screen.dart';
-import 'package:pregathi/widgets/home/bottom-bar/calendar_screen.dart';
-// import 'package:pregathi/widgets/home/bottom-bar/profile-(error)/profile_screen.dart';
 
 class BottomPage extends StatefulWidget {
   BottomPage({Key? key}) : super(key: key);
@@ -26,10 +23,8 @@ class _BottomPageState extends State<BottomPage> {
     currentIndex = 0;
     pages = [
       WifeHomeScreen(),
-      AddContactsScreen(),
+      ContactsScreen(),
       CommunityHome(),
-      ChatScreen(),
-      CalendarScreen(),
     ];
   }
 
@@ -59,19 +54,9 @@ class _BottomPageState extends State<BottomPage> {
                 Icons.contacts,
               )),
           BottomNavigationBarItem(
-              label: 'Chat',
+              label: 'Community',
               icon: Icon(
                 Icons.groups,
-              )),
-          BottomNavigationBarItem(
-              label: 'AI Chat',
-              icon: Icon(
-                Icons.mark_unread_chat_alt_rounded,
-              )),
-          BottomNavigationBarItem(
-              label: 'Calender',
-              icon: Icon(
-                Icons.calendar_month_rounded,
               )),
         ],
       ),

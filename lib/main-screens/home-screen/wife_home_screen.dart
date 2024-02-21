@@ -8,11 +8,12 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/main-screens/drawers/wife/profile_drawer.dart';
+import 'package:pregathi/main-screens/drawers/wife/options_drawer.dart';
 import 'package:pregathi/main.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:pregathi/user_permission.dart';
 import 'package:pregathi/widgets/home/ai-chat/ai_chat.dart';
-import 'package:pregathi/widgets/home/bottom-bar/profile_screen.dart';
 import 'package:pregathi/widgets/home/emergency.dart';
 import 'package:pregathi/widgets/home/services.dart';
 import 'package:pregathi/widgets/home/insta_share/insta_share.dart';
@@ -24,10 +25,12 @@ class WifeHomeScreen extends ConsumerStatefulWidget {
   const WifeHomeScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _WifeHomeScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _WifeHomeScreenState();
 }
 
 class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final User? user = FirebaseAuth.instance.currentUser;
   final String currentVersion = "1.0.0";
   Position? _currentPosition;
@@ -43,7 +46,14 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
     updatedWifeWeek();
   }
 
-  //Remove this function to cancel checkUpdates everytime wife home screen is opened
+  void openOptionsDrawer(BuildContext context) {
+    Scaffold.of(context).openDrawer();
+  }
+
+  void openProfileDrawer() {
+    _scaffoldKey.currentState?.openEndDrawer();
+  }
+
   _checkUpdate() async {
     print('The uid of the current user is');
     print(user!.uid);
@@ -59,7 +69,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
         builder: (context) => PopScope(
           canPop: false,
           child: AlertDialog(
-            title:  Text(
+            title: Text(
               'A newer version of the app is available. Please download to continue.',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 15.sp),
@@ -171,6 +181,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
           translation(context).pregAthI,
@@ -180,15 +191,15 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
             fontSize: 20.sp,
           ),
         ),
-        leading: IconButton(
-          onPressed: () {
-            goTo(context, const ProfileScreen());
-          },
-          icon: const Icon(
-            Icons.person,
-            color: Colors.white,
-          ),
-        ),
+        leading: Builder(builder: (context) {
+          return IconButton(
+            onPressed: () => openOptionsDrawer(context),
+            icon: Icon(
+              Icons.menu_rounded,
+              color: Colors.white,
+            ),
+          );
+        }),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -223,11 +234,20 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                   .toList(),
             ),
           ),
+          IconButton(
+            onPressed: openProfileDrawer,
+            icon: Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
+          )
         ],
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: primaryColor,
       ),
+      drawer: WifeOptionsDrawer(),
+      endDrawer: WifeProfileDrawer(),
       body: SafeArea(
         child: Column(
           children: [
@@ -240,7 +260,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                         const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                     child: Text(
                       translation(context).emergency,
-                      style:  TextStyle(
+                      style: TextStyle(
                           fontSize: 15.sp, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -250,7 +270,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                         const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                     child: Text(
                       translation(context).services,
-                      style:  TextStyle(
+                      style: TextStyle(
                           fontSize: 15.sp, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -260,7 +280,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                         const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                     child: Text(
                       translation(context).instaShare,
-                      style:  TextStyle(
+                      style: TextStyle(
                           fontSize: 15.sp, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -270,7 +290,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                         const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                     child: Text(
                       translation(context).aiChat,
-                      style:  TextStyle(
+                      style: TextStyle(
                           fontSize: 15.sp, fontWeight: FontWeight.bold),
                     ),
                   ),

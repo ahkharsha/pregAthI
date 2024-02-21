@@ -12,14 +12,14 @@ import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:io';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class WifeProfileScreen extends StatefulWidget {
+  const WifeProfileScreen({super.key});
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _WifeProfileScreenState createState() => _WifeProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _WifeProfileScreenState extends State<WifeProfileScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _weekController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
