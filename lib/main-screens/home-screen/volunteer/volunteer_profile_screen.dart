@@ -72,7 +72,7 @@ class _VolunteerProfileScreenState extends State<VolunteerProfileScreen> {
         leading: BackButton(
             color: Colors.white,
             onPressed: () {
-              goTo(context, VolunteerHomeScreen());
+              Navigator.of(context).pop();
             }),
         title: Text(
           "Profile",

@@ -7,9 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'package:pregathi/db/shared_pref.dart';
-import 'package:pregathi/main-screens/home-screen/volunteer/volunteer_profile_screen.dart';
-import 'package:pregathi/main-screens/login-screen/login_screen.dart';
+import 'package:pregathi/main-screens/home-screen/volunteer/drawers/volunteer_profile_drawer.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/volunteer_history.dart';
 import 'package:pregathi/user_permission.dart';
@@ -25,6 +23,7 @@ class VolunteerHomeScreen extends StatefulWidget {
 
 class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
   Key streamBuilderKey = UniqueKey();
+  String? profilePic = volunteerProfileDefault;
 
   final String currentVersion = '1.0.0';
   _checkUpdate() async {
@@ -80,15 +79,31 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
   LocationPermission? permission;
   late DocumentReference _documentReference;
 
+  void openProfileDrawer(BuildContext context) {
+    Scaffold.of(context).openEndDrawer();
+  }
+
   @override
   void initState() {
     super.initState();
     setVolunteerLocation();
     _checkUpdate();
     _getToken();
+    _getProfilePic();
     _updateVolunteerLocation();
     initPermissions();
     updateLastLogin();
+  }
+
+  _getProfilePic() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    DocumentReference<Map<String, dynamic>> _reference =
+        FirebaseFirestore.instance.collection('users').doc(user!.uid);
+    DocumentSnapshot userData = await _reference.get();
+    
+    setState(() {
+      profilePic = userData['profilePic'];
+    });
   }
 
   _updateVolunteerLocation() async {
@@ -308,9 +323,9 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            goTo(context, VolunteerProfileScreen());
+            goTo(context, VolunteerHomeScreen());
           },
-          icon: Icon(Icons.person),
+          icon: Icon(Icons.refresh_outlined),
         ),
         title: Text(
           "pregAthI",
@@ -320,16 +335,26 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
         centerTitle: true,
         backgroundColor: primaryColor,
         actions: [
-          IconButton(
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              UserSharedPreference.setUserRole('');
-              goToDisableBack(context, LoginScreen());
-            },
-            icon: Icon(Icons.logout),
-          ),
+          Builder(builder: (context) {
+          return Padding(
+            padding: EdgeInsets.only(
+                right: MediaQuery.of(context).size.width * 0.045),
+            child: GestureDetector(
+              onTap: () => openProfileDrawer(context),
+              child: CircleAvatar(
+                backgroundColor: Colors.black,
+                radius: 15.5,
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(profilePic!),
+                  radius: 15,
+                ),
+              ),
+            ),
+          );
+        },),
         ],
       ),
+      endDrawer: VolunteerProfileDrawer(),
       body: Column(
         children: [
           Padding(

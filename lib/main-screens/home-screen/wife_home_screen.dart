@@ -107,6 +107,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
       profilePic = userData['profilePic'];
     });
   }
+  
   updateLastLogin() {
     DateTime now = DateTime.now();
     var formatterDate = DateFormat('dd/MM/yy').format(now);
