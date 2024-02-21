@@ -190,7 +190,7 @@ class _VolunteerProfileScreenState extends State<VolunteerProfileScreen> {
 
   Widget _buildDeleteAccountButton() {
     return ElevatedButton(
-        onPressed: () async {
+        onPressed: () {
           showDeleteDialog(context);
         },
         style: ElevatedButton.styleFrom(
@@ -318,6 +318,6 @@ class _VolunteerProfileScreenState extends State<VolunteerProfileScreen> {
 showDeleteDialog(BuildContext context) async {
   return showDialog(
     context: context,
-    builder: (context) => DeleteDialogContent(),
+    builder: (context) => DeleteProfileDialog(),
   );
 }

@@ -333,6 +333,6 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
 showDeleteDialog(BuildContext context) async {
   return showDialog(
     context: context,
-    builder: (context) => DeleteDialogContent(),
+    builder: (context) => DeleteProfileDialog(),
   );
 }

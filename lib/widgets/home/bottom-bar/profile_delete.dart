@@ -7,12 +7,12 @@ import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
-class DeleteDialogContent extends StatefulWidget {
+class DeleteProfileDialog extends StatefulWidget {
   @override
-  _DeleteDialogContentState createState() => _DeleteDialogContentState();
+  _DeleteProfileDialogState createState() => _DeleteProfileDialogState();
 }
 
-class _DeleteDialogContentState extends State<DeleteDialogContent> {
+class _DeleteProfileDialogState extends State<DeleteProfileDialog> {
   final TextEditingController _deleteDialogController = TextEditingController();
   final User? user = FirebaseAuth.instance.currentUser;
   bool _validate = false;

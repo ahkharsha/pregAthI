@@ -1,11 +1,14 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/community-chat/feed/feed_screen.dart';
+import 'package:pregathi/community-chat/post/controller/post_controller.dart';
 import 'package:pregathi/community-chat/post/screens/add_post_screen.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
+import 'package:pregathi/model/post.dart';
 
 // ignore: constant_identifier_names
 const apiKey = "AIzaSyCAYDrBcb41UV2-2inRihCUS80VdRWv6vs";
@@ -124,6 +127,39 @@ logoutConfirmation(BuildContext context) {
     ),
   );
 }
+
+deletePostConfirmation(Post post, WidgetRef ref, BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(
+        'Do you want to delete the post?',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 20),
+      ),
+      actions: [
+        SubButton(
+          title: 'No',
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        SubButton(
+          title: 'Yes',
+          onPressed: () async {
+            deletePost(post, ref, context);
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+      actionsAlignment: MainAxisAlignment.center,
+    ),
+  );
+}
+
+void deletePost(Post post, WidgetRef ref, BuildContext context) async {
+    ref.read(postControllerProvider.notifier).deletePost(post, context);
+  }
 
 Widget progressIndicator(BuildContext context) {
   return Center(
