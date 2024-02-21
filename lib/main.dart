@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pregathi/db/shared_pref.dart';
-import 'package:pregathi/main-screens/home-screen/husband_home_screen.dart';
+
 import 'package:pregathi/main-screens/home-screen/volunteer_home_screen.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/const/constants.dart';
@@ -76,9 +76,7 @@ class _MyAppState extends State<MyApp> {
                 return BottomPage();
               } else if (snapshot.data == 'volunteer') {
                 return VolunteerHomeScreen();
-              } else if (snapshot.data == 'husband') {
-                return const HusbandHomeScreen();
-              }
+              } 
               return progressIndicator(context);
             },
           ),

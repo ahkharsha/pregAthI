@@ -13,6 +13,7 @@ import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/volunteer_history.dart';
 import 'package:pregathi/user_permission.dart';
+import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class VolunteerHomeScreen extends StatefulWidget {
@@ -23,7 +24,7 @@ class VolunteerHomeScreen extends StatefulWidget {
 }
 
 class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
-  Key streamBuilderKey=UniqueKey();
+  Key streamBuilderKey = UniqueKey();
 
   final String currentVersion = '1.0.0';
   _checkUpdate() async {
@@ -42,7 +43,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
             title: Text(
               'A newer version of the app is available. Please download to continue.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 15.sp),
             ),
             actions: [
               ElevatedButton(
@@ -118,14 +119,13 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
         print('Updating in firestore');
         FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
           'locality': place.locality,
-          'postal':place.postalCode,
+          'postal': place.postalCode,
         });
-        _volunteerLocality=place.locality;
-        _volunteerPostal=place.postalCode;
-      
-        streamBuilderKey=UniqueKey();
+        _volunteerLocality = place.locality;
+        _volunteerPostal = place.postalCode;
+
+        streamBuilderKey = UniqueKey();
       });
-      
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }
@@ -233,7 +233,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
             'Emergency Alert',
             style: TextStyle(
               color: Colors.red,
-              fontSize: 27,
+              fontSize: 22.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -245,17 +245,17 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                 maxRadius: 150,
               ),
               SizedBox(
-                height: 10,
+                height: 7.h,
               ),
               Text(
                 'Mom in emergency!!!',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(
-                height: 5,
+                height: 3.h,
               ),
               Text(
                 'Name: ${emergencyDetails['name']}',
@@ -374,7 +374,8 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
 
               if (_volunteerLocality == thisItem['locality'] ||
                   _volunteerPostal == thisItem['postal']) {
-                print('${thisItem['name']} lives in the same locality as the volunteer');
+                print(
+                    '${thisItem['name']} lives in the same locality as the volunteer');
                 return GestureDetector(
                   onTap: () {
                     _showEmergencyAlertDialog(thisItem);
@@ -392,7 +393,8 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                   ),
                 );
               } else {
-                print('${thisItem['name']} does not live in the same locality as the volunteer');
+                print(
+                    '${thisItem['name']} does not live in the same locality as the volunteer');
               }
 
               return Container();

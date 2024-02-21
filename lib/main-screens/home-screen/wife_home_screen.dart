@@ -16,6 +16,7 @@ import 'package:pregathi/widgets/home/bottom-bar/profile_screen.dart';
 import 'package:pregathi/widgets/home/emergency.dart';
 import 'package:pregathi/widgets/home/services.dart';
 import 'package:pregathi/widgets/home/insta_share/insta_share.dart';
+import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pregathi/multi-language/classes/language.dart';
 
@@ -58,10 +59,10 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
         builder: (context) => PopScope(
           canPop: false,
           child: AlertDialog(
-            title: const Text(
+            title:  Text(
               'A newer version of the app is available. Please download to continue.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 15.sp),
             ),
             actions: [
               ElevatedButton(
@@ -173,10 +174,10 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
       appBar: AppBar(
         title: Text(
           translation(context).pregAthI,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Color.fromARGB(255, 0, 0, 0),
-            fontSize: 25,
+            fontSize: 20.sp,
           ),
         ),
         leading: IconButton(
@@ -212,7 +213,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                         children: <Widget>[
                           Text(
                             e.flag,
-                            style: const TextStyle(fontSize: 30),
+                            style: TextStyle(fontSize: 25.sp),
                           ),
                           Text(e.name)
                         ],
@@ -239,8 +240,8 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                         const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                     child: Text(
                       translation(context).emergency,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
+                      style:  TextStyle(
+                          fontSize: 15.sp, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const Emergency(),
@@ -249,8 +250,8 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                         const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                     child: Text(
                       translation(context).services,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
+                      style:  TextStyle(
+                          fontSize: 15.sp, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const Services(),
@@ -259,8 +260,8 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                         const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                     child: Text(
                       translation(context).instaShare,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
+                      style:  TextStyle(
+                          fontSize: 15.sp, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const InstaShare(),
@@ -269,8 +270,8 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                         const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
                     child: Text(
                       translation(context).aiChat,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
+                      style:  TextStyle(
+                          fontSize: 15.sp, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const AIChat(),

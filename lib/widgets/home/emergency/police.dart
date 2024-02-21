@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
+import 'package:sizer/sizer.dart';
 
 class Police extends StatelessWidget {
   const Police({super.key});
@@ -21,7 +22,7 @@ class Police extends StatelessWidget {
         child: InkWell(
           onTap: () => _callNumber('100'),
           child: Container(
-            height: 180,
+            height: 160.h,
             width: MediaQuery.of(context).size.width * 0.5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -68,8 +69,8 @@ class Police extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        height: 30,
-                        width: 80,
+                        height: 4.h,
+                        width: 18.w,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),

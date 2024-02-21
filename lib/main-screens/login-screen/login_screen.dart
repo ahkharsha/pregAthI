@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/home-screen/error_home_screen.dart';
-import 'package:pregathi/main-screens/home-screen/husband_home_screen.dart';
+
 import 'package:pregathi/main-screens/home-screen/volunteer_home_screen.dart';
 import 'package:pregathi/main-screens/login-screen/forgot_pwd.dart';
 import 'package:pregathi/main-screens/register_select_screen.dart';
@@ -51,10 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
             UserSharedPreference.setUserRole('volunteer');
             goToDisableBack(context, VolunteerHomeScreen());
             // goToDisableBack(context, VolunteerEmailVerify());
-          } else if (userData['role'] == 'husband') {
-            UserSharedPreference.setUserRole('husband');
-            goToDisableBack(context, HusbandHomeScreen());
-          } else {
+          }  else {
             UserSharedPreference.setUserRole('');
             goToDisableBack(context, ErrorHomePage());
           }
