@@ -100,7 +100,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
     DocumentReference<Map<String, dynamic>> _reference =
         FirebaseFirestore.instance.collection('users').doc(user!.uid);
     DocumentSnapshot userData = await _reference.get();
-    
+
     setState(() {
       profilePic = userData['profilePic'];
     });
@@ -321,12 +321,6 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            goTo(context, VolunteerHomeScreen());
-          },
-          icon: Icon(Icons.refresh_outlined),
-        ),
         title: Text(
           "pregAthI",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
@@ -335,26 +329,43 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
         centerTitle: true,
         backgroundColor: primaryColor,
         actions: [
-          Builder(builder: (context) {
-          return Padding(
-            padding: EdgeInsets.only(
-                right: MediaQuery.of(context).size.width * 0.045),
-            child: GestureDetector(
-              onTap: () => openProfileDrawer(context),
-              child: CircleAvatar(
-                backgroundColor: Colors.black,
-                radius: 15.5,
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(profilePic!),
-                  radius: 15,
+          Builder(
+            builder: (context) {
+              return Padding(
+                padding: EdgeInsets.only(
+                    right: MediaQuery.of(context).size.width * 0.045),
+                child: GestureDetector(
+                  onTap: () => openProfileDrawer(context),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.black,
+                    radius: 15.5,
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(profilePic!),
+                      radius: 15,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          );
-        },),
+              );
+            },
+          ),
         ],
       ),
       endDrawer: VolunteerProfileDrawer(),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom:20.0, right: 20.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            goTo(context, VolunteerHomeScreen());
+          },
+          backgroundColor: boxColor,
+          foregroundColor: textColor,
+          shape: CircleBorder(),
+          highlightElevation: 50,
+          child: Icon(
+            Icons.refresh_outlined,
+          ),
+        ),
+      ),
       body: Column(
         children: [
           Padding(

@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/main-screens/home-screen/volunteer/volunteer_home_screen.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
+import 'package:pregathi/widgets/home/bottom-bar/profile_delete.dart';
 import 'package:sizer/sizer.dart';
 import 'package:uuid/uuid.dart';
 
@@ -179,9 +179,30 @@ class _VolunteerProfileScreenState extends State<VolunteerProfileScreen> {
                     );
                   },
                 ),
+                _buildDeleteAccountButton(),
+                Expanded(
+                  child: Container(),
+                ),
               ],
             ),
     );
+  }
+
+  Widget _buildDeleteAccountButton() {
+    return ElevatedButton(
+        onPressed: () async {
+          showDeleteDialog(context);
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.red,
+        ),
+        child: Text(
+          translation(context).deleteAccount,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 12.sp,
+          ),
+        ));
   }
 
   Future<void> _updateProfile() async {
@@ -292,4 +313,11 @@ class _VolunteerProfileScreenState extends State<VolunteerProfileScreen> {
       });
     }
   }
+}
+
+showDeleteDialog(BuildContext context) async {
+  return showDialog(
+    context: context,
+    builder: (context) => DeleteDialogContent(),
+  );
 }
