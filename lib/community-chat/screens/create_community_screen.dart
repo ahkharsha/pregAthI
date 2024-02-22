@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/buttons/regular_button.dart';
@@ -14,6 +15,7 @@ class CreateCommunityScreen extends ConsumerStatefulWidget {
 
 class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
   final communityNameController = TextEditingController();
+  final User? user = FirebaseAuth.instance.currentUser;
   @override
   void dispose() {
     super.dispose();
@@ -24,6 +26,7 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
     ref.read(communityControllerProvider.notifier).createCommunity(
           communityNameController.text.trim(),
           context,
+          user!.uid,
         );
   }
 

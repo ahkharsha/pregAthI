@@ -251,7 +251,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
             child: GestureDetector(
               onTap: openProfileDrawer,
               child: CircleAvatar(
-                backgroundColor: Colors.black,
+                backgroundColor: Colors.white,
                 radius: 15.5,
                 child: CircleAvatar(
                   backgroundImage: NetworkImage(profilePic!),

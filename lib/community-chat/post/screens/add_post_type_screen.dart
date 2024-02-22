@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,6 +30,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
   File? bannerFile;
   List<Community> communities = [];
   Community? selectedCommunity;
+  final User? user = FirebaseAuth.instance.currentUser;
 
   @override
   void dispose() {
@@ -57,6 +59,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
             title: titleController.text.trim(),
             selectedCommunity: selectedCommunity ?? communities[0],
             file: bannerFile,
+            userId: user!.uid,
           );
     } else if (widget.type == 'text' && titleController.text.isNotEmpty) {
       ref.read(postControllerProvider.notifier).shareTextPost(
@@ -64,6 +67,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
             title: titleController.text.trim(),
             selectedCommunity: selectedCommunity ?? communities[0],
             description: descriptionController.text.trim(),
+            userId: user!.uid,
           );
     } else if (widget.type == 'link' &&
         titleController.text.isNotEmpty &&
@@ -73,6 +77,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
             title: titleController.text.trim(),
             selectedCommunity: selectedCommunity ?? communities[0],
             link: linkController.text.trim(),
+            userId: user!.uid,
           );
     } else {
       showSnackBar(context, 'Please fill in all the fields');
@@ -200,7 +205,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
                     alignment: Alignment.topLeft,
                     child: Text('Select Community'),
                   ),
-                  ref.watch(userCommunitiesProvider).when(
+                  ref.watch(userCommunitiesProvider(user!.uid)).when(
                         data: (data) {
                           communities = data;
 

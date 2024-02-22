@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
@@ -8,10 +9,12 @@ import 'package:pregathi/const/loader.dart';
 
 class FeedScreen extends ConsumerWidget {
   const FeedScreen({super.key});
+  
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(userCommunitiesProvider).when(
+    final User? user = FirebaseAuth.instance.currentUser;
+    return ref.watch(userCommunitiesProvider(user!.uid)).when(
           data: (communities) => ref.watch(userPostsProvider(communities)).when(
                 data: (data) {
                   return ListView.builder(

@@ -15,10 +15,12 @@ import 'package:pregathi/model/post.dart';
 
 class PostCard extends ConsumerWidget {
   final Post post;
-  const PostCard({
+  PostCard({
     Key? key,
     required this.post,
   });
+
+  final User? user = FirebaseAuth.instance.currentUser;
 
   void upvotePost(WidgetRef ref) async {
     ref.read(postControllerProvider.notifier).upvote(post, user!.uid);

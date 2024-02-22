@@ -340,7 +340,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                 child: GestureDetector(
                   onTap: () => openProfileDrawer(context),
                   child: CircleAvatar(
-                    backgroundColor: Colors.black,
+                    backgroundColor: Colors.white,
                     radius: 15.5,
                     child: CircleAvatar(
                       backgroundImage: NetworkImage(profilePic!),

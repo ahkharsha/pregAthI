@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
@@ -12,10 +10,12 @@ import 'package:pregathi/community-chat/repository/community_repository.dart';
 import 'package:pregathi/model/post.dart';
 import 'package:pregathi/providers/storage_repository_provider.dart';
 
-final userCommunitiesProvider = StreamProvider((ref) {
+final userCommunitiesProvider = StreamProvider.family<List<Community>, String>((ref, userId) {
   final communityController = ref.watch(communityControllerProvider.notifier);
-  return communityController.getUserCommunities();
+  return communityController.getUserCommunities(userId);
 });
+
+
 
 final communityControllerProvider =
     StateNotifierProvider<CommunityController, bool>((ref) {
@@ -55,18 +55,15 @@ class CommunityController extends StateNotifier<bool> {
         _ref = ref,
         _storageRepository = storageRepository,
         super(false);
-  void createCommunity(String name, BuildContext context) async {
+  void createCommunity(String name, BuildContext context, String userId) async {
     state = true;
-    final User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      final uid = user.uid;
       Community community = Community(
         id: name,
         name: name,
         banner: bannerDefault,
         avatar: avatarDefault,
-        members: [uid],
-        mods: [uid],
+        members: [userId],
+        mods: [userId],
       );
 
       final res = await _communityRepository.createCommunity(community);
@@ -75,22 +72,21 @@ class CommunityController extends StateNotifier<bool> {
         showSnackBar(context, 'Community created successfully');
         Navigator.pop(context);
       });
-    }
+    
   }
 
-  void joinCommunity(Community community, BuildContext context) async {
+  void joinCommunity(Community community, BuildContext context, String userId) async {
     state = true;
-    final User? user = FirebaseAuth.instance.currentUser;
 
     Either<Failure, void> res;
-    if (community.members.contains(user!.uid)) {
-      res = await _communityRepository.leaveCommunity(community.name, user.uid);
+    if (community.members.contains(userId)) {
+      res = await _communityRepository.leaveCommunity(community.name, userId);
     } else {
-      res = await _communityRepository.joinCommunity(community.name, user.uid);
+      res = await _communityRepository.joinCommunity(community.name, userId);
     }
 
     res.fold((l) => showSnackBar(context, l.message), (r) {
-      if (community.members.contains(user.uid)) {
+      if (community.members.contains(userId)) {
         showSnackBar(context, 'Community left successfully!');
       } else {
         showSnackBar(context, 'Community joined successfully!');
@@ -98,10 +94,8 @@ class CommunityController extends StateNotifier<bool> {
     });
   }
 
-  Stream<List<Community>> getUserCommunities() {
-    final User? user = FirebaseAuth.instance.currentUser;
-    final uid = user?.uid ?? "";
-    return _communityRepository.getUserCommunities(uid);
+  Stream<List<Community>> getUserCommunities(String userId) {
+    return _communityRepository.getUserCommunities(userId);
   }
 
   Stream<Community> getCommunityByName(String name) {
@@ -154,14 +148,13 @@ class CommunityController extends StateNotifier<bool> {
   }
 
   void addMods(
-      String communityName, List<String> uids, BuildContext context) async {
-    final User? user = FirebaseAuth.instance.currentUser;
+      String communityName, List<String> uids, BuildContext context, String userId) async {
     final res = await _communityRepository.addMods(communityName, uids);
 
     res.fold(
       (l) => showSnackBar(context, l.message),
       (r) => {
-        if (!uids.contains(user!.uid))
+        if (!uids.contains(userId))
           goToDisableBack(context, CommunityScreen(name: communityName))
         else
           Navigator.of(context).pop()

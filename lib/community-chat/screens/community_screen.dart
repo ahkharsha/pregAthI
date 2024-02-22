@@ -12,12 +12,13 @@ import 'package:pregathi/model/community.dart';
 
 class CommunityScreen extends ConsumerWidget {
   final String name;
-  const CommunityScreen({super.key, required this.name});
+  CommunityScreen({super.key, required this.name});
+  final User? user = FirebaseAuth.instance.currentUser;
 
   void joinCommunity(WidgetRef ref, Community community, BuildContext context) {
     ref
         .read(communityControllerProvider.notifier)
-        .joinCommunity(community, context);
+        .joinCommunity(community, context, user!.uid);
   }
 
   @override

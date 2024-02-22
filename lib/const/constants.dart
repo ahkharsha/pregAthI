@@ -23,11 +23,13 @@ const wifeProfileDefault =
 const volunteerProfileDefault =
     'https://thumbs.dreamstime.com/b/abstract-stained-pattern-rectangle-background-blue-sky-over-fiery-red-orange-color-modern-painting-art-watercolor-effe-texture-123047399.jpg';
 
-// Color primaryColor = Color.fromARGB(255, 174, 110, 165);
+// Disha's
+Color primaryColor = Color.fromARGB(255, 174, 110, 165);
 // Color textColor = Color.fromARGB(255, 174, 110, 165);
 
-Color primaryColor = Color.fromARGB(255, 158, 59, 144);
-Color textColor = Color.fromARGB(255, 158, 59, 144);
+// Harsha's
+// Color primaryColor = Color.fromARGB(255, 158, 59, 144);
+Color textColor = Color.fromARGB(255, 93, 11, 82);
 
 Color boxColor= Color.fromARGB(255, 252, 213, 246);
 

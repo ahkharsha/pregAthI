@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/post/controller/post_controller.dart';
@@ -20,6 +21,7 @@ class CommentsScreen extends ConsumerStatefulWidget {
 
 class _CommentsScreenState extends ConsumerState<CommentsScreen> {
   final commentController = TextEditingController();
+  final User? user = FirebaseAuth.instance.currentUser;
 
   @override
   void dispose() {
@@ -32,6 +34,7 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
           context: context,
           text: commentController.text.trim(),
           post: post,
+          userId: user!.uid,
         );
     setState(() {
       commentController.text = '';

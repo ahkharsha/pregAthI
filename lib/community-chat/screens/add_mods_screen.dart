@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
@@ -20,6 +21,7 @@ class AddModsScreen extends ConsumerStatefulWidget {
 class _AddModsScreenState extends ConsumerState<AddModsScreen> {
   Set<String> uids = {};
   int ctr = 0;
+  final User? user = FirebaseAuth.instance.currentUser;
 
   void addUid(String uid) {
     setState(() {
@@ -38,6 +40,7 @@ class _AddModsScreenState extends ConsumerState<AddModsScreen> {
           widget.name,
           uids.toList(),
           context,
+          user!.uid,
         );
   }
 
