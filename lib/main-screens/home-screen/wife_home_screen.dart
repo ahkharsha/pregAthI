@@ -198,7 +198,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
           translation(context).pregAthI,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 0, 0, 0),
+            color: Colors.white,
             fontSize: 20.sp,
           ),
         ),

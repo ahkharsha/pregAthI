@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/main-screens/announcements.dart';
 import 'package:pregathi/main-screens/home-screen/volunteer/volunteer_profile_screen.dart';
 import 'package:sizer/sizer.dart';
 
@@ -63,11 +64,21 @@ class VolunteerProfileDrawer extends ConsumerWidget {
               indent: 3.w,
               endIndent: 3.w,
             ),
+            SizedBox(
+              height: 5,
+            ),
             ListTile(
               title: Text("Profile"),
-              leading: Icon(Icons.person),
+              leading: Icon(Icons.announcement_rounded),
               onTap: () {
                 goTo(context, VolunteerProfileScreen());
+              },
+            ),
+            ListTile(
+              title: Text("Announcements"),
+              leading: Icon(Icons.person),
+              onTap: () {
+                goTo(context, AnnouncementScreen());
               },
             ),
             ListTile(

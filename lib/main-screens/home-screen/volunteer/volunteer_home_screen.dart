@@ -323,7 +323,10 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
       appBar: AppBar(
         title: Text(
           "pregAthI",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         automaticallyImplyLeading: false,
         centerTitle: true,
@@ -352,7 +355,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
       ),
       endDrawer: VolunteerProfileDrawer(),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom:20.0, right: 20.0),
+        padding: const EdgeInsets.only(bottom: 20.0, right: 20.0),
         child: FloatingActionButton(
           onPressed: () {
             goTo(context, VolunteerHomeScreen());
