@@ -2,6 +2,7 @@ import 'package:any_link_preview/any_link_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
 import 'package:pregathi/community-chat/post/controller/post_controller.dart';
 import 'package:pregathi/community-chat/post/screens/comments_screen.dart';
@@ -25,6 +26,19 @@ class PostCard extends ConsumerWidget {
 
   void downvotePost(WidgetRef ref) async {
     ref.read(postControllerProvider.notifier).downvote(post);
+  }
+
+  checkCurrentDate(String time, String date) {
+    DateTime now = DateTime.now();
+    var formatterDate = DateFormat('dd/MM/yy').format(now);
+    if (formatterDate == date) {
+      print('The date and time is');
+      print(date);
+      print(time);
+      return Text('${time}, Today');
+    } else {
+      return Text('${time}, ${date}');
+    }
   }
 
   @override
@@ -94,9 +108,13 @@ class PostCard extends ConsumerWidget {
                                           Text(
                                             '${post.username}',
                                             style: TextStyle(
-                                              fontSize: 12,
+                                              fontSize: 14,
                                             ),
-                                          )
+                                          ),
+                                          checkCurrentDate(
+                                            post.postTime,
+                                            post.postDate,
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -223,7 +241,7 @@ class PostCard extends ConsumerWidget {
                                                     post, ref, context),
                                             icon: const Icon(
                                               Icons.admin_panel_settings,
-                                              color: Colors.red,
+                                              color: Color.fromARGB(255, 158, 59, 144) ,
                                             ),
                                           );
                                         }

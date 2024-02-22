@@ -166,6 +166,8 @@ class Post {
   final String type;
   final DateTime createdAt;
   final List<String> awards;
+  final String postTime;
+  final String postDate;
   Post({
     required this.id,
     required this.title,
@@ -181,6 +183,8 @@ class Post {
     required this.type,
     required this.createdAt,
     required this.awards,
+    required this.postTime,
+    required this.postDate,
   });
 
   Post copyWith({
@@ -198,6 +202,8 @@ class Post {
     String? type,
     DateTime? createdAt,
     List<String>? awards,
+    String? postTime,
+    String? postDate,
   }) {
     return Post(
       id: id ?? this.id,
@@ -214,6 +220,8 @@ class Post {
       type: type ?? this.type,
       createdAt: createdAt ?? this.createdAt,
       awards: awards ?? this.awards,
+      postTime: postTime ?? this.postTime,
+      postDate: postDate ?? this.postDate,
     );
   }
 
@@ -233,6 +241,8 @@ class Post {
       'type': type,
       'createdAt': createdAt.millisecondsSinceEpoch,
       'awards': awards,
+      'postTime': postTime,
+      'postDate': postDate,
     };
   }
 
@@ -252,12 +262,14 @@ class Post {
       type: map['type'] ?? '',
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
       awards: List<String>.from(map['awards']),
+      postTime: map['postTime'],
+      postDate: map['postDate'],
     );
   }
 
   @override
   String toString() {
-    return 'Post(id: $id, title: $title, link: $link, description: $description, communityName: $communityName, communityProfilePic: $communityProfilePic, upvotes: $upvotes, downvotes: $downvotes, commentCount: $commentCount, username: $username, uid: $uid, type: $type, createdAt: $createdAt, awards: $awards)';
+    return 'Post(id: $id, title: $title, link: $link, description: $description, communityName: $communityName, communityProfilePic: $communityProfilePic, upvotes: $upvotes, downvotes: $downvotes, commentCount: $commentCount, username: $username, uid: $uid, type: $type, createdAt: $createdAt, awards: $awards, postTime: $postTime, postDate: $postDate)';
   }
 
   @override
@@ -278,7 +290,9 @@ class Post {
         other.uid == uid &&
         other.type == type &&
         other.createdAt == createdAt &&
-        listEquals(other.awards, awards);
+        listEquals(other.awards, awards) &&
+        other.postTime == postTime &&
+        other.postDate==postDate;
   }
 
   @override
@@ -296,6 +310,8 @@ class Post {
         uid.hashCode ^
         type.hashCode ^
         createdAt.hashCode ^
-        awards.hashCode;
+        awards.hashCode ^
+        postTime.hashCode ^
+        postDate.hashCode;
   }
 }

@@ -179,6 +179,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 // import 'package:intl/intl.dart';
 import 'package:pregathi/community-chat/post/respository/post_repository.dart';
 import 'package:pregathi/const/constants.dart';
@@ -187,8 +188,6 @@ import 'package:pregathi/model/community.dart';
 import 'package:pregathi/model/post.dart';
 import 'package:pregathi/providers/storage_repository_provider.dart';
 import 'package:uuid/uuid.dart';
-
-DateTime now = DateTime.now();
 
 final User? user = FirebaseAuth.instance.currentUser;
 
@@ -245,7 +244,7 @@ class PostController extends StateNotifier<bool> {
     DocumentReference<Map<String, dynamic>> _reference =
         FirebaseFirestore.instance.collection('users').doc(user!.uid);
     DocumentSnapshot userData = await _reference.get();
-
+    DateTime now = DateTime.now();
     final Post post = Post(
       id: postId,
       title: title,
@@ -260,6 +259,8 @@ class PostController extends StateNotifier<bool> {
       createdAt: DateTime.now(),
       awards: [],
       description: description,
+      postTime: '${DateFormat('kk:mm').format(now)}',
+      postDate: '${DateFormat('dd/MM/yy').format(now)}',
     );
 
     final res = await _postRepository.addPost(post);
@@ -282,7 +283,7 @@ class PostController extends StateNotifier<bool> {
     DocumentReference<Map<String, dynamic>> _reference =
         FirebaseFirestore.instance.collection('users').doc(user!.uid);
     DocumentSnapshot userData = await _reference.get();
-
+    DateTime now = DateTime.now();
     final Post post = Post(
       id: postId,
       title: title,
@@ -297,6 +298,9 @@ class PostController extends StateNotifier<bool> {
       createdAt: DateTime.now(),
       awards: [],
       link: link,
+      postTime:
+          '${DateFormat('kk:mm').format(now)}',
+      postDate: '${DateFormat('dd/MM/yy').format(now)}',
     );
 
     final res = await _postRepository.addPost(post);
@@ -325,7 +329,7 @@ class PostController extends StateNotifier<bool> {
       id: postId,
       file: file,
     );
-
+    DateTime now = DateTime.now();
     imageRes.fold((l) => showSnackBar(context, l.message), (r) async {
       final Post post = Post(
         id: postId,
@@ -341,6 +345,8 @@ class PostController extends StateNotifier<bool> {
         createdAt: DateTime.now(),
         awards: [],
         link: r,
+        postTime: '${DateFormat('kk:mm').format(now)}',
+        postDate: '${DateFormat('dd/MM/yy').format(now)}',
       );
 
       final res = await _postRepository.addPost(post);
