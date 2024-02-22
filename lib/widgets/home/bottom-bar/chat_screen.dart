@@ -35,7 +35,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               centerTitle: false,
               bottom:TabBar(
-                labelColor: Colors.black,
+                labelColor: Colors.white,
                 indicatorColor: Colors.black,
                 indicatorSize: TabBarIndicatorSize.label,
                 indicatorWeight: 5,

@@ -59,6 +59,7 @@ class _MyAppState extends State<MyApp> {
           title: 'pregAthI',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
+            scaffoldBackgroundColor: appBgColor,
             textTheme: GoogleFonts.firaSansTextTheme(
               Theme.of(context).textTheme,
             ),

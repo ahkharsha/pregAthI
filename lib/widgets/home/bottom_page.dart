@@ -46,7 +46,7 @@ class _BottomPageState extends State<BottomPage> {
     return Scaffold(
       body: pages[currentIndex],
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: appBgColor,
         color: primaryColor,
         onTap: onTapped,
         items: const [
@@ -71,7 +71,7 @@ class _BottomPageState extends State<BottomPage> {
           CurvedNavigationBarItem(
               // label: 'AI Chat',
               child: Icon(
-                Icons.mark_unread_chat_alt_rounded,
+                Icons.mark_chat_unread_rounded,
                 color: Colors.white,
               )),
           CurvedNavigationBarItem(

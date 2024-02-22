@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pregathi/const/constants.dart';
 
 class CustomTextField extends StatelessWidget {
   final String? hintText;
@@ -57,7 +58,7 @@ class CustomTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide(
             style: BorderStyle.solid,
-            color: Color(0xFF909A9E),
+            color: textColor,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(

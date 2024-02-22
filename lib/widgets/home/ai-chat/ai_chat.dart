@@ -68,14 +68,14 @@ class AIChat extends StatelessWidget {
                       height: 4.h,
                       width: 20.w,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: primaryColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Center(
                         child: Text(
                           'Chat',
                           style: TextStyle(
-                            color:  Color.fromARGB(255, 159, 102, 150),
+                            color:  Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: MediaQuery.of(context).size.width * 0.05,
                           ),

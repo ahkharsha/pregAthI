@@ -110,7 +110,7 @@ class _ImageChatState extends State<ImageChat> {
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(color: Colors.grey),
+              border: Border.all(color: textColor),
             ),
             child: Row(
               children: [
@@ -129,7 +129,7 @@ class _ImageChatState extends State<ImageChat> {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.add_a_photo),
+                  icon: const Icon(Icons.add_a_photo, color: Color.fromARGB(255, 93, 11, 82),),
                   onPressed: () async {
                     final XFile? image =
                         await picker.pickImage(source: ImageSource.gallery);
@@ -141,7 +141,7 @@ class _ImageChatState extends State<ImageChat> {
                 IconButton(
                   icon: loading
                       ? const CircularProgressIndicator()
-                      : const Icon(Icons.send),
+                      : const Icon(Icons.send, color: Color.fromARGB(255, 93, 11, 82),),
                   onPressed: () {
                     if (imageFile == null) {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

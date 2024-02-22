@@ -65,14 +65,14 @@ class Police extends StatelessWidget {
                         height: 4.h,
                         width: 18.w,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: primaryColor,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Center(
                           child: Text(
                             '100',
                             style: TextStyle(
-                              color: textColor,
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: MediaQuery.of(context).size.width * 0.05,
                             ),

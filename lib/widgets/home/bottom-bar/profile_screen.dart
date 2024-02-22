@@ -23,11 +23,13 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _weekController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _totalWeekController = TextEditingController();
   String? profilePic = wifeProfileDefault;
   String? _initialWeek;
   final User? user = FirebaseAuth.instance.currentUser;
   File? newProfilePic;
   bool isSaving = false;
+  String? totalWeeks='36';
 
   @override
   void initState() {
@@ -47,6 +49,8 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
         _nameController.text = userData['name'];
         _weekController.text = userData['week'];
         _bioController.text = userData['bio'];
+        _totalWeekController.text = userData['totalWeek'];
+
         profilePic = userData['profilePic'];
         _initialWeek = userData['week'];
       });
@@ -119,11 +123,11 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
             child: newProfilePic != null
                 ? CircleAvatar(
                     backgroundImage: FileImage(newProfilePic!),
-                    radius: 45,
+                    radius: 60,
                   )
                 : CircleAvatar(
                     backgroundImage: NetworkImage(profilePic!),
-                    radius: 45,
+                    radius: 60,
                   ),
           ),
           const SizedBox(width: 20),
@@ -142,13 +146,19 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
                   controller: _weekController,
                   decoration: InputDecoration(
                       labelText: translation(context).weekOfPregnancy),
-                  style: const TextStyle(fontSize: 18, color: Colors.grey),
+                  style: const TextStyle(fontSize: 18),
+                ),
+                TextFormField(
+                  controller: _totalWeekController,
+                  decoration: InputDecoration(
+                      labelText: 'Total Weeks'),
+                  style: const TextStyle(fontSize: 18),
                 ),
                 TextFormField(
                   controller: _bioController,
                   decoration:
                       InputDecoration(labelText: translation(context).bio),
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 18),
                 ),
               ],
             ),
@@ -169,12 +179,10 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
   }
 
   Widget _buildPregnancyTracker() {
-    // Assuming these are the total weeks of pregnancy.
-    // You might want to fetch this value from user input or a database.
-    final int totalWeeks = 36;
-
-    // Fetch the user-inputted week of pregnancy (default to 0 if not set)
     int userWeek = int.tryParse(_weekController.text) ?? 0;
+    int totalWeeks = int.tryParse(_totalWeekController.text) ?? 0;
+
+    double progressValue = totalWeeks > 0 ? userWeek / totalWeeks : 0.0;
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -186,15 +194,14 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
                   const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
           LinearProgressIndicator(
-            value: userWeek / totalWeeks,
-            backgroundColor: Colors.grey[300],
+            value: progressValue,
+            backgroundColor: Colors.white,
             valueColor: AlwaysStoppedAnimation<Color>(
-                primaryColor), // Change to your primaryColor
+                textColor), 
           ),
           const SizedBox(height: 10),
-          Text("${translation(context).week} $userWeek",
+          Text("${translation(context).week} $userWeek of $totalWeeks",
               style: const TextStyle(fontSize: 16)),
-          // Additional information or tips can be added here.
         ],
       ),
     );
@@ -266,6 +273,7 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
         'name': _nameController.text,
         'week': _weekController.text,
         'bio': _bioController.text,
+        'totalWeek':_totalWeekController.text,
         if (downloadUrl != null)
           'profilePic': downloadUrl
         else

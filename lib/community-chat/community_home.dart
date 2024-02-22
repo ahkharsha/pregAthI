@@ -65,7 +65,7 @@ class _CommunityHomeState extends ConsumerState<CommunityHome> {
       body: tabWidgets[_page],
       bottomNavigationBar: CupertinoTabBar(
         activeColor: primaryColor,
-        backgroundColor: Colors.white,
+        backgroundColor: appBgColor,
         items: const [
           BottomNavigationBarItem(
             icon: Padding(
