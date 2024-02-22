@@ -7,10 +7,8 @@ import 'package:pregathi/community-chat/controller/community_controller.dart';
 import 'package:pregathi/community-chat/post/controller/post_controller.dart';
 import 'package:pregathi/community-chat/post/screens/comments_screen.dart';
 import 'package:pregathi/community-chat/screens/community_screen.dart';
-// import 'package:pregathi/auth/auth_controller.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
-import 'package:pregathi/const/loader.dart';
 import 'package:pregathi/model/post.dart';
 
 class PostCard extends ConsumerWidget {
@@ -254,7 +252,7 @@ class PostCard extends ConsumerWidget {
                                       error: (error, stackTrace) => ErrorText(
                                         error: error.toString(),
                                       ),
-                                      loading: () => const Loader(),
+                                      loading: () => progressIndicator(context),
                                     ),
                               ],
                             )

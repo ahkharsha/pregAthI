@@ -45,23 +45,23 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
               FirebaseFirestore.instance.collection('users').doc(v);
 
           final user = VolunteerUserModel(
-            name: _formData['name'].toString(),
-            phone: _formData['phone'].toString(),
-            volunteerEmail: _formData['volunteer_email'].toString(),
-            id: v,
-            role: 'volunteer',
-            profilePic: volunteerProfileDefault,
-            token:''
-          );
+              name: _formData['name'].toString(),
+              phone: _formData['phone'].toString(),
+              volunteerEmail: _formData['volunteer_email'].toString(),
+              id: v,
+              role: 'volunteer',
+              profilePic: volunteerProfileDefault,
+              token: '');
           final jsonData = user.toJson();
           await db.set(jsonData).whenComplete(() {
             goToDisableBack(context, VolunteerEmailVerify());
             setState(() {
               isLoading = false;
             });
-            Future.delayed(const Duration(microseconds: 1),() {
-              dialogueBoxWithButton(context, 'Registration successful. Verify your email to proceed');
-              });
+            Future.delayed(const Duration(microseconds: 1), () {
+              dialogueBoxWithButton(context,
+                  'Registration successful. Verify your email to proceed');
+            });
           });
         }
       }
@@ -79,8 +79,7 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
         setState(() {
           isLoading = false;
         });
-        dialogueBox(
-            context, e.toString());
+        dialogueBox(context, e.toString());
       }
     }
   }
@@ -107,7 +106,7 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                 Text(
                                   'Volunteer Register',
                                   style: TextStyle(
-                                    fontSize:32.sp,
+                                    fontSize: 32.sp,
                                     fontWeight: FontWeight.bold,
                                     color: primaryColor,
                                   ),
@@ -132,7 +131,10 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                     hintText: 'Enter name',
                                     textInputAction: TextInputAction.next,
                                     keyboardtype: TextInputType.name,
-                                    prefix: Icon(Icons.person),
+                                    prefix: Icon(
+                                      Icons.person,
+                                      color: textColor,
+                                    ),
                                     onsave: (name) {
                                       _formData['name'] = name ?? '';
                                     },
@@ -148,7 +150,10 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                     hintText: 'Enter phone',
                                     textInputAction: TextInputAction.next,
                                     keyboardtype: TextInputType.phone,
-                                    prefix: Icon(Icons.phone),
+                                    prefix: Icon(
+                                      Icons.phone,
+                                      color: textColor,
+                                    ),
                                     onsave: (phone) {
                                       _formData['phone'] = phone ?? '';
                                     },
@@ -164,9 +169,13 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                     hintText: 'Enter email',
                                     textInputAction: TextInputAction.next,
                                     keyboardtype: TextInputType.emailAddress,
-                                    prefix: Icon(Icons.alternate_email_rounded),
+                                    prefix: Icon(
+                                      Icons.alternate_email_rounded,
+                                      color: textColor,
+                                    ),
                                     onsave: (volunteer_email) {
-                                      _formData['volunteer_email'] = volunteer_email ?? '';
+                                      _formData['volunteer_email'] =
+                                          volunteer_email ?? '';
                                     },
                                     // validate: (volunteer_email) {
                                     //   if (volunteer_email!.isEmpty ||
@@ -181,7 +190,10 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                   CustomTextField(
                                     hintText: 'Enter password',
                                     isPassword: isPasswordHidden,
-                                    prefix: Icon(Icons.vpn_key_rounded),
+                                    prefix: Icon(
+                                      Icons.vpn_key_rounded,
+                                      color: textColor,
+                                    ),
                                     onsave: (password) {
                                       _formData['password'] = password ?? '';
                                     },
@@ -193,8 +205,14 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                           });
                                         },
                                         icon: isPasswordHidden
-                                            ? Icon(Icons.visibility)
-                                            : Icon(Icons.visibility_off)),
+                                            ? Icon(
+                                                Icons.visibility,
+                                                color: textColor,
+                                              )
+                                            : Icon(
+                                                Icons.visibility_off,
+                                                color: textColor,
+                                              )),
                                     // validate: (password) {
                                     //   if (password!.isEmpty || password.length < 6) {
                                     //     return 'Enter correct password';
@@ -206,7 +224,10 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                   CustomTextField(
                                     hintText: 'Retype password',
                                     isPassword: isRePasswordHidden,
-                                    prefix: Icon(Icons.vpn_key_rounded),
+                                    prefix: Icon(
+                                      Icons.vpn_key_rounded,
+                                      color: textColor,
+                                    ),
                                     onsave: (re_password) {
                                       _formData['re_password'] =
                                           re_password ?? '';
@@ -219,8 +240,14 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                           });
                                         },
                                         icon: isRePasswordHidden
-                                            ? Icon(Icons.visibility)
-                                            : Icon(Icons.visibility_off)),
+                                            ? Icon(
+                                                Icons.visibility,
+                                                color: textColor,
+                                              )
+                                            : Icon(
+                                                Icons.visibility_off,
+                                                color: textColor,
+                                              )),
                                     // validate: (re_password) {
                                     //   if (re_password!.isEmpty ||
                                     //       re_password.length < 6) {
@@ -257,7 +284,8 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                   child: SubButton(
                                       title: 'Back to User select',
                                       onPressed: () {
-                                        goToDisableBack(context, RegisterSelectScreen());
+                                        goToDisableBack(
+                                            context, RegisterSelectScreen());
                                       }),
                                 ),
                               ],

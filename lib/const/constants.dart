@@ -174,8 +174,8 @@ void deletePost(Post post, WidgetRef ref, BuildContext context) async {
 Widget progressIndicator(BuildContext context) {
   return Center(
     child: CircularProgressIndicator(
-      backgroundColor: primaryColor,
-      color: Color.fromARGB(255, 241, 198, 250),
+      backgroundColor: textColor,
+      color: appBgColor,
       strokeWidth: 7,
     ),
   );
@@ -187,7 +187,7 @@ Widget smallProgressIndicator(BuildContext context) {
       scale: 0.7,
       child: CircularProgressIndicator(
         backgroundColor: primaryColor,
-        color: Color.fromARGB(255, 241, 198, 250),
+        color: appBgColor,
         strokeWidth: 7,
       ),
     ),

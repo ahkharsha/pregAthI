@@ -93,8 +93,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                       hintText: translation(context).enterEmail,
                                       textInputAction: TextInputAction.next,
                                       keyboardtype: TextInputType.emailAddress,
-                                      prefix:
-                                          Icon(Icons.alternate_email_rounded),
+                                      prefix: Icon(
+                                        Icons.alternate_email_rounded,
+                                        color: textColor,
+                                      ),
                                       onsave: (email) {
                                         _formData['email'] = email ?? '';
                                       },
@@ -109,7 +111,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                       // },
                                     ),
                                     MainButton(
-                                        title: translation(context).resetPassword,
+                                        title:
+                                            translation(context).resetPassword,
                                         onPressed: () {
                                           if (_formKey.currentState!
                                               .validate()) {

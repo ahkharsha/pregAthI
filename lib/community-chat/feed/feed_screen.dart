@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
 import 'package:pregathi/community-chat/post/controller/post_controller.dart';
 import 'package:pregathi/community-chat/post/post_card.dart';
+import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
-import 'package:pregathi/const/loader.dart';
 
 class FeedScreen extends ConsumerWidget {
   const FeedScreen({super.key});
@@ -31,12 +31,12 @@ class FeedScreen extends ConsumerWidget {
                   error: error.toString(),
                 );
                 },
-                loading: () => const Loader(),
+                loading: () => progressIndicator(context),
               ),
           error: (error, stackTrace) => ErrorText(
             error: error.toString(),
           ),
-          loading: () => const Loader(),
+          loading: () => progressIndicator(context),
         );
   }
 }

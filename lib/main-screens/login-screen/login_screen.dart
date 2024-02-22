@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
             UserSharedPreference.setUserRole('volunteer');
             goToDisableBack(context, VolunteerHomeScreen());
             // goToDisableBack(context, VolunteerEmailVerify());
-          }  else {
+          } else {
             UserSharedPreference.setUserRole('');
             goToDisableBack(context, ErrorHomePage());
           }
@@ -128,7 +128,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                     hintText: 'Enter Email',
                                     textInputAction: TextInputAction.next,
                                     keyboardtype: TextInputType.emailAddress,
-                                    prefix: Icon(Icons.person),
+                                    prefix: Icon(
+                                      Icons.person,
+                                      color: textColor,
+                                    ),
                                     onsave: (email) {
                                       _formData['email'] = email ?? '';
                                     },
@@ -145,7 +148,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   CustomTextField(
                                     hintText: 'Enter Password',
                                     isPassword: isPasswordHidden,
-                                    prefix: Icon(Icons.vpn_key_rounded),
+                                    prefix: Icon(
+                                      Icons.vpn_key_rounded,
+                                      color: textColor,
+                                    ),
                                     onsave: (password) {
                                       _formData['password'] = password ?? '';
                                     },
@@ -157,8 +163,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                           });
                                         },
                                         icon: isPasswordHidden
-                                            ? Icon(Icons.visibility)
-                                            : Icon(Icons.visibility_off)),
+                                            ? Icon(
+                                                Icons.visibility,
+                                                color: textColor,
+                                              )
+                                            : Icon(
+                                                Icons.visibility_off,
+                                                color: textColor,
+                                              )),
                                     // validate: (password) {
                                     //   if (password!.isEmpty ||
                                     //       password.length < 6) {

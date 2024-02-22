@@ -6,7 +6,6 @@ import 'package:pregathi/community-chat/post/post_card.dart';
 import 'package:pregathi/community-chat/screens/mod_tools_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
-import 'package:pregathi/const/loader.dart';
 import 'package:pregathi/model/community.dart';
 // import 'package:riverpod/riverpod.dart';
 
@@ -128,7 +127,7 @@ class CommunityScreen extends ConsumerWidget {
                     error: (error, stackTrace) {
                       return ErrorText(error: error.toString());
                     },
-                    loading: () => const Loader(),
+                    loading: () => progressIndicator(context),
                   ),
             ),
             error: (error, StackTrace) => ErrorText(error: error.toString()),

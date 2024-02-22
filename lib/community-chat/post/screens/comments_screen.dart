@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/post/controller/post_controller.dart';
 import 'package:pregathi/community-chat/post/post_card.dart';
 import 'package:pregathi/community-chat/post/widgets/comment_card.dart';
+import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
-import 'package:pregathi/const/loader.dart';
 import 'package:pregathi/model/post.dart';
 
 class CommentsScreen extends ConsumerStatefulWidget {
@@ -78,7 +78,7 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
                             error: error.toString(),
                           );
                         },
-                        loading: () => const Loader(),
+                        loading: () => progressIndicator(context),
                       ),
                 ],
               );
@@ -86,7 +86,7 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
             error: (error, stackTrace) => ErrorText(
               error: error.toString(),
             ),
-            loading: () => const Loader(),
+            loading: () => progressIndicator(context),
           ),
     );
   }

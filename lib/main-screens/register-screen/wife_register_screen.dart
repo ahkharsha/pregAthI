@@ -61,9 +61,10 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
             setState(() {
               isLoading = false;
             });
-            Future.delayed(const Duration(microseconds: 1),() {
-              dialogueBoxWithButton(context, 'Registration successful. Verify your email to proceed');
-              });
+            Future.delayed(const Duration(microseconds: 1), () {
+              dialogueBoxWithButton(context,
+                  'Registration successful. Verify your email to proceed');
+            });
           });
         }
       }
@@ -81,8 +82,7 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
         setState(() {
           isLoading = false;
         });
-        dialogueBox(
-            context, e.toString());
+        dialogueBox(context, e.toString());
       }
     }
   }
@@ -134,7 +134,10 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                     hintText: 'Enter name',
                                     textInputAction: TextInputAction.next,
                                     keyboardtype: TextInputType.name,
-                                    prefix: Icon(Icons.person),
+                                    prefix: Icon(
+                                      Icons.person,
+                                      color: textColor,
+                                    ),
                                     onsave: (name) {
                                       _formData['name'] = name ?? '';
                                     },
@@ -150,7 +153,10 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                     hintText: 'Enter phone',
                                     textInputAction: TextInputAction.next,
                                     keyboardtype: TextInputType.phone,
-                                    prefix: Icon(Icons.phone),
+                                    prefix: Icon(
+                                      Icons.phone,
+                                      color: textColor,
+                                    ),
                                     onsave: (phone) {
                                       _formData['phone'] = phone ?? '';
                                     },
@@ -166,7 +172,10 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                     hintText: 'Enter email',
                                     textInputAction: TextInputAction.next,
                                     keyboardtype: TextInputType.emailAddress,
-                                    prefix: Icon(Icons.alternate_email_rounded),
+                                    prefix: Icon(
+                                      Icons.alternate_email_rounded,
+                                      color: textColor,
+                                    ),
                                     onsave: (wifeEmail) {
                                       _formData['wifeEmail'] = wifeEmail ?? '';
                                     },
@@ -184,9 +193,13 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                     hintText: 'Enter husband phone',
                                     textInputAction: TextInputAction.next,
                                     keyboardtype: TextInputType.phone,
-                                    prefix: Icon(Icons.phone),
+                                    prefix: Icon(
+                                      Icons.phone,
+                                      color: textColor,
+                                    ),
                                     onsave: (husband_phone) {
-                                      _formData['husband_phone'] = husband_phone ?? '';
+                                      _formData['husband_phone'] =
+                                          husband_phone ?? '';
                                     },
                                     // validate: (husband_phone) {
                                     //   if (husband_phone!.isEmpty || husband_phone.length < 10) {
@@ -200,9 +213,13 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                     hintText: 'Nearest hospital phone',
                                     textInputAction: TextInputAction.next,
                                     keyboardtype: TextInputType.phone,
-                                    prefix: Icon(Icons.phone),
+                                    prefix: Icon(
+                                      Icons.phone,
+                                      color: textColor,
+                                    ),
                                     onsave: (hospital_phone) {
-                                      _formData['hospital_phone'] = hospital_phone ?? '';
+                                      _formData['hospital_phone'] =
+                                          hospital_phone ?? '';
                                     },
                                     // validate: (hospital_phone) {
                                     //   if (hospital_phone!.isEmpty || hospital_phone.length < 10) {
@@ -215,7 +232,10 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                   CustomTextField(
                                     hintText: 'Enter password',
                                     isPassword: isPasswordHidden,
-                                    prefix: Icon(Icons.vpn_key_rounded),
+                                    prefix: Icon(
+                                      Icons.vpn_key_rounded,
+                                      color: textColor,
+                                    ),
                                     onsave: (password) {
                                       _formData['password'] = password ?? '';
                                     },
@@ -227,8 +247,14 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                           });
                                         },
                                         icon: isPasswordHidden
-                                            ? Icon(Icons.visibility)
-                                            : Icon(Icons.visibility_off)),
+                                            ? Icon(
+                                                Icons.visibility,
+                                                color: textColor,
+                                              )
+                                            : Icon(
+                                                Icons.visibility_off,
+                                                color: textColor,
+                                              )),
                                     // validate: (password) {
                                     //   if (password!.isEmpty || password.length < 6) {
                                     //     return 'Enter correct password';
@@ -240,7 +266,10 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                   CustomTextField(
                                     hintText: 'Retype password',
                                     isPassword: isRePasswordHidden,
-                                    prefix: Icon(Icons.vpn_key_rounded),
+                                    prefix: Icon(
+                                      Icons.vpn_key_rounded,
+                                      color: textColor,
+                                    ),
                                     onsave: (re_password) {
                                       _formData['re_password'] =
                                           re_password ?? '';
@@ -253,8 +282,14 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                           });
                                         },
                                         icon: isRePasswordHidden
-                                            ? Icon(Icons.visibility)
-                                            : Icon(Icons.visibility_off)),
+                                            ? Icon(
+                                                Icons.visibility,
+                                                color: textColor,
+                                              )
+                                            : Icon(
+                                                Icons.visibility_off,
+                                                color: textColor,
+                                              )),
                                     // validate: (re_password) {
                                     //   if (re_password!.isEmpty ||
                                     //       re_password.length < 6) {
@@ -291,7 +326,8 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                   child: SubButton(
                                       title: 'Back to User select',
                                       onPressed: () {
-                                        goToDisableBack(context, RegisterSelectScreen());
+                                        goToDisableBack(
+                                            context, RegisterSelectScreen());
                                       }),
                                 ),
                               ],
