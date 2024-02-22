@@ -1,6 +1,9 @@
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/community-chat/community_home.dart';
+import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/main-screens/home-screen/wife_home_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/contacts/contacts_screen.dart';
@@ -42,35 +45,40 @@ class _BottomPageState extends State<BottomPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages[currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        type: BottomNavigationBarType.fixed,
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Colors.white,
+        color: primaryColor,
         onTap: onTapped,
         items: const [
-          BottomNavigationBarItem(
-              label: 'Home',
-              icon: Icon(
+          CurvedNavigationBarItem(
+              // label: 'Home',
+              child: Icon(
                 Icons.home,
+                color: Colors.white,
               )),
-          BottomNavigationBarItem(
-              label: 'Contacts',
-              icon: Icon(
+          CurvedNavigationBarItem(
+              // label: 'Contacts',
+              child: Icon(
                 Icons.contacts,
+                color: Colors.white,
               )),
-          BottomNavigationBarItem(
-              label: 'Forum',
-              icon: Icon(
+          CurvedNavigationBarItem(
+              // label: 'Forum',
+              child: Icon(
                 Icons.groups,
+                color: Colors.white,
               )),
-          BottomNavigationBarItem(
-              label: 'AI Chat',
-              icon: Icon(
+          CurvedNavigationBarItem(
+              // label: 'AI Chat',
+              child: Icon(
                 Icons.mark_unread_chat_alt_rounded,
+                color: Colors.white,
               )),
-          BottomNavigationBarItem(
-              label: 'Profile',
-              icon: Icon(
+          CurvedNavigationBarItem(
+              // label: 'Profile',
+              child: Icon(
                 Icons.person,
+                color: Colors.white,
               )),
         ],
       ),
