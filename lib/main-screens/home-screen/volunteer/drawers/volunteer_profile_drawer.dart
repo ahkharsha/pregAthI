@@ -69,14 +69,14 @@ class VolunteerProfileDrawer extends ConsumerWidget {
             ),
             ListTile(
               title: Text("Profile"),
-              leading: Icon(Icons.announcement_rounded),
+              leading: Icon(Icons.person),
               onTap: () {
                 goTo(context, VolunteerProfileScreen());
               },
             ),
             ListTile(
               title: Text("Announcements"),
-              leading: Icon(Icons.person),
+              leading: Icon(Icons.announcement_rounded),
               onTap: () {
                 goTo(context, AnnouncementScreen());
               },

@@ -120,7 +120,7 @@ class _AddContactsScreenState extends State<AddContactsScreen> {
                                   ? contactsFiltered[index]
                                   : contacts[index];
                               return ListTile(
-                                title: Text(contact.displayName??'--phone-contact--'),
+                                title: Text(contact.displayName??'Phone contact ${index+1}'),
                                 // subtitle:
                                 //     Text(contact.phones!.elementAt(0).value!),
                                 leading: contact.avatar != null &&

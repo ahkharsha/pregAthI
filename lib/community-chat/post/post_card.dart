@@ -21,11 +21,13 @@ class PostCard extends ConsumerWidget {
   });
 
   void upvotePost(WidgetRef ref) async {
-    ref.read(postControllerProvider.notifier).upvote(post);
+    ref.read(postControllerProvider.notifier).upvote(post, user!.uid);
+    print(user!.uid);
   }
 
   void downvotePost(WidgetRef ref) async {
-    ref.read(postControllerProvider.notifier).downvote(post);
+    ref.read(postControllerProvider.notifier).downvote(post, user!.uid);
+    print(user!.uid);
   }
 
   checkCurrentDate(String time, String date) {

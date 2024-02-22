@@ -4,6 +4,7 @@ import 'package:pregathi/community-chat/community_home.dart';
 import 'package:pregathi/main-screens/home-screen/wife_home_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/contacts/contacts_screen.dart';
+import 'package:pregathi/widgets/home/bottom-bar/profile_screen.dart';
 
 class BottomPage extends StatefulWidget {
   BottomPage({Key? key}) : super(key: key);
@@ -25,8 +26,9 @@ class _BottomPageState extends State<BottomPage> {
     pages = [
       WifeHomeScreen(),
       ContactsScreen(),
-      ChatScreen(),
       CommunityHome(),
+      ChatScreen(),
+      WifeProfileScreen(),
     ];
   }
 
@@ -56,14 +58,19 @@ class _BottomPageState extends State<BottomPage> {
                 Icons.contacts,
               )),
           BottomNavigationBarItem(
+              label: 'Forum',
+              icon: Icon(
+                Icons.groups,
+              )),
+          BottomNavigationBarItem(
               label: 'AI Chat',
               icon: Icon(
                 Icons.mark_unread_chat_alt_rounded,
               )),
           BottomNavigationBarItem(
-              label: 'Community',
+              label: 'Profile',
               icon: Icon(
-                Icons.groups,
+                Icons.person,
               )),
         ],
       ),

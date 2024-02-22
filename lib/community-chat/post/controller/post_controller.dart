@@ -371,12 +371,12 @@ class PostController extends StateNotifier<bool> {
         (r) => showSnackBar(context, 'Post Deleted successfully!'));
   }
 
-  void upvote(Post post) async {
-    _postRepository.upvote(post, user!.uid);
+  void upvote(Post post, String uid) async {
+    _postRepository.upvote(post, uid);
   }
 
-  void downvote(Post post) async {
-    _postRepository.downvote(post, user!.uid);
+  void downvote(Post post, String uid) async {
+    _postRepository.downvote(post, uid);
   }
 
   Stream<Post> getPostById(String postId) {
