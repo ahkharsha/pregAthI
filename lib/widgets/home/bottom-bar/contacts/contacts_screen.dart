@@ -10,6 +10,7 @@ import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/widgets/home/bottom-bar/contacts/add_contacts.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 
 class ContactsScreen extends StatefulWidget {
   const ContactsScreen({Key? key}) : super(key: key);
@@ -86,7 +87,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
           },
         ),
         title: Text(
-          "Trusted Contacts",
+          translation(context).trustedContacts,
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: false,
@@ -98,7 +99,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
           child: Column(
             children: [
               FullScreenButton(
-                title: "Add Trusted Contacts",
+                title: translation(context).addTrustedContacts,
                 onPressed: () async {
                   bool result = await Navigator.push(
                     context,
@@ -117,14 +118,14 @@ class _ContactsScreenState extends State<ContactsScreen> {
                   itemBuilder: (BuildContext context, int index) {
                     if (index == 0) {
                       return buildFixedContactTile(
-                        'Husband',
+                        translation(context).husband,
                         Icons.person,
                         index - 2,
                         husbandPhoneNumber,
                       );
                     } else if (index == 1) {
                       return buildFixedContactTile(
-                        'Nearest Hospital',
+                        translation(context).nearestHospital,
                         Icons.local_hospital,
                         index - 2,
                         hospitalPhoneNumber,

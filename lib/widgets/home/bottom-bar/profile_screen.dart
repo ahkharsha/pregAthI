@@ -74,8 +74,8 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
             onPressed: () {
               Navigator.of(context).pop();
             }),
-        title: const Text(
-          "Profile",
+        title: Text(
+          translation(context).profile,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -90,7 +90,7 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
               _updateProfile();
             },
             child: Text(
-              'Save',
+              translation(context).save,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 15.sp,

@@ -7,6 +7,7 @@ import 'package:pregathi/community-chat/screens/mod_tools_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
 import 'package:pregathi/model/community.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 
 class CommunityScreen extends ConsumerWidget {
   final String name;

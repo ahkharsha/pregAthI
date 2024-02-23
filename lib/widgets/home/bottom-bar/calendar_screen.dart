@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -70,7 +71,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               goToDisableBack(context, BottomPage());
             }),
         title: Text(
-          "Calender",
+          translation(context).calendar,
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: primaryColor,

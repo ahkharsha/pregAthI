@@ -47,5 +47,10 @@
     "calendar": "Calendar",
     "workFromHome": "Work from Home",
     "pregNews": "Preg News",
-    "announcements":"Announcements"
+    "announcements":"Announcements",
+    "trustedContacts":"Trusted Contacts",
+    "addTrustedContacts":"Add Trusted Contacts",
+    "husband":"Husband",
+    "nearestHospital":"Nearest Hospital",
+    "save":"Save"
 }
