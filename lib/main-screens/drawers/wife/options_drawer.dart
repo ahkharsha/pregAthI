@@ -8,7 +8,7 @@ import 'package:pregathi/widgets/home/bottom-bar/contacts/contacts_screen.dart';
 import 'package:pregathi/widgets/home/wife-drawer/news_screen.dart';
 import 'package:pregathi/widgets/home/wife-drawer/work_from_home.dart';
 import 'package:sizer/sizer.dart';
-
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 class WifeOptionsDrawer extends ConsumerWidget {
   const WifeOptionsDrawer({super.key});
 
@@ -21,14 +21,14 @@ class WifeOptionsDrawer extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Padding(
+               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text(
-                  'Features',
-                  style: TextStyle(fontSize: 20),
+                  translation(context).aiChat,
+                  style: const TextStyle(fontSize: 20),
                 ),
               ),
               Divider(
@@ -38,45 +38,45 @@ class WifeOptionsDrawer extends ConsumerWidget {
                 endIndent: 3.w,
               ),
               ListTile(
-                title: Text("Community"),
-                leading: Icon(Icons.groups_2_rounded),
+                title:  Text(translation(context).community),
+                leading: const Icon(Icons.groups_2_rounded),
                 onTap: () {
-                  goTo(context, CommunityHome());
+                  goTo(context, const CommunityHome());
                 },
               ),
               ListTile(
-                title: Text("AI Chat"),
-                leading: Icon(Icons.mark_unread_chat_alt_rounded),
+                title:  Text(translation(context).aiChat),
+                leading: const Icon(Icons.mark_unread_chat_alt_rounded),
                 onTap: () {
-                  goTo(context, ChatScreen());
+                  goTo(context, const ChatScreen());
                 },
               ),
               ListTile(
-                title: Text("Contacts"),
-                leading: Icon(Icons.contacts),
+                title:  Text(translation(context).contacts),
+                leading: const Icon(Icons.contacts),
                 onTap: () {
-                  goTo(context, ContactsScreen());
+                  goTo(context, const ContactsScreen());
                 },
               ),
               ListTile(
-                title: Text("Calender"),
-                leading: Icon(Icons.calendar_month_rounded),
+                title:  Text(translation(context).calendar),
+                leading: const Icon(Icons.calendar_month_rounded),
                 onTap: () {
-                  goTo(context, CalendarScreen());
+                  goTo(context, const CalendarScreen());
                 },
               ),
               ListTile(
-                title: Text("Work from Home"),
-                leading: Icon(Icons.work_rounded),
+                title:  Text(translation(context).workFromHome),
+                leading: const Icon(Icons.work_rounded),
                 onTap: () {
-                  goTo(context, WorkFromHomeScreen());
+                  goTo(context, const WorkFromHomeScreen());
                 },
               ),
               ListTile(
-                title: Text("Preg News"),
-                leading: Icon(Icons.newspaper_outlined),
+                title: Text(translation(context).pregNews),
+                leading: const Icon(Icons.newspaper_outlined),
                 onTap: () {
-                  goTo(context, NewsScreen());
+                  goTo(context, const NewsScreen());
                 },
               ),
             ],

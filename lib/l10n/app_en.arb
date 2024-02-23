@@ -13,6 +13,7 @@
     "hospitals": "Hospitals",
     "pharmacy": "Pharmacy",
     "policeStations": "Police Stations",
+    "profile": "Profile",
     "sent": "Message Sent",
     "pregAthI": "pregAthI",
     "name": "Name",
@@ -39,5 +40,12 @@
     "me":"Me",
     "typeMessage":"Type a message ....",
     "noteDelete":"Note: This action is permanent and cannot be undone",
-    "enterConfirm":"Enter CONFIRM to delete your account"
+    "enterConfirm":"Enter CONFIRM to delete your account",
+    "features": "Features",
+    "community": "Community",
+    "contacts": "Contacts",
+    "calendar": "Calendar",
+    "workFromHome": "Work from Home",
+    "pregNews": "Preg News",
+    "announcements":"Announcements"
 }

@@ -13,6 +13,7 @@
     "hospitals": "हॉस्पिटल",
     "pharmacy": "फार्मेसी",
     "policeStations": "पुलिस स्टेशन",
+    "profile": "प्रोफ़ाइल",
     "sent": "संदेश भेजा गया",
     "pregAthI": "प्रेगथी",
     "name":"नाम",
@@ -39,5 +40,12 @@
     "me":"मैं",
     "typeMessage":"संदेश लिखें ....",
     "noteDelete":"नोट: यह क्रिया स्थायी है और पूर्वार्तित नहीं की जा सकती।",
-    "enterConfirm":"उपयोगकर्ता, अपना खाता हटाने के लिए 'CONFIRM' लिखें।"
+    "enterConfirm":"उपयोगकर्ता, अपना खाता हटाने के लिए 'CONFIRM' लिखें।",
+    "features": "विशेषताएँ",
+    "community": "समुदाय",
+    "contacts": "संपर्क",
+    "calendar": "कैलेंडर",
+    "workFromHome": "घर से काम",
+    "pregNews" :"प्रेग न्यूज़",
+    "announcements":"घोषणाएँ"
   }

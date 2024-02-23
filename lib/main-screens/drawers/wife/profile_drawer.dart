@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/main-screens/announcements.dart';
+import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:pregathi/widgets/home/bottom-bar/profile_screen.dart';
 import 'package:sizer/sizer.dart';
 
@@ -70,21 +71,21 @@ class WifeProfileDrawer extends ConsumerWidget {
                 height: 5,
               ),
               ListTile(
-                title: Text("Profile"),
+                title: Text(translation(context).profile),
                 leading: Icon(Icons.person),
                 onTap: () {
                   goTo(context, WifeProfileScreen());
                 },
               ),
               ListTile(
-                title: Text("Announcements"),
+                title: Text(translation(context).announcements),
                 leading: Icon(Icons.announcement_rounded),
                 onTap: () {
                   goTo(context, AnnouncementScreen());
                 },
               ),
               ListTile(
-                title: Text("Logout"),
+                title: Text(translation(context).logout),
                 leading: Icon(Icons.logout_rounded),
                 onTap: () {
                   logoutConfirmation(context);
