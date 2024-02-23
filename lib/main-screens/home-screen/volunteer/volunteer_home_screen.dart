@@ -7,7 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'package:pregathi/main-screens/home-screen/volunteer/drawers/volunteer_profile_drawer.dart';
+import 'package:pregathi/main-screens/drawers/wife/volunteer/volunteer_profile_drawer.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/volunteer_history.dart';
 import 'package:pregathi/user_permission.dart';
