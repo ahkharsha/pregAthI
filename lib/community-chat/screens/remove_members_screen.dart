@@ -65,15 +65,14 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
       future: _reference.get(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(); // Return a placeholder while loading
+          return Container(); 
         }
         if (snapshot.hasError) {
           return ErrorText(
               error: snapshot.error
-                  .toString()); // Return an error widget if there's an error
+                  .toString());
         }
         String name = snapshot.data!['name'];
-        // Check if the member is not in community.mods
         if (!mods.contains(member)) {
           return CheckboxListTile(
             value: removeUids.contains(member),
@@ -87,7 +86,6 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
             title: Text(name),
           );
         } else {
-          // Return an empty Container if the member is in community.mods
           return Container();
         }
       },
@@ -127,7 +125,7 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
           Expanded(
             child: ref.watch(getCommunityByNameProvider(widget.name)).when(
                   data: (community) {
-                    isListViewBuilderComplete = false; // Reset flag
+                    isListViewBuilderComplete = false; 
                     return ListView.builder(
                       itemCount: community.members.length,
                       itemBuilder: (BuildContext context, int index) {
@@ -138,7 +136,7 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
                               () => _buildCheckboxTile(member, community.mods)),
                           builder: (context, snapshot) {
                             if (index == community.members.length - 1) {
-                              isListViewBuilderComplete = true; // Set flag when building is complete
+                              isListViewBuilderComplete = true; 
                             }
                             if (community.members.contains(member) &&
                                 (ctr >= 0 && ctr < community.members.length)) {
