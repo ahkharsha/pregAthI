@@ -63,6 +63,10 @@ void goToDisableBack(BuildContext context, Widget nextScreen) {
       ));
 }
 
+void goBack(BuildContext context) {
+  Navigator.of(context).pop();
+}
+
 void showSnackBar(BuildContext context, String text) {
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()

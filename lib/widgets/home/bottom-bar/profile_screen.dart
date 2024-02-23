@@ -29,7 +29,7 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
   final User? user = FirebaseAuth.instance.currentUser;
   File? newProfilePic;
   bool isSaving = false;
-  String? totalWeeks='36';
+  String? totalWeeks = '36';
 
   @override
   void initState() {
@@ -76,7 +76,10 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
             }),
         title: const Text(
           "Profile",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         centerTitle: false,
         backgroundColor: primaryColor,
@@ -150,8 +153,7 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
                 ),
                 TextFormField(
                   controller: _totalWeekController,
-                  decoration: InputDecoration(
-                      labelText: 'Total Weeks'),
+                  decoration: InputDecoration(labelText: 'Total Weeks'),
                   style: const TextStyle(fontSize: 18),
                 ),
                 TextFormField(
@@ -196,8 +198,7 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
           LinearProgressIndicator(
             value: progressValue,
             backgroundColor: Colors.white,
-            valueColor: AlwaysStoppedAnimation<Color>(
-                textColor), 
+            valueColor: AlwaysStoppedAnimation<Color>(textColor),
           ),
           const SizedBox(height: 10),
           Text("${translation(context).week} $userWeek of $totalWeeks",
@@ -273,7 +274,7 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
         'name': _nameController.text,
         'week': _weekController.text,
         'bio': _bioController.text,
-        'totalWeek':_totalWeekController.text,
+        'totalWeek': _totalWeekController.text,
         if (downloadUrl != null)
           'profilePic': downloadUrl
         else
@@ -329,7 +330,7 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
         ),
         child: Text(
           translation(context).deleteAccount,
-          style:  TextStyle(
+          style: TextStyle(
             color: Colors.white,
             fontSize: 12.sp,
           ),

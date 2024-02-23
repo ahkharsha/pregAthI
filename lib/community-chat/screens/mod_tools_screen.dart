@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pregathi/community-chat/screens/add_mods_screen.dart';
 import 'package:pregathi/community-chat/screens/edit_community_screen.dart';
+import 'package:pregathi/community-chat/screens/remove_members_screen.dart';
 import 'package:pregathi/const/constants.dart';
 
 class ModToolsScreen extends StatelessWidget {
@@ -11,10 +12,24 @@ class ModToolsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mod Tools'),
+        leading: BackButton(
+            color: Colors.white,
+            onPressed: () {
+              goBack(context);
+            }),
+        backgroundColor: primaryColor,
+        title: const Text(
+          "Mod Tools",
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
       ),
       body: Column(
         children: [
+          ListTile(
+            leading: const Icon(Icons.remove_moderator_rounded),
+            title: const Text('Remove Members'),
+            onTap: () {goTo(context, RemoveMembersScreen(name: name,));},
+          ),
           ListTile(
             leading: const Icon(Icons.add_moderator),
             title: const Text('Add Moderators'),

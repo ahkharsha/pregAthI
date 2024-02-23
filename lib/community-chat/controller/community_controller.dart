@@ -161,6 +161,22 @@ class CommunityController extends StateNotifier<bool> {
       },
     );
   }
+
+    void removeMembers(
+      String communityName, List<String> uids, BuildContext context, String userId) async {
+    final res = await _communityRepository.removeMembers(communityName, uids);
+
+    res.fold(
+      (l) => showSnackBar(context, l.message),
+      (r) => {
+        if (!uids.contains(userId))
+          goToDisableBack(context, CommunityScreen(name: communityName))
+        else
+          Navigator.of(context).pop()
+      },
+    );
+  }
+
   Stream<List<Post>> getCommunityPosts(String name) {
     return _communityRepository.getCommunityPosts(name);
   }

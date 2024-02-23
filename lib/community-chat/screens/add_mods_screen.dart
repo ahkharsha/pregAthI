@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
-import 'package:pregathi/community-chat/screens/community_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
 
@@ -70,7 +69,7 @@ class _AddModsScreenState extends ConsumerState<AddModsScreen> {
         leading: BackButton(
             color: Colors.white,
             onPressed: () {
-              goToDisableBack(context, CommunityScreen(name: widget.name));
+              goBack(context);
             }),
         backgroundColor: primaryColor,
         actions: [
@@ -93,19 +92,9 @@ class _AddModsScreenState extends ConsumerState<AddModsScreen> {
                   builder: (context, snapshot) {
                     if (community.mods.contains(member) &&
                         (ctr >= 0 && ctr <= community.mods.length)) {
-                      // print(ctr);
-                      // print('My uid is');
-                      // print(member);
                       uids.add(member);
-                    } else {
-                      // print('Control is not zero');
-                      // print(ctr);
-                      // print('My uid is');
-                      // print(member);
-                    }
+                    } 
                     ctr++;
-                    // print('The list uids is');
-                    // print(uids);
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Container();
                     } else if (snapshot.hasError) {
