@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/firebase_data.dart';
-import 'package:pregathi/widgets/home/wife-drawer/news_card.dart';
+import 'package:pregathi/widgets/home/wife-drawer/cards/news_card.dart';
 
 class NewsScreen extends StatelessWidget {
   const NewsScreen({Key? key});
