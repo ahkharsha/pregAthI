@@ -28,13 +28,13 @@ class _ChatScreenState extends State<ChatScreen> {
                   onPressed: () {
                     goToDisableBack(context, BottomPage());
                   }),
-              title:Text(
+              title: Text(
                 translation(context).aiChat,
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
               ),
               centerTitle: false,
-              bottom:TabBar(
+              bottom: TabBar(
                 labelColor: Colors.white,
                 indicatorColor: Colors.black,
                 indicatorSize: TabBarIndicatorSize.label,
@@ -46,7 +46,11 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
             body: const TabBarView(
-              children: [TextChat(), ImageChat()],
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                TextChat(),
+                ImageChat(),
+              ],
             )));
   }
 }

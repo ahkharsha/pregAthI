@@ -76,7 +76,7 @@ class VolunteerProfileDrawer extends ConsumerWidget {
             ),
             ListTile(
               title: Text("Announcements"),
-              leading: Icon(Icons.announcement_rounded),
+              leading: Icon(Icons.notifications_active_rounded),
               onTap: () {
                 goTo(context, AnnouncementScreen());
               },

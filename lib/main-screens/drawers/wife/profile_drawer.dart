@@ -79,7 +79,7 @@ class WifeProfileDrawer extends ConsumerWidget {
               ),
               ListTile(
                 title: Text(translation(context).announcements),
-                leading: Icon(Icons.announcement_rounded),
+                leading: Icon(Icons.notifications_active_rounded),
                 onTap: () {
                   goTo(context, AnnouncementScreen());
                 },
