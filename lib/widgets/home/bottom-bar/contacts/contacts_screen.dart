@@ -9,6 +9,7 @@ import 'package:pregathi/model/contacts.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/widgets/home/bottom-bar/contacts/add_contacts.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
+import 'package:sizer/sizer.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
 
@@ -22,8 +23,8 @@ class ContactsScreen extends StatefulWidget {
 class _ContactsScreenState extends State<ContactsScreen> {
   DatabaseService _databaseHelper = DatabaseService();
   List<TContact>? contactList;
-  String? husbandPhoneNumber='';
-  String? hospitalPhoneNumber='';
+  String? husbandPhoneNumber = '';
+  String? hospitalPhoneNumber = '';
 
   int count = 0;
 
@@ -98,6 +99,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
           padding: EdgeInsets.all(20.0),
           child: Column(
             children: [
+              SizedBox(
+                height: 2.h,
+              ),
               FullScreenButton(
                 title: translation(context).addTrustedContacts,
                 onPressed: () async {
@@ -111,6 +115,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                     listShow();
                   }
                 },
+              ),
+              SizedBox(
+                height: 3.h,
               ),
               Expanded(
                 child: ListView.builder(
@@ -150,32 +157,40 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
   Widget buildFixedContactTile(
       String name, IconData icon, int index, String? phoneNumber) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-          title: Text(name),
-          leading: Icon(icon),
-          subtitle: Text('${phoneNumber}'),
-          trailing: phoneNumber != null
-              ? Container(
-                  width: MediaQuery.of(context).size.width * 0.13555,
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () async {
-                          await FlutterPhoneDirectCaller.callNumber(
-                              phoneNumber);
-                        },
-                        icon: Icon(
-                          Icons.call,
-                          color: Colors.red,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 7),
+      child: Card(
+        color: boxColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(color: Colors.black, width: 1),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListTile(
+            title: Text(name),
+            leading: Icon(icon),
+            subtitle: Text('${phoneNumber}'),
+            trailing: phoneNumber != null
+                ? Container(
+                    width: MediaQuery.of(context).size.width * 0.13555,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: () async {
+                            await FlutterPhoneDirectCaller.callNumber(
+                                phoneNumber);
+                          },
+                          icon: Icon(
+                            Icons.call,
+                            color: Colors.red,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              : null,
+                      ],
+                    ),
+                  )
+                : null,
+          ),
         ),
       ),
     );
@@ -184,6 +199,11 @@ class _ContactsScreenState extends State<ContactsScreen> {
   Widget buildContactTile(
       String name, IconData icon, int index, String? phoneNumber) {
     return Card(
+      color: boxColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: BorderSide(color: Colors.black, width: 1),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
