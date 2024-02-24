@@ -5,7 +5,7 @@ import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/widgets/home/bottom-bar/calendar_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/contacts/contacts_screen.dart';
-import 'package:pregathi/widgets/home/wife-drawer/music_screen.dart';
+import 'package:pregathi/widgets/home/wife-drawer/music_list.dart';
 import 'package:pregathi/widgets/home/wife-drawer/news_screen.dart';
 import 'package:pregathi/widgets/home/wife-drawer/work_from_home.dart';
 import 'package:sizer/sizer.dart';
@@ -70,7 +70,7 @@ class WifeOptionsDrawer extends ConsumerWidget {
                 title:  Text('Music Player'),
                 leading: const Icon(Icons.music_note_rounded),
                 onTap: () {
-                  goTo(context, const MusicScreen());
+                  goTo(context, const MusicListScreen());
                 },
               ),
               ListTile(
