@@ -19,6 +19,13 @@ class WifeEmergencyScreen extends StatefulWidget {
 class _WifeEmergencyScreenState extends State<WifeEmergencyScreen> {
   late DocumentReference _documentReference;
   final User? user = FirebaseAuth.instance.currentUser;
+  _playEmergencySound() async {
+
+    final player=AudioPlayer();
+    player.setReleaseMode(ReleaseMode.loop);
+    String audioPath="audio/sound.mp3";
+    await player.play(AssetSource(audioPath));
+}
 
   _sendVolunteerNotification() async {
     final QuerySnapshot<Map<String, dynamic>> userQuery =
@@ -67,17 +74,12 @@ class _WifeEmergencyScreenState extends State<WifeEmergencyScreen> {
   }
 
   @override
-  void initState() {
+  void initState() async{
     super.initState();
-    
     _sendVolunteerNotification();
     _playEmergencySound();
   }
-  void _playEmergencySound() async {
-    final player = AudioPlayer();  
-    const audioPath = "alert/emergency-alarm-with-reverb-29431.mp3";
-    await player.play(AssetSource(audioPath));
-  }
+  
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -85,7 +87,7 @@ class _WifeEmergencyScreenState extends State<WifeEmergencyScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Emergency!!!",
+            "Emerge!!!",
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
           ),
           centerTitle: true,
