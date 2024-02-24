@@ -97,17 +97,18 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
       );
     }
   }
+
   _getProfilePic() async {
     final User? user = FirebaseAuth.instance.currentUser;
     DocumentReference<Map<String, dynamic>> _reference =
         FirebaseFirestore.instance.collection('users').doc(user!.uid);
     DocumentSnapshot userData = await _reference.get();
-    
+
     setState(() {
       profilePic = userData['profilePic'];
     });
   }
-  
+
   updateLastLogin() {
     DateTime now = DateTime.now();
     var formatterDate = DateFormat('dd/MM/yy').format(now);
@@ -213,8 +214,9 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
         }),
         actions: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(7.0),
             child: DropdownButton<Language>(
+              isDense: true,
               underline: const SizedBox(),
               icon: const Icon(
                 Icons.language,
@@ -230,15 +232,17 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                   .map<DropdownMenuItem<Language>>(
                     (e) => DropdownMenuItem<Language>(
                       value: e,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Text(
-                            e.flag,
-                            style: TextStyle(fontSize: 25.sp),
-                          ),
-                          Text(e.name)
-                        ],
+                      child: Padding(
+                        padding: EdgeInsets.zero, // No padding around text
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              child: Text(e.name),
+                              width: 72,
+                              padding: EdgeInsets.symmetric(horizontal: 0),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   )

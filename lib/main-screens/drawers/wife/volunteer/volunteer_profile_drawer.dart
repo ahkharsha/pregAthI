@@ -13,13 +13,13 @@ class VolunteerProfileDrawer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Drawer(
-      child: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            StreamBuilder<DocumentSnapshot>(
+      child: Column(
+        children: [
+          Container(
+            color: primaryColor,
+            width: double.infinity, // Set background color here
+            padding: EdgeInsets.symmetric(vertical: 20.0),
+            child: StreamBuilder<DocumentSnapshot>(
               stream: FirebaseFirestore.instance
                   .collection('users')
                   .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -30,14 +30,14 @@ class VolunteerProfileDrawer extends ConsumerWidget {
                   return dialogueBox(
                       context, 'Some error has occurred ${snapshot.error}');
                 }
-
+      
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return progressIndicator(context);
                 }
-
+      
                 Map<String, dynamic> userData =
                     snapshot.data!.data() as Map<String, dynamic>;
-
+      
                 return Column(
                   children: [
                     Padding(
@@ -51,45 +51,44 @@ class VolunteerProfileDrawer extends ConsumerWidget {
                       padding: const EdgeInsets.only(bottom: 10.0),
                       child: Text(
                         userData['name'],
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 20, color: Colors.white,fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
                 );
               },
             ),
-            Divider(
-              height: 3,
-              color: Colors.black,
-              indent: 3.w,
-              endIndent: 3.w,
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            ListTile(
-              title: Text("Profile"),
-              leading: Icon(Icons.person),
-              onTap: () {
-                goTo(context, VolunteerProfileScreen());
-              },
-            ),
-            ListTile(
-              title: Text("Announcements"),
-              leading: Icon(Icons.notifications_active_rounded),
-              onTap: () {
-                goTo(context, AnnouncementScreen());
-              },
-            ),
-            ListTile(
-              title: Text("Logout"),
-              leading: Icon(Icons.logout_rounded),
-              onTap: () {
-                logoutConfirmation(context);
-              },
-            ),
-          ],
-        ),
+          ),
+          Divider(
+            height: 0,
+            color: Colors.black,
+            thickness: 2,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          ListTile(
+            title: Text("Profile"),
+            leading: Icon(Icons.person),
+            onTap: () {
+              goTo(context, VolunteerProfileScreen());
+            },
+          ),
+          ListTile(
+            title: Text("Announcements"),
+            leading: Icon(Icons.notifications_active_rounded),
+            onTap: () {
+              goTo(context, AnnouncementScreen());
+            },
+          ),
+          ListTile(
+            title: Text("Logout"),
+            leading: Icon(Icons.logout_rounded),
+            onTap: () {
+              logoutConfirmation(context);
+            },
+          ),
+        ],
       ),
     );
   }

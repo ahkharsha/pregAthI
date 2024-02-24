@@ -39,7 +39,6 @@ dependencies:
   dash_chat_2: ^0.0.18
   chat_gpt_sdk: ^2.2.5
   firebase_core: ^2.24.2
-
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.16.0
   cloud_firestore: ^4.14.0
