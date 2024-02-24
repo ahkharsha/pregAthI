@@ -10,6 +10,7 @@ import 'package:pregathi/widgets/home/wife-drawer/news_screen.dart';
 import 'package:pregathi/widgets/home/wife-drawer/work_from_home.dart';
 import 'package:sizer/sizer.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
+import 'package:pregathi/multi-language/classes/language_choice_screen.dart';
 
 class WifeOptionsDrawer extends ConsumerWidget {
   const WifeOptionsDrawer({super.key});
@@ -99,6 +100,13 @@ class WifeOptionsDrawer extends ConsumerWidget {
                 goTo(context, const NewsScreen());
               },
             ),
+            ListTile(
+              title: Text("Language"),
+              leading: const Icon(Icons.work_rounded),
+              onTap: () {
+                goTo(context, const  LanguageSelectionScreen());
+              },
+            )
           ],
         ),
       ),

@@ -213,42 +213,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
           );
         }),
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(7.0),
-            child: DropdownButton<Language>(
-              isDense: true,
-              underline: const SizedBox(),
-              icon: const Icon(
-                Icons.language,
-                color: Colors.white,
-              ),
-              onChanged: (Language? language) async {
-                if (language != null) {
-                  Locale _locale = await setLocale(language.languageCode);
-                  MyApp.setLocale(context, _locale);
-                }
-              },
-              items: Language.languageList()
-                  .map<DropdownMenuItem<Language>>(
-                    (e) => DropdownMenuItem<Language>(
-                      value: e,
-                      child: Padding(
-                        padding: EdgeInsets.zero, // No padding around text
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              child: Text(e.name),
-                              width: 72,
-                              padding: EdgeInsets.symmetric(horizontal: 0),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ),
+       
           Padding(
             padding: EdgeInsets.only(
                 right: MediaQuery.of(context).size.width * 0.045),
