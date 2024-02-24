@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -68,9 +69,15 @@ class _WifeEmergencyScreenState extends State<WifeEmergencyScreen> {
   @override
   void initState() {
     super.initState();
+    
     _sendVolunteerNotification();
+    _playEmergencySound();
   }
-
+  void _playEmergencySound() async {
+    final player = AudioPlayer();  
+    const audioPath = "alert/emergency-alarm-with-reverb-29431.mp3";
+    await player.play(AssetSource(audioPath));
+  }
   @override
   Widget build(BuildContext context) {
     return PopScope(
