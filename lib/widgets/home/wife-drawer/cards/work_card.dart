@@ -61,7 +61,10 @@ class WorkCard extends ConsumerWidget {
             },
             child: Container(
               decoration: BoxDecoration(
-                  color: boxColor, borderRadius: BorderRadius.circular(15)),
+                color: boxColor,
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(color: Colors.black),
+              ),
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 children: [
@@ -81,7 +84,8 @@ class WorkCard extends ConsumerWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                       left: 15.0, bottom: 10, right: 30),
-                                  child: Text('Field - ${firebaseData.title}',
+                                  child: Text(
+                                    'Field - ${firebaseData.title}',
                                     style: const TextStyle(
                                       fontSize: 19,
                                       fontWeight: FontWeight.bold,

@@ -5,7 +5,7 @@ import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:sizer/sizer.dart';
 
 class Ambulance extends StatelessWidget {
-  const Ambulance({super.key});
+  const Ambulance({Key? key});
 
   _callNumber(String number) async {
     await FlutterPhoneDirectCaller.callNumber(number);
@@ -23,12 +23,13 @@ class Ambulance extends StatelessWidget {
         child: InkWell(
           onTap: () => _callNumber('102'),
           child: Container(
-            height: 160.h,
-            width: MediaQuery.of(context).size.width * 0.5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: boxColor),
-             
+              border: Border.all(color: Colors.black), 
+              color: boxColor,
+            ),
+            height: 170.h,
+            width: MediaQuery.of(context).size.width * 0.5,
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
@@ -40,47 +41,50 @@ class Ambulance extends StatelessWidget {
                     child: Image.asset('assets/images/emergency/ambulance.png'),
                   ),
                   Expanded(
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        translation(context).ambulance,
-                        style: TextStyle(
-                            color:textColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: MediaQuery.of(context).size.width * 0.06),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 6),
-                        child: Text(
-                          translation(context).clickToCall,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          translation(context).ambulance,
                           style: TextStyle(
+                            color: textColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: MediaQuery.of(context).size.width * 0.06,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 6),
+                          child: Text(
+                            translation(context).clickToCall,
+                            style: TextStyle(
                               color: textColor,
                               fontWeight: FontWeight.bold,
-                              fontSize: MediaQuery.of(context).size.width * 0.045),
-                        ),
-                      ),
-                      Container(
-                         height: 4.h,
-                        width: 18.w,
-                        decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Center(
-                          child: Text(
-                            '102',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: MediaQuery.of(context).size.width * 0.05,
+                              fontSize: MediaQuery.of(context).size.width * 0.045,
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ))
+                        Container(
+                          height: 4.h,
+                          width: 18.w,
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Center(
+                            child: Text(
+                              '102',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: MediaQuery.of(context).size.width * 0.05,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -24,6 +24,7 @@ class AIChat extends StatelessWidget {
             height: MediaQuery.of(context).size.height*0.25,
             width: MediaQuery.of(context).size.width * 0.7,
             decoration: BoxDecoration(
+              border: Border.all(color: Colors.black),
               borderRadius: BorderRadius.circular(20),
               color: boxColor
             ),

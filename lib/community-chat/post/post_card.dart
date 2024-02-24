@@ -53,10 +53,13 @@ class PostCard extends ConsumerWidget {
       children: [
         Padding(
           padding:
-              const EdgeInsets.only(top: 5, bottom: 20.0, left: 15, right: 15),
+              const EdgeInsets.only(top: 25, left: 15, right: 15),
           child: Container(
             decoration: BoxDecoration(
-                color: boxColor, borderRadius: BorderRadius.circular(15)),
+              color: boxColor,
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(color: Colors.black),
+            ),
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               children: [
@@ -243,7 +246,8 @@ class PostCard extends ConsumerWidget {
                                                     post, ref, context),
                                             icon: const Icon(
                                               Icons.admin_panel_settings,
-                                              color: Color.fromARGB(255, 158, 59, 144) ,
+                                              color: Color.fromARGB(
+                                                  255, 158, 59, 144),
                                             ),
                                           );
                                         }

@@ -10,12 +10,11 @@ import 'package:pregathi/community-chat/repository/community_repository.dart';
 import 'package:pregathi/model/post.dart';
 import 'package:pregathi/providers/storage_repository_provider.dart';
 
-final userCommunitiesProvider = StreamProvider.family<List<Community>, String>((ref, userId) {
+final userCommunitiesProvider =
+    StreamProvider.family<List<Community>, String>((ref, userId) {
   final communityController = ref.watch(communityControllerProvider.notifier);
   return communityController.getUserCommunities(userId);
 });
-
-
 
 final communityControllerProvider =
     StateNotifierProvider<CommunityController, bool>((ref) {
@@ -57,25 +56,25 @@ class CommunityController extends StateNotifier<bool> {
         super(false);
   void createCommunity(String name, BuildContext context, String userId) async {
     state = true;
-      Community community = Community(
-        id: name,
-        name: name,
-        banner: bannerDefault,
-        avatar: avatarDefault,
-        members: [userId],
-        mods: [userId],
-      );
+    Community community = Community(
+      id: name,
+      name: name,
+      banner: bannerDefault,
+      avatar: avatarDefault,
+      members: [userId],
+      mods: [userId],
+    );
 
-      final res = await _communityRepository.createCommunity(community);
-      state = false;
-      res.fold((l) => showSnackBar(context, l.message), (r) {
-        showSnackBar(context, 'Community created successfully');
-        Navigator.pop(context);
-      });
-    
+    final res = await _communityRepository.createCommunity(community);
+    state = false;
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      showSnackBar(context, 'Community created successfully');
+      Navigator.pop(context);
+    });
   }
 
-  void joinCommunity(Community community, BuildContext context, String userId) async {
+  void joinCommunity(
+      Community community, BuildContext context, String userId) async {
     state = true;
 
     Either<Failure, void> res;
@@ -147,8 +146,8 @@ class CommunityController extends StateNotifier<bool> {
     return _communityRepository.searchCommunity(query);
   }
 
-  void addMods(
-      String communityName, List<String> uids, BuildContext context, String userId) async {
+  void addMods(String communityName, List<String> uids, BuildContext context,
+      String userId) async {
     final res = await _communityRepository.addMods(communityName, uids);
 
     res.fold(
@@ -162,17 +161,15 @@ class CommunityController extends StateNotifier<bool> {
     );
   }
 
-    void removeMembers(
-      String communityName, List<String> uids, BuildContext context, String userId) async {
+  void removeMembers(String communityName, List<String> uids,
+      BuildContext context, String userId) async {
     final res = await _communityRepository.removeMembers(communityName, uids);
 
     res.fold(
       (l) => showSnackBar(context, l.message),
       (r) => {
-        if (!uids.contains(userId))
-          goToDisableBack(context, CommunityScreen(name: communityName))
-        else
-          Navigator.of(context).pop()
+        showSnackBar(context, 'Removed selected members successfully!'),
+        goBack(context),
       },
     );
   }

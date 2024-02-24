@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
 
 class PoliceStation extends StatelessWidget {
@@ -16,9 +17,14 @@ class PoliceStation extends StatelessWidget {
               onMapFunction!('Police stations near me');
             },
             child: Card(
+              color: boxColor,
               elevation: 3,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
+                side: BorderSide(
+                  color: Colors.black,
+                  width: 1,
+                ),
               ),
               child: Container(
                 height: 50,

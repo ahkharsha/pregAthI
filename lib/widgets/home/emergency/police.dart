@@ -26,6 +26,7 @@ class Police extends StatelessWidget {
             height: 160.h,
             width: MediaQuery.of(context).size.width * 0.5,
             decoration: BoxDecoration(
+              border: Border.all(color: Colors.black),
               borderRadius: BorderRadius.circular(20),
              color: boxColor
             ),

@@ -56,9 +56,9 @@ class _InstaShareState extends State<InstaShare> {
             height: MediaQuery.of(context).size.height * 0.25,
             width: MediaQuery.of(context).size.width * 0.7,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-             color: boxColor
-            ),
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(20),
+                color: boxColor),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -164,8 +164,6 @@ class _InstaShareState extends State<InstaShare> {
     );
   }
 
- 
-
   Future<void> loadData() async {
     final User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -245,10 +243,8 @@ class _InstaShareModalBottomSheetState
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-
               "Send current location immediately to emergency contacts..",
               textAlign: TextAlign.center,
-              
               style: TextStyle(fontSize: 24),
             ),
             const SizedBox(
@@ -286,41 +282,38 @@ class _InstaShareModalBottomSheetState
                     List<TContact> contactList =
                         await DatabaseService().getContactList();
 
-                    
-                        String msgBody =
-                            "https://www.google.com/maps/search/?api=1&query=${_currentLat}%2C${_currentLong}. $_currentAddress";
-                        String firebaseMsg =
-                            "https://www.google.com/maps/search/?api=1&query=${_currentLat}%2C${_currentLong}";
+                    String msgBody =
+                        "https://www.google.com/maps/search/?api=1&query=${_currentLat}%2C${_currentLong}. $_currentAddress";
+                    String firebaseMsg =
+                        "https://www.google.com/maps/search/?api=1&query=${_currentLat}%2C${_currentLong}";
 
-                        setFirebaseEmergency(firebaseMsg);
+                    setFirebaseEmergency(firebaseMsg);
 
-                        if (await isPermissionGranted()) {
-                          for (TContact contact in contactList) {
-                            sendSMS(
-                              contact.number,
-                              "Having inconvenience, so reach please out at $msgBody",
-                            );
-                          }
-                          sendSMS(
-                            husbandPhoneNumber,
-                            "Having inconvenience, so reach please out at $msgBody",
-                          );
-                          sendSMSwithAlert(
-                            hospitalPhoneNumber,
-                            "Having inconvenience, so reach please out at $msgBody",
-                          );
-                        }
-                      
-
-                      goTo(context, WifeEmergencyScreen());
-                      // else {
-                      //   Fluttertoast.showToast(msg: "Something is wrong..");
-                      // }
+                    if (await isPermissionGranted()) {
+                      for (TContact contact in contactList) {
+                        sendSMS(
+                          contact.number,
+                          "Having inconvenience, so reach please out at $msgBody",
+                        );
+                      }
+                      sendSMS(
+                        husbandPhoneNumber,
+                        "Having inconvenience, so reach please out at $msgBody",
+                      );
+                      sendSMSwithAlert(
+                        hospitalPhoneNumber,
+                        "Having inconvenience, so reach please out at $msgBody",
+                      );
                     }
+
+                    goTo(context, WifeEmergencyScreen());
                     // else {
-                    //   Fluttertoast.showToast(msg: "Location not available..");
+                    //   Fluttertoast.showToast(msg: "Something is wrong..");
                     // }
-                  
+                  }
+                  // else {
+                  //   Fluttertoast.showToast(msg: "Location not available..");
+                  // }
                 },
               ),
             ),
@@ -376,7 +369,7 @@ class _InstaShareModalBottomSheetState
         location: currentLocation,
         date: formatterDate,
         time: formatterTime,
-        locality:  _currentLocality,
+        locality: _currentLocality,
         postal: _currentPostal,
         profilePic: userData['profilePic'],
       );
@@ -388,7 +381,7 @@ class _InstaShareModalBottomSheetState
           _currentPosition!.latitude, _currentPosition!.longitude);
 
       Placemark place = placeMarks[0];
-      
+
       final userMessagefinal = EmergencyMessageModel(
         name: userData['name'],
         id: user.uid,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
 
 class Pharmacy extends StatelessWidget {
@@ -9,7 +10,7 @@ class Pharmacy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20,right: 20),
+      padding: const EdgeInsets.only(left: 20, right: 20),
       child: Column(
         children: [
           InkWell(
@@ -17,9 +18,14 @@ class Pharmacy extends StatelessWidget {
               onMapFunction!('pharmacies near me');
             },
             child: Card(
+              color: boxColor,
               elevation: 3,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
+                side: BorderSide(
+                  color: Colors.black,
+                  width: 1,
+                ),
               ),
               child: Container(
                 height: 50,

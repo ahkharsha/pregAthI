@@ -23,7 +23,10 @@ class MusicCard extends ConsumerWidget {
             },
             child: Container(
               decoration: BoxDecoration(
-                  color: boxColor, borderRadius: BorderRadius.circular(15)),
+                color: boxColor,
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(color: Colors.black),
+              ),
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 children: [

@@ -3,8 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
+import 'package:pregathi/community-chat/screens/mod_tools_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
+import 'package:sizer/sizer.dart';
 
 class RemoveMembersScreen extends ConsumerStatefulWidget {
   final String name;
@@ -40,22 +42,44 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
   }
 
   void saveMembers() {
-    print('The full list of members is');
-    print(uids);
-
-    print('The uids to remove is');
-    print(removeUids);
-    finalUids = uids.difference(removeUids);
-
-    print('The final list of members is');
-    print(finalUids);
-
-    ref.read(communityControllerProvider.notifier).removeMembers(
-          widget.name,
-          finalUids.toList(),
-          context,
-          user!.uid,
-        );
+    if (removeUids.length == 0) {
+      goToDisableBack(context, ModToolsScreen(name: widget.name));
+    } else {
+      showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) => AlertDialog(
+          title: Text(
+            'Remove the following members?',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 15.sp),
+          ),
+          actions: [
+            
+            ElevatedButton(
+              onPressed: () async {
+                goBack(context);
+              },
+              child: const Text('No'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                ref.read(communityControllerProvider.notifier).removeMembers(
+                      widget.name,
+                      finalUids.toList(),
+                      context,
+                      user!.uid,
+                    );
+                    goBack(context);
+              },
+              
+              child: const Text('Yes'),
+            ),
+          ],
+          actionsAlignment: MainAxisAlignment.center,
+        ),
+      );
+    }
   }
 
   Widget _buildCheckboxTile(String member, List<String> mods) {
@@ -65,12 +89,10 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
       future: _reference.get(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(); 
+          return Container();
         }
         if (snapshot.hasError) {
-          return ErrorText(
-              error: snapshot.error
-                  .toString());
+          return ErrorText(error: snapshot.error.toString());
         }
         String name = snapshot.data!['name'];
         if (!mods.contains(member)) {
@@ -125,7 +147,7 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
           Expanded(
             child: ref.watch(getCommunityByNameProvider(widget.name)).when(
                   data: (community) {
-                    isListViewBuilderComplete = false; 
+                    isListViewBuilderComplete = false;
                     return ListView.builder(
                       itemCount: community.members.length,
                       itemBuilder: (BuildContext context, int index) {
@@ -136,7 +158,7 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
                               () => _buildCheckboxTile(member, community.mods)),
                           builder: (context, snapshot) {
                             if (index == community.members.length - 1) {
-                              isListViewBuilderComplete = true; 
+                              isListViewBuilderComplete = true;
                             }
                             if (community.members.contains(member) &&
                                 (ctr >= 0 && ctr < community.members.length)) {

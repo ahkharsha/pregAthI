@@ -33,7 +33,8 @@ Color primaryColor = Color.fromARGB(255, 174, 110, 165);
 // Final
 Color textColor = Color.fromARGB(255, 93, 11, 82);
 
-Color appBgColor=Color.fromARGB(255, 252, 213, 246);
+// Color appBgColor=Color.fromARGB(255, 252, 213, 246);
+Color appBgColor=Color.fromARGB(255, 254, 233, 251);
 
 Color boxColor =Colors.white;
 
