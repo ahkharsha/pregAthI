@@ -8,9 +8,10 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/drawers/wife/profile_drawer.dart';
 import 'package:pregathi/main-screens/drawers/wife/options_drawer.dart';
-import 'package:pregathi/main.dart';
+import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:pregathi/user_permission.dart';
 import 'package:pregathi/widgets/home/ai-chat/ai_chat.dart';
@@ -19,7 +20,6 @@ import 'package:pregathi/widgets/home/services.dart';
 import 'package:pregathi/widgets/home/insta_share/insta_share.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:pregathi/multi-language/classes/language.dart';
 
 class WifeHomeScreen extends ConsumerStatefulWidget {
   const WifeHomeScreen({Key? key}) : super(key: key);
@@ -35,11 +35,13 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
   Position? _currentPosition;
   String? _currentAddress;
   String? profilePic = wifeProfileDefault;
+  bool? isBanned = false;
 
   @override
   void initState() {
     super.initState();
     _checkUpdate();
+    _checkBan();
     _getProfilePic();
     _getCurrentLocation();
     initPermissions();
@@ -56,8 +58,6 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
   }
 
   _checkUpdate() async {
-    print('The uid of the current user is');
-    print(user!.uid);
     DocumentSnapshot versionDetails = await FirebaseFirestore.instance
         .collection('pregAthI')
         .doc('version')
@@ -98,8 +98,57 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
     }
   }
 
+  _checkBan() async {
+    DocumentSnapshot userData = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get();
+
+    if (userData['isBanned']) {
+      DateTime now = DateTime.now();
+      var current_year = now.year;
+      var current_mon = now.month;
+      var current_day = now.day;
+
+      int diffDays = DateTime(userData['lastBanYear'], userData['lastBanMonth'],
+              userData['lastBanDay'])
+          .calendarDaysTill(current_year, current_mon, current_day);
+
+      if (diffDays < 7) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => PopScope(
+            canPop: false,
+            child: AlertDialog(
+              title: Text(
+                'Your account was banned for 7 days due to receiving multiple account strikes. Please wait ${7 - diffDays} day(s) before continuing to use your account.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 15.sp),
+              ),
+              actions: [
+                ElevatedButton(
+                  onPressed: () async {
+                    goToDisableBack(context, LoginScreen());
+                    await FirebaseAuth.instance.signOut();
+                    UserSharedPreference.setUserRole('');
+                  },
+                  child: const Text('Ok'),
+                ),
+              ],
+              actionsAlignment: MainAxisAlignment.center,
+            ),
+          ),
+        );
+      } else {
+        FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
+          'isBanned': false,
+        });
+      }
+    }
+  }
+
   _getProfilePic() async {
-    final User? user = FirebaseAuth.instance.currentUser;
     DocumentReference<Map<String, dynamic>> _reference =
         FirebaseFirestore.instance.collection('users').doc(user!.uid);
     DocumentSnapshot userData = await _reference.get();
@@ -213,7 +262,6 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
           );
         }),
         actions: [
-       
           Padding(
             padding: EdgeInsets.only(
                 right: MediaQuery.of(context).size.width * 0.045),

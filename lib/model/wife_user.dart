@@ -9,6 +9,10 @@ class WifeUserModel {
   String? hospitalPhone;
   String? week;
   String? bio;
+  int? strikeCount;
+  int? banCount;
+  bool? isBanned;
+  String? totalWeeks;
 
   WifeUserModel({
     this.name,
@@ -21,6 +25,10 @@ class WifeUserModel {
     this.hospitalPhone,
     this.week,
     this.bio,
+    this.strikeCount,
+    this.banCount,
+    this.isBanned,
+    this.totalWeeks,
   });
 
   Map<String, dynamic> toJson() => {
@@ -31,8 +39,12 @@ class WifeUserModel {
         'husbandPhone': husbandPhone,
         'role': role,
         'profilePic': profilePic,
-        'hospitalPhone':hospitalPhone,
-        'week':week,
-        'bio':bio
+        'hospitalPhone': hospitalPhone,
+        'week': week,
+        'bio': bio,
+        'strikeCount': strikeCount,
+        'banCount': banCount,
+        'isBanned': isBanned,
+        'totalWeeks': totalWeeks,
       };
 }

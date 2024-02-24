@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/main-screens/announcements.dart';
 import 'package:pregathi/main-screens/home-screen/volunteer/volunteer_profile_screen.dart';
-import 'package:sizer/sizer.dart';
 
 class VolunteerProfileDrawer extends ConsumerWidget {
   const VolunteerProfileDrawer({Key? key});
@@ -17,7 +16,7 @@ class VolunteerProfileDrawer extends ConsumerWidget {
         children: [
           Container(
             color: primaryColor,
-            width: double.infinity, // Set background color here
+            width: double.infinity, 
             padding: EdgeInsets.symmetric(vertical: 20.0),
             child: StreamBuilder<DocumentSnapshot>(
               stream: FirebaseFirestore.instance
@@ -40,19 +39,17 @@ class VolunteerProfileDrawer extends ConsumerWidget {
       
                 return Column(
                   children: [
+
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
+                      padding: const EdgeInsets.only(bottom: 10.0,top: 30),
                       child: CircleAvatar(
                         backgroundImage: NetworkImage(userData['profilePic']),
                         radius: 40,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Text(
-                        userData['name'],
-                        style: TextStyle(fontSize: 20, color: Colors.white,fontWeight: FontWeight.bold),
-                      ),
+                    Text(
+                      userData['name'],
+                      style: TextStyle(fontSize: 20, color: Colors.white,fontWeight: FontWeight.bold),
                     ),
                   ],
                 );

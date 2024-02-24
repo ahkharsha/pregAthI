@@ -35,6 +35,8 @@ class _AddModsScreenState extends ConsumerState<AddModsScreen> {
   }
 
   void saveMods() {
+    print('The final mods are');
+    print(uids);
     ref.read(communityControllerProvider.notifier).addMods(
           widget.name,
           uids.toList(),
@@ -91,9 +93,11 @@ class _AddModsScreenState extends ConsumerState<AddModsScreen> {
                   future: _buildCheckboxTile(member),
                   builder: (context, snapshot) {
                     if (community.mods.contains(member) &&
-                        (ctr >= 0 && ctr <= community.mods.length)) {
+                        (ctr >= 0 && ctr <= community.mods.length+1)) {
+                      print('adding a member to uid');
+                      print(member);
                       uids.add(member);
-                    } 
+                    }
                     ctr++;
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Container();

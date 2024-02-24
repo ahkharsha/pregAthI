@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/main-screens/announcements.dart';
+import 'package:pregathi/multi-language/classes/language_choice_screen.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:pregathi/widgets/home/bottom-bar/profile_screen.dart';
-import 'package:sizer/sizer.dart';
 
 class WifeProfileDrawer extends ConsumerWidget {
   const WifeProfileDrawer({Key? key});
@@ -19,13 +19,12 @@ class WifeProfileDrawer extends ConsumerWidget {
         child: Column(
           children: [
             Container(
-              // Set the background color to yellow
               color: primaryColor,
               width: double.infinity,
               child: Column(
                 children: [
                   SizedBox(
-                    height: 20,
+                    height: 40,
                   ),
                   StreamBuilder<DocumentSnapshot>(
                     stream: FirebaseFirestore.instance
@@ -89,6 +88,13 @@ class WifeProfileDrawer extends ConsumerWidget {
               leading: Icon(Icons.notifications_active_rounded),
               onTap: () {
                 goTo(context, AnnouncementScreen());
+              },
+            ),
+            ListTile(
+              title: Text("Languages"),
+              leading: const Icon(Icons.language_rounded),
+              onTap: () {
+                goTo(context, const  LanguageSelectionScreen(initialLanguageCode: LANGUAGE_CODE,));
               },
             ),
             ListTile(

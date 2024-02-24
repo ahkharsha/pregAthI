@@ -24,6 +24,7 @@ class VolunteerHomeScreen extends StatefulWidget {
 class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
   Key streamBuilderKey = UniqueKey();
   String? profilePic = volunteerProfileDefault;
+  bool forceReload=false;
 
   final String currentVersion = '1.0.0';
   _checkUpdate() async {
@@ -289,6 +290,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
             ),
             ElevatedButton(
               onPressed: () async {
+                print(forceReload);
                 String googleUrl = '${emergencyDetails['location']}';
 
                 final Uri _url = Uri.parse(googleUrl);
@@ -358,7 +360,9 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
         padding: const EdgeInsets.only(bottom: 20.0, right: 20.0),
         child: FloatingActionButton(
           onPressed: () {
-            goTo(context, VolunteerHomeScreen());
+            setState(() {
+              forceReload=true;
+            });
           },
           backgroundColor: boxColor,
           foregroundColor: textColor,
@@ -442,17 +446,28 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                               onTap: () {
                                 _showEmergencyAlertDialog(thisItem);
                               },
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(thisItem['profilePic']),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
-                                title: Text('${thisItem['name']}'),
-                                subtitle: checkCurrentDate(
-                                    thisItem['time'],
-                                    thisItem['date'],
-                                    thisItem['locality'],
-                                    thisItem['postal']),
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 5.0, horizontal: 10.0),
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundImage:
+                                        NetworkImage(thisItem['profilePic']),
+                                  ),
+                                  title: Text('${thisItem['name']}'),
+                                  subtitle: checkCurrentDate(
+                                      thisItem['time'],
+                                      thisItem['date'],
+                                      thisItem['locality'],
+                                      thisItem['postal']),
+                                ),
                               ),
                             );
                           } else {

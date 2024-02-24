@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
@@ -27,6 +26,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final linkController = TextEditingController();
+  
   File? bannerFile;
   List<Community> communities = [];
   Community? selectedCommunity;
@@ -51,37 +51,92 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
   }
 
   void sharePost() {
+    bool containsBannedWords = false;
+
+    // Check for banned words based on the post type
     if (widget.type == 'image' &&
         bannerFile != null &&
         titleController.text.isNotEmpty) {
-      ref.read(postControllerProvider.notifier).shareImagePost(
-            context: context,
-            title: titleController.text.trim(),
-            selectedCommunity: selectedCommunity ?? communities[0],
-            file: bannerFile,
-            userId: user!.uid,
-          );
-    } else if (widget.type == 'text' && titleController.text.isNotEmpty) {
-      ref.read(postControllerProvider.notifier).shareTextPost(
-            context: context,
-            title: titleController.text.trim(),
-            selectedCommunity: selectedCommunity ?? communities[0],
-            description: descriptionController.text.trim(),
-            userId: user!.uid,
-          );
+      containsBannedWords = checkForBannedWords(titleController.text);
+      if (containsBannedWords) {
+        ref.read(postControllerProvider.notifier).deleteImagePost(
+              context: context,
+              title: titleController.text.trim(),
+              selectedCommunity: selectedCommunity ?? communities[0],
+              file: bannerFile,
+              userId: user!.uid,
+            );
+      }
+    } else if (widget.type == 'text' &&
+        (titleController.text.isNotEmpty ||
+            descriptionController.text.isNotEmpty)) {
+      containsBannedWords = checkForBannedWords(titleController.text) ||
+          checkForBannedWords(descriptionController.text);
+      if (containsBannedWords) {
+        ref.read(postControllerProvider.notifier).deleteTextPost(
+              context: context,
+              title: titleController.text.trim(),
+              selectedCommunity: selectedCommunity ?? communities[0],
+              description: descriptionController.text.trim(),
+              userId: user!.uid,
+            );
+      }
     } else if (widget.type == 'link' &&
-        titleController.text.isNotEmpty &&
-        linkController.text.isNotEmpty) {
-      ref.read(postControllerProvider.notifier).shareLinkPost(
+        (titleController.text.isNotEmpty || linkController.text.isNotEmpty)) {
+      containsBannedWords = checkForBannedWords(titleController.text) ||
+          checkForBannedWords(linkController.text);
+      ref.read(postControllerProvider.notifier).deleteLinkPost(
             context: context,
             title: titleController.text.trim(),
             selectedCommunity: selectedCommunity ?? communities[0],
             link: linkController.text.trim(),
             userId: user!.uid,
           );
-    } else {
-      showSnackBar(context, 'Please fill in all the fields');
     }
+
+    if (!containsBannedWords)  {
+      // Proceed with sharing the post
+      if (widget.type == 'image' &&
+          bannerFile != null &&
+          titleController.text.isNotEmpty) {
+        ref.read(postControllerProvider.notifier).shareImagePost(
+              context: context,
+              title: titleController.text.trim(),
+              selectedCommunity: selectedCommunity ?? communities[0],
+              file: bannerFile,
+              userId: user!.uid,
+            );
+      } else if (widget.type == 'text' && titleController.text.isNotEmpty) {
+        ref.read(postControllerProvider.notifier).shareTextPost(
+              context: context,
+              title: titleController.text.trim(),
+              selectedCommunity: selectedCommunity ?? communities[0],
+              description: descriptionController.text.trim(),
+              userId: user!.uid,
+            );
+      } else if (widget.type == 'link' &&
+          titleController.text.isNotEmpty &&
+          linkController.text.isNotEmpty) {
+        ref.read(postControllerProvider.notifier).shareLinkPost(
+              context: context,
+              title: titleController.text.trim(),
+              selectedCommunity: selectedCommunity ?? communities[0],
+              link: linkController.text.trim(),
+              userId: user!.uid,
+            );
+      } else {
+        showSnackBar(context, 'Please fill in all the fields');
+      }
+    }
+  }
+
+  bool checkForBannedWords(String text) {
+    for (String word in bannedWords) {
+      if (text.toLowerCase().contains(word.toLowerCase())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @override

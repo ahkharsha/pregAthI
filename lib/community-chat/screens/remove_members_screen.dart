@@ -10,6 +10,7 @@ import 'package:sizer/sizer.dart';
 
 class RemoveMembersScreen extends ConsumerStatefulWidget {
   final String name;
+
   const RemoveMembersScreen({
     Key? key,
     required this.name,
@@ -42,7 +43,7 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
   }
 
   void saveMembers() {
-    if (removeUids.length == 0) {
+    if (removeUids.isEmpty) {
       goToDisableBack(context, ModToolsScreen(name: widget.name));
     } else {
       showDialog(
@@ -55,7 +56,6 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
             style: TextStyle(fontSize: 15.sp),
           ),
           actions: [
-            
             ElevatedButton(
               onPressed: () async {
                 goBack(context);
@@ -64,15 +64,20 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
             ),
             ElevatedButton(
               onPressed: () async {
+                for (var uid in uids) {
+                  if (!removeUids.contains(uid)) {
+                    finalUids.add(uid);
+                  }
+                }
+
                 ref.read(communityControllerProvider.notifier).removeMembers(
                       widget.name,
                       finalUids.toList(),
                       context,
                       user!.uid,
                     );
-                    goBack(context);
+                goBack(context);
               },
-              
               child: const Text('Yes'),
             ),
           ],
@@ -119,10 +124,11 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
-            color: Colors.white,
-            onPressed: () {
-              goBack(context);
-            }),
+          color: Colors.white,
+          onPressed: () {
+            goBack(context);
+          },
+        ),
         backgroundColor: primaryColor,
         actions: [
           IconButton(
@@ -134,16 +140,35 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (isListViewBuilderComplete && modUids.length == uids.length)
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: Text(
-                  'There are no members to remove.',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+          FutureBuilder<Widget>(
+            future: Future.delayed(const Duration(seconds: 1), () {
+              if (modUids.length == uids.length) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Text(
+                      'There are no members to remove.',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                return SizedBox.shrink(); // Return an empty widget if condition is not met
+              }
+            }),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container(); // Return a placeholder widget while waiting for the future to complete
+              } else if (snapshot.hasError) {
+                return ErrorText(error: snapshot.error.toString());
+              } else {
+                return snapshot.data ?? SizedBox.shrink(); // Return the widget from the future, or an empty SizedBox if null
+              }
+            },
+          ),
           Expanded(
             child: ref.watch(getCommunityByNameProvider(widget.name)).when(
                   data: (community) {
@@ -155,21 +180,18 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
 
                         return FutureBuilder<Widget>(
                           future: Future(
-                              () => _buildCheckboxTile(member, community.mods)),
+                            () => _buildCheckboxTile(member, community.mods),
+                          ),
                           builder: (context, snapshot) {
                             if (index == community.members.length - 1) {
                               isListViewBuilderComplete = true;
                             }
                             if (community.members.contains(member) &&
                                 (ctr >= 0 && ctr < community.members.length)) {
-                              print('In this cycle, the UID is');
-                              print(member);
                               uids.add(member);
                             }
                             if (community.mods.contains(member) &&
                                 (ctr >= 0 && ctr < community.mods.length)) {
-                              print('In this cycle, the UID is');
-                              print(member);
                               modUids.add(member);
                             }
                             ctr++;
@@ -178,7 +200,8 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
                               return Container();
                             } else if (snapshot.hasError) {
                               return ErrorText(
-                                  error: snapshot.error.toString());
+                                error: snapshot.error.toString(),
+                              );
                             } else {
                               return snapshot.data!;
                             }

@@ -12,8 +12,7 @@ import 'package:pregathi/model/post.dart';
 
 // ignore: constant_identifier_names
 const apiKey = "AIzaSyCAYDrBcb41UV2-2inRihCUS80VdRWv6vs";
-const bannerDefault =
-    'https://cdn-icons-png.flaticon.com/128/1474/1474494.png';
+const bannerDefault = 'https://cdn-icons-png.flaticon.com/128/1474/1474494.png';
 const avatarDefault =
     'https://external-preview.redd.it/5kh5OreeLd85QsqYO1Xz_4XSLYwZntfjqou-8fyBFoE.png?auto=webp&s=dbdabd04c399ce9c761ff899f5d38656d1de87c2';
 
@@ -34,9 +33,16 @@ Color primaryColor = Color.fromARGB(255, 174, 110, 165);
 Color textColor = Color.fromARGB(255, 93, 11, 82);
 
 // Color appBgColor=Color.fromARGB(255, 252, 213, 246);
-Color appBgColor=Color.fromARGB(255, 254, 233, 251);
+Color appBgColor = Color.fromARGB(255, 254, 233, 251);
 
-Color boxColor =Colors.white;
+Color boxColor = Colors.white;
+
+List<String> bannedWords = [
+  'fuck',
+  'motherfucker',
+  ' fucker',
+  'asshole',
+];
 
 const tabWidgets = [
   FeedScreen(),
@@ -173,8 +179,8 @@ deletePostConfirmation(Post post, WidgetRef ref, BuildContext context) {
 }
 
 void deletePost(Post post, WidgetRef ref, BuildContext context) async {
-    ref.read(postControllerProvider.notifier).deletePost(post, context);
-  }
+  ref.read(postControllerProvider.notifier).deletePost(post, context);
+}
 
 Widget progressIndicator(BuildContext context) {
   return Center(

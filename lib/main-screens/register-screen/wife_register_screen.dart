@@ -54,6 +54,10 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
             hospitalPhone: _formData['hospital_phone'].toString(),
             week: '0',
             bio: '',
+            totalWeeks: '36',
+            strikeCount: 0,
+            banCount: 0,
+            isBanned: false,
           );
           final jsonData = user.toJson();
           await db.set(jsonData).whenComplete(() {

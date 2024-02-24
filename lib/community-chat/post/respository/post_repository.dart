@@ -21,12 +21,25 @@ class PostRepository {
 
   CollectionReference get _posts =>
       _firestore.collection(FirebaseConstants.postsCollection);
+  CollectionReference get _flagPosts =>
+      _firestore.collection(FirebaseConstants.flagPostsCollection);
 
-   CollectionReference get _comments => _firestore.collection(FirebaseConstants.commentsCollection);
+  CollectionReference get _comments =>
+      _firestore.collection(FirebaseConstants.commentsCollection);
 
   FutureVoid addPost(Post post) async {
     try {
       return right(_posts.doc(post.id).set(post.toMap()));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureVoid flagAndDeletePost(Post post) async {
+    try {
+      return right(_flagPosts.doc(post.id).set(post.toMap()));
     } on FirebaseException catch (e) {
       throw e.message!;
     } catch (e) {
@@ -93,13 +106,16 @@ class PostRepository {
         'downvotes': FieldValue.arrayUnion([userId]),
       });
     }
-    
-  }
-   Stream<Post> getPostById(String postId) {
-    return _posts.doc(postId).snapshots().map((event) => Post.fromMap(event.data() as Map<String, dynamic>));
   }
 
-    FutureVoid addComment(Comment comment) async {
+  Stream<Post> getPostById(String postId) {
+    return _posts
+        .doc(postId)
+        .snapshots()
+        .map((event) => Post.fromMap(event.data() as Map<String, dynamic>));
+  }
+
+  FutureVoid addComment(Comment comment) async {
     try {
       await _comments.doc(comment.id).set(comment.toMap());
 
@@ -113,8 +129,12 @@ class PostRepository {
     }
   }
 
-   Stream<List<Comment>> getCommentsOfPost(String postId) {
-    return _comments.where('postId', isEqualTo: postId).orderBy('createdAt', descending: true).snapshots().map(
+  Stream<List<Comment>> getCommentsOfPost(String postId) {
+    return _comments
+        .where('postId', isEqualTo: postId)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map(
           (event) => event.docs
               .map(
                 (e) => Comment.fromMap(
@@ -124,5 +144,4 @@ class PostRepository {
               .toList(),
         );
   }
-
 }
