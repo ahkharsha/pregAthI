@@ -19,13 +19,17 @@ class WifeEmergencyScreen extends StatefulWidget {
 class _WifeEmergencyScreenState extends State<WifeEmergencyScreen> {
   late DocumentReference _documentReference;
   final User? user = FirebaseAuth.instance.currentUser;
-  _playEmergencySound() async {
+  final player = AudioPlayer();
 
-    final player=AudioPlayer();
+  _playEmergencySound() async {
     player.setReleaseMode(ReleaseMode.loop);
-    String audioPath="audio/sound.mp3";
+    String audioPath = "audio/sound.mp3";
     await player.play(AssetSource(audioPath));
-}
+  }
+
+  _stopEmergencySound() {
+    player.stop();
+  }
 
   _sendVolunteerNotification() async {
     final QuerySnapshot<Map<String, dynamic>> userQuery =
@@ -63,9 +67,8 @@ class _WifeEmergencyScreenState extends State<WifeEmergencyScreen> {
                   "body": 'Nearby mom in emergency!',
                 },
                 "to": userData['token'],
-                
               }));
-              print('message sent');
+          print('message sent');
         } catch (e) {
           Fluttertoast.showToast(msg: e.toString());
         }
@@ -74,12 +77,12 @@ class _WifeEmergencyScreenState extends State<WifeEmergencyScreen> {
   }
 
   @override
-  void initState() async{
+  void initState() async {
     super.initState();
     _sendVolunteerNotification();
     _playEmergencySound();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -119,6 +122,7 @@ class _WifeEmergencyScreenState extends State<WifeEmergencyScreen> {
                               .doc(user!.uid);
 
                           _documentReference.delete();
+                          _stopEmergencySound();
                           Navigator.of(context).pop();
                         }),
                   ),
