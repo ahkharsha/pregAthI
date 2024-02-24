@@ -24,7 +24,8 @@ class VolunteerHomeScreen extends StatefulWidget {
 class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
   Key streamBuilderKey = UniqueKey();
   String? profilePic = volunteerProfileDefault;
-  bool forceReload=false;
+  bool forceReload = false;
+  int localEmergency = 0;
 
   final String currentVersion = '1.0.0';
   _checkUpdate() async {
@@ -313,9 +314,45 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
     DateTime now = DateTime.now();
     var formatterDate = DateFormat('dd/MM/yy').format(now);
     if (formatterDate == date) {
-      return Text('${time}, Today - ${locality}, ${postal}');
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '${locality}, ${postal}',
+            style: TextStyle(
+              color: textColor,
+              fontSize: 15,
+            ),
+          ),
+          Text(
+            '${time}, Today',
+            style: TextStyle(
+              color: textColor,
+              fontSize: 15,
+            ),
+          ),
+        ],
+      );
     } else {
-      return Text('${time}, ${date} - ${locality}, ${postal}');
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '${locality}, ${postal}',
+            style: TextStyle(
+              color: textColor,
+              fontSize: 15,
+            ),
+          ),
+          Text(
+            '${time}, ${date}',
+            style: TextStyle(
+              color: textColor,
+              fontSize: 15,
+            ),
+          ),
+        ],
+      );
     }
   }
 
@@ -361,7 +398,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
         child: FloatingActionButton(
           onPressed: () {
             setState(() {
-              forceReload=true;
+              forceReload = true;
             });
           },
           backgroundColor: boxColor,
@@ -420,64 +457,70 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                   .toList();
 
               return Expanded(
-                child: items.length == 0
-                    ? Column(
-                        children: [
-                          Center(
-                            child: Text(
-                              'There are no emergencies right now',
+                child: ListView.builder(
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    Map<String, dynamic> thisItem = items[index];
+
+                    print('the length of the items is');
+                    print(items.length);
+                    print('the location is $_volunteerLocality');
+                    print('the pin code is $_volunteerPostal');
+
+                    if (_volunteerLocality == thisItem['locality'] ||
+                        _volunteerPostal == thisItem['postal']) {
+                      localEmergency++;
+                      print('Increased local emergency by 1');
+                      print(
+                          '${thisItem['name']} lives in the same locality as the volunteer');
+                      return GestureDetector(
+                        onTap: () {
+                          _showEmergencyAlertDialog(thisItem);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15,right: 15,bottom: 10,top: 10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: boxColor,
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                          ),
-                        ],
-                      )
-                    : ListView.builder(
-                        itemCount: items.length,
-                        itemBuilder: (context, index) {
-                          Map<String, dynamic> thisItem = items[index];
-
-                          print('the location is $_volunteerLocality');
-                          print('the pin code is $_volunteerPostal');
-
-                          if (_volunteerLocality == thisItem['locality'] ||
-                              _volunteerPostal == thisItem['postal']) {
-                            print(
-                                '${thisItem['name']} lives in the same locality as the volunteer');
-                            return GestureDetector(
-                              onTap: () {
-                                _showEmergencyAlertDialog(thisItem);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black,
-                                    width: 1.0,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                margin: EdgeInsets.symmetric(
-                                    vertical: 5.0, horizontal: 10.0),
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(thisItem['profilePic']),
-                                  ),
-                                  title: Text('${thisItem['name']}'),
-                                  subtitle: checkCurrentDate(
-                                      thisItem['time'],
-                                      thisItem['date'],
-                                      thisItem['locality'],
-                                      thisItem['postal']),
+                            margin: EdgeInsets.symmetric(
+                                vertical: 5.0, horizontal: 10.0),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                radius: 35,
+                                backgroundImage:
+                                    NetworkImage(thisItem['profilePic']),
+                              ),
+                              title: Text(
+                                '${thisItem['name']}',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            );
-                          } else {
-                            print(
-                                '${thisItem['name']} does not live in the same locality as the volunteer');
-                          }
+                              subtitle: checkCurrentDate(
+                                  thisItem['time'],
+                                  thisItem['date'],
+                                  thisItem['locality'],
+                                  thisItem['postal']),
+                            ),
+                          ),
+                        ),
+                      );
+                    } else {
+                      print(
+                          '${thisItem['name']} does not live in the same locality as the volunteer');
+                    }
 
-                          return Container();
-                        },
-                      ),
+                    return Container();
+                  },
+                ),
               );
             },
           ),

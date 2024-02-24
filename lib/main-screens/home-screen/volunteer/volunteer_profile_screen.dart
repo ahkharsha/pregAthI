@@ -60,9 +60,21 @@ class _VolunteerProfileScreenState extends State<VolunteerProfileScreen> {
     DateTime now = DateTime.now();
     var formatterDate = DateFormat('dd/MM/yy').format(now);
     if (formatterDate == date) {
-      return Text('${time}, Today - ${locality}, ${postal}');
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('${locality}, ${postal}'),
+          Text('${time}, Today'),
+        ],
+      );
     } else {
-      return Text('${time}, ${date} - ${locality}, ${postal}');
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('${locality}, ${postal}'),
+          Text('${time}, ${date}'),
+        ],
+      );
     }
   }
 
@@ -152,10 +164,18 @@ class _VolunteerProfileScreenState extends State<VolunteerProfileScreen> {
                     return Expanded(
                       child: items.length == 0
                           ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Center(
-                                  child: Text(
-                                      'You have not saved any moms yet. Go save one!'),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15),
+                                    child: Text(
+                                      'You have not saved any moms yet. Go save one!',
+                                      style: TextStyle(fontSize: 20),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
                                 ),
                               ],
                             )
@@ -164,14 +184,32 @@ class _VolunteerProfileScreenState extends State<VolunteerProfileScreen> {
                               itemBuilder: (context, index) {
                                 Map<String, dynamic> thisItem = items[index];
 
-                                return GestureDetector(
-                                  child: ListTile(
-                                    title: Text('${thisItem['name']}'),
-                                    subtitle: checkCurrentDate(
-                                        thisItem['time'],
-                                        thisItem['date'],
-                                        thisItem['locality'],
-                                        thisItem['postal']),
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 15, right: 15, bottom: 10),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: boxColor,
+                                      border: Border.all(
+                                        color: Colors.black,
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: ListTile(
+                                      title: Text(
+                                        '${thisItem['name']}',
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      subtitle: checkCurrentDate(
+                                          thisItem['time'],
+                                          thisItem['date'],
+                                          thisItem['locality'],
+                                          thisItem['postal']),
+                                    ),
                                   ),
                                 );
                               },
