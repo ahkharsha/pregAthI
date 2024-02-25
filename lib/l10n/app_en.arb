@@ -53,5 +53,7 @@
     "husband":"Husband",
     "nearestHospital":"Nearest Hospital",
     "save":"Save",
-    "musicPlayer":"Music Player"
+    "musicPlayer":"Music Player",
+    "languages":"Languages",
+    "about": "About"
 }

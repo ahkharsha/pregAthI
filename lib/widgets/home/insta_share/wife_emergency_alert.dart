@@ -90,7 +90,7 @@ class _WifeEmergencyScreenState extends State<WifeEmergencyScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Emerge!!!",
+            "Emergency!!!",
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
           ),
           centerTitle: true,
