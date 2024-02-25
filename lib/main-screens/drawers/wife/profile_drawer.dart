@@ -34,23 +34,24 @@ class WifeProfileDrawer extends ConsumerWidget {
                     builder: (BuildContext context,
                         AsyncSnapshot<DocumentSnapshot> snapshot) {
                       if (snapshot.hasError) {
-                        return dialogueBox(
-                            context, 'Some error has occurred ${snapshot.error}');
+                        return dialogueBox(context,
+                            'Some error has occurred ${snapshot.error}');
                       }
-      
+
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return progressIndicator(context);
                       }
-      
+
                       Map<String, dynamic> userData =
                           snapshot.data!.data() as Map<String, dynamic>;
-      
+
                       return Column(
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10.0),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(userData['profilePic']),
+                              backgroundImage:
+                                  NetworkImage(userData['profilePic']),
                               radius: 40,
                             ),
                           ),
@@ -58,7 +59,10 @@ class WifeProfileDrawer extends ConsumerWidget {
                             padding: const EdgeInsets.only(bottom: 10.0),
                             child: Text(
                               userData['name'],
-                              style: TextStyle(fontSize: 20, color: Colors.white,fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
@@ -94,8 +98,17 @@ class WifeProfileDrawer extends ConsumerWidget {
               title: Text("Languages"),
               leading: const Icon(Icons.language_rounded),
               onTap: () {
-                goTo(context, const  LanguageSelectionScreen(initialLanguageCode: LANGUAGE_CODE,));
+                goTo(
+                    context,
+                    const LanguageSelectionScreen(
+                      initialLanguageCode: LANGUAGE_CODE,
+                    ));
               },
+            ),
+            ListTile(
+              title: Text("About"),
+              leading: const Icon(Icons.info_outline_rounded),
+              onTap: () {},
             ),
             ListTile(
               title: Text(translation(context).logout),

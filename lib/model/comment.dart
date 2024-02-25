@@ -5,6 +5,9 @@ class Comment {
   final String postId;
   final String username;
   final String profilePic;
+  final String commentDate;
+  final String commentTime;
+
   Comment({
     required this.id,
     required this.text,
@@ -12,6 +15,8 @@ class Comment {
     required this.postId,
     required this.username,
     required this.profilePic,
+    required this.commentDate,
+    required this.commentTime,
   });
 
   Comment copyWith({
@@ -21,6 +26,8 @@ class Comment {
     String? postId,
     String? username,
     String? profilePic,
+    String? commentDate,
+    String? commentTime,
   }) {
     return Comment(
       id: id ?? this.id,
@@ -29,6 +36,8 @@ class Comment {
       postId: postId ?? this.postId,
       username: username ?? this.username,
       profilePic: profilePic ?? this.profilePic,
+      commentDate: commentDate ?? this.commentDate,
+      commentTime: commentTime ?? this.commentTime,
     );
   }
 
@@ -40,6 +49,8 @@ class Comment {
       'postId': postId,
       'username': username,
       'profilePic': profilePic,
+      'commentDate': commentDate,
+      'commentTime': commentTime,
     };
   }
 
@@ -51,12 +62,14 @@ class Comment {
       postId: map['postId'] ?? '',
       username: map['username'] ?? '',
       profilePic: map['profilePic'] ?? '',
+      commentDate: map['commentDate'] ?? '',
+      commentTime: map['commentTime'] ?? '',
     );
   }
 
   @override
   String toString() {
-    return 'Comment(id: $id, text: $text, createdAt: $createdAt, postId: $postId, username: $username, profilePic: $profilePic)';
+    return 'Comment(id: $id, text: $text, createdAt: $createdAt, postId: $postId, username: $username, profilePic: $profilePic, commentDate: $commentDate, commentTime: $commentTime)';
   }
 
   @override
@@ -69,11 +82,20 @@ class Comment {
         other.createdAt == createdAt &&
         other.postId == postId &&
         other.username == username &&
-        other.profilePic == profilePic;
+        other.profilePic == profilePic &&
+        other.commentDate == commentDate &&
+        other.commentTime == commentTime;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ text.hashCode ^ createdAt.hashCode ^ postId.hashCode ^ username.hashCode ^ profilePic.hashCode;
+    return id.hashCode ^
+        text.hashCode ^
+        createdAt.hashCode ^
+        postId.hashCode ^
+        username.hashCode ^
+        profilePic.hashCode ^
+        commentDate.hashCode ^
+        commentTime.hashCode;
   }
 }

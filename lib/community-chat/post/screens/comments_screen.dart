@@ -30,23 +30,61 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
   }
 
   void addComment(Post post) {
-    ref.read(postControllerProvider.notifier).addComment(
-          context: context,
-          text: commentController.text.trim(),
-          post: post,
-          userId: user!.uid,
-        );
-    setState(() {
-      commentController.text = '';
-    });
+    bool containsBannedWords = false;
+    containsBannedWords = checkForBannedWords(commentController.text);
+
+    if (containsBannedWords) {
+      ref.read(postControllerProvider.notifier).deleteComment(
+            context: context,
+            text: commentController.text.trim(),
+            post: post,
+            userId: user!.uid,
+          );
+      setState(() {
+        commentController.text = '';
+      });
+    } else {
+      ref.read(postControllerProvider.notifier).addComment(
+            context: context,
+            text: commentController.text.trim(),
+            post: post,
+            userId: user!.uid,
+          );
+      setState(() {
+        commentController.text = '';
+      });
+    }
+  }
+
+  bool checkForBannedWords(String text) {
+    for (String word in bannedWords) {
+      if (text.toLowerCase().contains(word.toLowerCase())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @override
   Widget build(BuildContext context) {
-    // final User? user = FirebaseAuth.instance.currentUser;
-
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: BackButton(
+            color: Colors.white,
+            onPressed: () {
+              goBack(context);
+            }),
+        title: Text(
+          'Comments',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: false,
+        backgroundColor: primaryColor,
+        
+      ),
       body: ref.watch(getPostByIdProvider(widget.postId)).when(
             data: (data) {
               return Column(
@@ -68,7 +106,15 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
                               itemCount: data.length,
                               itemBuilder: (BuildContext context, int index) {
                                 final comment = data[index];
-                                return CommentCard(comment: comment);
+                                return Column(
+                                  children: [
+                                    CommentCard(comment: comment),
+                                    Divider(
+                                      height: 0,
+                                      color: Colors.black,
+                                    )
+                                  ],
+                                );
                               },
                             ),
                           );

@@ -26,7 +26,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final linkController = TextEditingController();
-  
+
   File? bannerFile;
   List<Community> communities = [];
   Community? selectedCommunity;
@@ -66,6 +66,14 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
               file: bannerFile,
               userId: user!.uid,
             );
+      } else {
+        ref.read(postControllerProvider.notifier).shareImagePost(
+              context: context,
+              title: titleController.text.trim(),
+              selectedCommunity: selectedCommunity ?? communities[0],
+              file: bannerFile,
+              userId: user!.uid,
+            );
       }
     } else if (widget.type == 'text' &&
         (titleController.text.isNotEmpty ||
@@ -80,33 +88,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
               description: descriptionController.text.trim(),
               userId: user!.uid,
             );
-      }
-    } else if (widget.type == 'link' &&
-        (titleController.text.isNotEmpty || linkController.text.isNotEmpty)) {
-      containsBannedWords = checkForBannedWords(titleController.text) ||
-          checkForBannedWords(linkController.text);
-      ref.read(postControllerProvider.notifier).deleteLinkPost(
-            context: context,
-            title: titleController.text.trim(),
-            selectedCommunity: selectedCommunity ?? communities[0],
-            link: linkController.text.trim(),
-            userId: user!.uid,
-          );
-    }
-
-    if (!containsBannedWords)  {
-      // Proceed with sharing the post
-      if (widget.type == 'image' &&
-          bannerFile != null &&
-          titleController.text.isNotEmpty) {
-        ref.read(postControllerProvider.notifier).shareImagePost(
-              context: context,
-              title: titleController.text.trim(),
-              selectedCommunity: selectedCommunity ?? communities[0],
-              file: bannerFile,
-              userId: user!.uid,
-            );
-      } else if (widget.type == 'text' && titleController.text.isNotEmpty) {
+      } else {
         ref.read(postControllerProvider.notifier).shareTextPost(
               context: context,
               title: titleController.text.trim(),
@@ -114,10 +96,13 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
               description: descriptionController.text.trim(),
               userId: user!.uid,
             );
-      } else if (widget.type == 'link' &&
-          titleController.text.isNotEmpty &&
-          linkController.text.isNotEmpty) {
-        ref.read(postControllerProvider.notifier).shareLinkPost(
+      }
+    } else if (widget.type == 'link' &&
+        (titleController.text.isNotEmpty || linkController.text.isNotEmpty)) {
+      containsBannedWords = checkForBannedWords(titleController.text) ||
+          checkForBannedWords(linkController.text);
+      if (containsBannedWords) {
+        ref.read(postControllerProvider.notifier).deleteLinkPost(
               context: context,
               title: titleController.text.trim(),
               selectedCommunity: selectedCommunity ?? communities[0],
@@ -125,8 +110,16 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
               userId: user!.uid,
             );
       } else {
-        showSnackBar(context, 'Please fill in all the fields');
+        ref.read(postControllerProvider.notifier).shareLinkPost(
+              context: context,
+              title: titleController.text.trim(),
+              selectedCommunity: selectedCommunity ?? communities[0],
+              link: linkController.text.trim(),
+              userId: user!.uid,
+            );
       }
+    } else {
+      showSnackBar(context, 'Please fill in all the fields');
     }
   }
 

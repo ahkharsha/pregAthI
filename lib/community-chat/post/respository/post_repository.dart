@@ -26,6 +26,8 @@ class PostRepository {
 
   CollectionReference get _comments =>
       _firestore.collection(FirebaseConstants.commentsCollection);
+  CollectionReference get _flagComments =>
+      _firestore.collection(FirebaseConstants.flagCommentsCollection);
 
   FutureVoid addPost(Post post) async {
     try {
@@ -40,6 +42,16 @@ class PostRepository {
   FutureVoid flagAndDeletePost(Post post) async {
     try {
       return right(_flagPosts.doc(post.id).set(post.toMap()));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureVoid flagAndDeleteComment(Comment comment) async {
+    try {
+      return right(_flagComments.doc(comment.id).set(comment.toMap()));
     } on FirebaseException catch (e) {
       throw e.message!;
     } catch (e) {

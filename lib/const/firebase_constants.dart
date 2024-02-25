@@ -4,4 +4,5 @@ class FirebaseConstants {
   static const postsCollection = 'posts';
   static const flagPostsCollection = 'flagged-posts';
   static const commentsCollection = 'comments';
+  static const flagCommentsCollection = 'flagged-comments';
 }

@@ -220,12 +220,12 @@ class PostController extends StateNotifier<bool> {
     res.fold(
       (l) => showSnackBar(context, l.message),
       (r) {
-        banUser(context, userId);
+        banUser(context, userId, 'text post');
       },
     );
   }
 
-  banUser(BuildContext context, String userId) async {
+  banUser(BuildContext context, String userId, String type) async {
     DocumentReference<Map<String, dynamic>> _reference =
         FirebaseFirestore.instance.collection('users').doc(userId);
     DocumentSnapshot userData = await _reference.get();
@@ -241,7 +241,7 @@ class PostController extends StateNotifier<bool> {
       goToDisableBack(context, BottomPage());
       Future.delayed(const Duration(microseconds: 1), () {
         dialogueBoxWithButton(context,
-            "Your text post contained banned words. Your post has been flagged and deleted. You have received an account strike.");
+            "Your ${type} contained banned words. Your post has been flagged and deleted. You have received an account strike.");
       });
     } else if (userData['strikeCount'] == 2) {
       print('account going to be banned');
@@ -262,7 +262,7 @@ class PostController extends StateNotifier<bool> {
 
       Future.delayed(const Duration(microseconds: 1), () {
         dialogueBoxWithButton(context,
-            "Your text post contained banned words. It has been flagged and deleted. Your account has been banned for 7 days due to receiving multiple account strikes.");
+            "Your ${type} contained banned words. It has been flagged and deleted. Your account has been banned for 7 days due to receiving multiple account strikes.");
       });
       await FirebaseAuth.instance.signOut();
       UserSharedPreference.setUserRole('');
@@ -305,7 +305,7 @@ class PostController extends StateNotifier<bool> {
     res.fold(
       (l) => showSnackBar(context, l.message),
       (r) {
-        banUser(context, userId);
+        banUser(context, userId, 'link post');
       },
     );
   }
@@ -353,10 +353,38 @@ class PostController extends StateNotifier<bool> {
         final res = await _postRepository.flagAndDeletePost(post);
         state = false;
         res.fold((l) => showSnackBar(context, l.message), (r) {
-          banUser(context, userId);
+          banUser(context, userId, 'image post');
         });
       },
     );
+  }
+
+  void deleteComment({
+    required BuildContext context,
+    required String text,
+    required Post post,
+    required String userId,
+  }) async {
+    DocumentReference<Map<String, dynamic>> _reference =
+        FirebaseFirestore.instance.collection('users').doc(userId);
+    DocumentSnapshot userData = await _reference.get();
+    String commentId = const Uuid().v1();
+    DateTime now = DateTime.now();
+    Comment comment = Comment(
+      id: commentId,
+      text: text,
+      createdAt: DateTime.now(),
+      postId: post.id,
+      username: userData['name'],
+      profilePic: userData['profilePic'],
+      commentTime: '${DateFormat('kk:mm').format(now)}',
+      commentDate: '${DateFormat('dd/MM/yy').format(now)}',
+    );
+    final res = await _postRepository.flagAndDeleteComment(comment);
+
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      banUser(context, userId, 'comment');
+    });
   }
 
   Stream<List<Post>> fetchUserPosts(List<Community> communities) {
@@ -394,6 +422,7 @@ class PostController extends StateNotifier<bool> {
         FirebaseFirestore.instance.collection('users').doc(userId);
     DocumentSnapshot userData = await _reference.get();
     String commentId = const Uuid().v1();
+    DateTime now = DateTime.now();
     Comment comment = Comment(
       id: commentId,
       text: text,
@@ -401,6 +430,8 @@ class PostController extends StateNotifier<bool> {
       postId: post.id,
       username: userData['name'],
       profilePic: userData['profilePic'],
+      commentTime: '${DateFormat('kk:mm').format(now)}',
+      commentDate: '${DateFormat('dd/MM/yy').format(now)}',
     );
     final res = await _postRepository.addComment(comment);
 

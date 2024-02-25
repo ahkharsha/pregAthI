@@ -16,7 +16,7 @@ class VolunteerProfileDrawer extends ConsumerWidget {
         children: [
           Container(
             color: primaryColor,
-            width: double.infinity, 
+            width: double.infinity,
             padding: EdgeInsets.symmetric(vertical: 20.0),
             child: StreamBuilder<DocumentSnapshot>(
               stream: FirebaseFirestore.instance
@@ -29,19 +29,18 @@ class VolunteerProfileDrawer extends ConsumerWidget {
                   return dialogueBox(
                       context, 'Some error has occurred ${snapshot.error}');
                 }
-      
+
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return progressIndicator(context);
                 }
-      
+
                 Map<String, dynamic> userData =
                     snapshot.data!.data() as Map<String, dynamic>;
-      
+
                 return Column(
                   children: [
-
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0,top: 30),
+                      padding: const EdgeInsets.only(bottom: 10.0, top: 30),
                       child: CircleAvatar(
                         backgroundImage: NetworkImage(userData['profilePic']),
                         radius: 40,
@@ -49,7 +48,10 @@ class VolunteerProfileDrawer extends ConsumerWidget {
                     ),
                     Text(
                       userData['name'],
-                      style: TextStyle(fontSize: 20, color: Colors.white,fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
                     ),
                   ],
                 );
@@ -77,6 +79,11 @@ class VolunteerProfileDrawer extends ConsumerWidget {
             onTap: () {
               goTo(context, AnnouncementScreen());
             },
+          ),
+          ListTile(
+            title: Text("About"),
+            leading: const Icon(Icons.info_outline_rounded),
+            onTap: () {},
           ),
           ListTile(
             title: Text("Logout"),
