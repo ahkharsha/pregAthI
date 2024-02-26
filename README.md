@@ -1,37 +1,41 @@
-# pregAthI
+# pregAthI - Your Pregnancy Companion
 
-Welcome to pregAthI, your companion for a healthy and stress-free pregnancy journey.
+Welcome to pregAthI, your reliable companion for a healthy and stress-free pregnancy journey.
 
 ## Overview
 
-This Flutter project is dedicated to supporting pregnant women by providing essential features for a smoother pregnancy experience. Below, you'll find information on the app's functionalities and resources:
+This Flutter project is specifically designed to support pregnant women by offering essential features for a smoother and more enjoyable pregnancy experience. Below, you'll find detailed information about the app's key functionalities and resources.
 
 ### Features:
 
-1. **Emergency Assistance:**
-   - A dedicated emergency button connects pregnant women with the nearest volunteers who can offer immediate help.
-   - The button also sends the user's current location to trusted contacts, ensuring a swift response in case of emergencies.
+1. *Emergency Assistance:*
+   - A dedicated emergency button connects pregnant women with nearby volunteers for immediate assistance.
+   - The button also ensures a quick response by sending the user's current location to trusted contacts in case of emergencies.
 
-2. **Community Support:**
-   - Engage with a supportive community to share experiences, get advice, and stay informed about various aspects of pregnancy.
-   - Access a calendar to keep track of important dates, appointments, and milestones.
+2. *Community Support:*
+   - Engage with a positive and supportive community to share experiences, seek advice, and stay informed about various aspects of pregnancy.
+   - Autoban system to prevent the use of inappropriate language
+   - Access a calendar feature to keep track of essential dates, appointments, and milestones.  
 
-3. **AI Chat (Gemini AI):**
-   - An intelligent chatbot (Gemini AI) is available to answer queries, provide information, and offer support throughout the pregnancy journey.
+3. *AI Chat (Google Gemini):*
+   - Gemini AI, our intelligent chatbot, is here to answer queries, provide valuable information, and offer continuous support throughout the pregnancy journey.
 
-4. **Soothing Music:**
-   - Enjoy a curated selection of soothing music designed to promote relaxation and well-being during pregnancy.
+4. *Soothing Music:*
+   - Enjoy a thoughtfully curated selection of soothing music designed to promote relaxation and overall well-being during pregnancy.
 
-5. **Work From Home Resources:**
-   - Access a dedicated section with resources and tips for working from home during pregnancy, ensuring a healthy work-life balance.
+5. *Work From Home Resources:*
+   - Access a dedicated section with comprehensive resources and tips tailored for working from home during pregnancy, ensuring a healthy work-life balance.
+
+6. *Multi-Language Support:*
+   - Our app is equipped with multi-language support, allowing users to choose from five languages. This ensures accessibility for users from every corner of the country.
+
+7. *Auto-Update Feature:*
+   - Benefit from the auto-update feature to ensure you always have the latest version of the app, providing you with the most up-to-date features and enhancements.
 
 ## Getting Started
 
-
-
-For detailed information on Flutter development and the app's API reference, please refer to our [online documentation].
-
+Feel free to explore the various features and resources pregAthI has to offer. We are here to make your pregnancy journey as smooth and enjoyable as possible.
 
 ---
 
-**Project ID:** b3a52ee34a418102838eb1ce8920f903622cd2f8
+*Project ID:* b3a52ee34a418102838eb1ce8920f903622cd2f8
