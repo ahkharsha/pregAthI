@@ -95,7 +95,7 @@ class WifeProfileDrawer extends ConsumerWidget {
               },
             ),
             ListTile(
-              title: Text("Languages"),
+              title: Text(translation(context).languages),
               leading: const Icon(Icons.language_rounded),
               onTap: () {
                 goTo(
@@ -106,7 +106,7 @@ class WifeProfileDrawer extends ConsumerWidget {
               },
             ),
             ListTile(
-              title: Text("About"),
+              title: Text(translation(context).about),
               leading: const Icon(Icons.info_outline_rounded),
               onTap: () {},
             ),
