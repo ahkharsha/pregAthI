@@ -1,3 +1,5 @@
+// Google Gemini API has been used here
+
 import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/widgets/home/ai-chat/chat/image_chat.dart';

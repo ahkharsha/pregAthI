@@ -14,32 +14,22 @@ class RegisterSelectScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(top:10,left:10,bottom: 10,right:10),
+          padding: EdgeInsets.only(top: 10, left: 10, bottom: 10, right: 10),
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.1,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top:10,left:10,right:10),
-                        child: Text(
-                          'Register',
-                          style: TextStyle(
-                            fontSize: 32.sp,
-                            fontWeight: FontWeight.bold,
-                            color: primaryColor,
-                          ),
-                        ),
-                      ),
-                    ],
+                SizedBox(height: 7.h,),
+                Text(
+                  'Register',
+                  style: TextStyle(
+                    fontSize: 32.sp,
+                    fontWeight: FontWeight.bold,
+                    color: primaryColor,
                   ),
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.8,
+                  height: MediaQuery.of(context).size.height * 0.6,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -50,7 +40,7 @@ class RegisterSelectScreen extends StatelessWidget {
                 ),
                 Container(
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom:30.0),
+                    padding: const EdgeInsets.only(bottom: 30.0),
                     child: SubButton(
                         title: 'Already have an account? Login',
                         onPressed: () {
@@ -66,4 +56,3 @@ class RegisterSelectScreen extends StatelessWidget {
     );
   }
 }
-

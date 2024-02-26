@@ -52,8 +52,7 @@ class PostCard extends ConsumerWidget {
     return Column(
       children: [
         Padding(
-          padding:
-              const EdgeInsets.only(top: 25, left: 15, right: 15),
+          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 25),
           child: Container(
             decoration: BoxDecoration(
               color: boxColor,
@@ -186,6 +185,9 @@ class PostCard extends ConsumerWidget {
                                   ),
                                 ),
                               ),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -194,7 +196,7 @@ class PostCard extends ConsumerWidget {
                                     IconButton(
                                       onPressed: () => upvotePost(ref),
                                       icon: Icon(
-                                        upIcon,
+                                        Icons.thumb_up_alt_rounded,
                                         size: 30,
                                         color: post.upvotes.contains(user.uid)
                                             ? const Color.fromARGB(
@@ -208,7 +210,7 @@ class PostCard extends ConsumerWidget {
                                     IconButton(
                                       onPressed: () => downvotePost(ref),
                                       icon: Icon(
-                                        downIcon,
+                                        Icons.thumb_down_alt_rounded,
                                         size: 30,
                                         color: post.downvotes.contains(user.uid)
                                             ? Color.fromARGB(255, 23, 188, 243)

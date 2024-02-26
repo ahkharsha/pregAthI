@@ -145,13 +145,13 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                     onsave: (name) {
                                       _formData['name'] = name ?? '';
                                     },
-                                    // validate: (name) {
-                                    //   if (name!.isEmpty || name.length < 2) {
-                                    //     return 'Name should contain atleast 2 characters';
-                                    //   } else {
-                                    //     return null;
-                                    //   }
-                                    // },
+                                    validate: (name) {
+                                      if (name!.isEmpty || name.length < 2) {
+                                        return 'Name should contain atleast 2 characters';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
                                   ),
                                   CustomTextField(
                                     hintText: 'Enter phone',
@@ -164,13 +164,13 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                     onsave: (phone) {
                                       _formData['phone'] = phone ?? '';
                                     },
-                                    // validate: (phone) {
-                                    //   if (phone!.isEmpty || phone.length < 10) {
-                                    //     return 'Phone number should contain 10 digits';
-                                    //   } else {
-                                    //     return null;
-                                    //   }
-                                    // },
+                                    validate: (phone) {
+                                      if (phone!.isEmpty || phone.length < 10) {
+                                        return 'Phone number should contain 10 digits';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
                                   ),
                                   CustomTextField(
                                     hintText: 'Enter email',
@@ -183,15 +183,15 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                     onsave: (wifeEmail) {
                                       _formData['wifeEmail'] = wifeEmail ?? '';
                                     },
-                                    // validate: (wifeEmail) {
-                                    //   if (wifeEmail!.isEmpty ||
-                                    //       wifeEmail.length < 3 ||
-                                    //       !wifeEmail.contains('@')) {
-                                    //     return 'Enter correct email';
-                                    //   } else {
-                                    //     return null;
-                                    //   }
-                                    // },
+                                    validate: (wifeEmail) {
+                                      if (wifeEmail!.isEmpty ||
+                                          wifeEmail.length < 3 ||
+                                          !wifeEmail.contains('@')) {
+                                        return 'Enter correct email';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
                                   ),
                                   CustomTextField(
                                     hintText: 'Enter husband phone',
@@ -205,13 +205,13 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                       _formData['husband_phone'] =
                                           husband_phone ?? '';
                                     },
-                                    // validate: (husband_phone) {
-                                    //   if (husband_phone!.isEmpty || husband_phone.length < 10) {
-                                    //     return 'Phone number should contain 10 digits';
-                                    //   } else {
-                                    //     return null;
-                                    //   }
-                                    // },
+                                    validate: (husband_phone) {
+                                      if (husband_phone!.isEmpty || husband_phone.length < 10) {
+                                        return 'Phone number should contain 10 digits';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
                                   ),
                                   CustomTextField(
                                     hintText: 'Nearest hospital phone',
@@ -225,13 +225,13 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                       _formData['hospital_phone'] =
                                           hospital_phone ?? '';
                                     },
-                                    // validate: (hospital_phone) {
-                                    //   if (hospital_phone!.isEmpty || hospital_phone.length < 10) {
-                                    //     return 'Phone number should contain 10 digits';
-                                    //   } else {
-                                    //     return null;
-                                    //   }
-                                    // },
+                                    validate: (hospital_phone) {
+                                      if (hospital_phone!.isEmpty || hospital_phone.length < 10) {
+                                        return 'Phone number should contain 10 digits';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
                                   ),
                                   CustomTextField(
                                     hintText: 'Enter password',
@@ -259,13 +259,13 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                                 Icons.visibility_off,
                                                 color: textColor,
                                               )),
-                                    // validate: (password) {
-                                    //   if (password!.isEmpty || password.length < 6) {
-                                    //     return 'Enter correct password';
-                                    //   } else {
-                                    //     return null;
-                                    //   }
-                                    // },
+                                    validate: (password) {
+                                      if (password!.isEmpty || password.length < 6) {
+                                        return 'Enter correct password';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
                                   ),
                                   CustomTextField(
                                     hintText: 'Retype password',
@@ -294,14 +294,14 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                                 Icons.visibility_off,
                                                 color: textColor,
                                               )),
-                                    // validate: (re_password) {
-                                    //   if (re_password!.isEmpty ||
-                                    //       re_password.length < 6) {
-                                    //     return 'Retype correct password';
-                                    //   } else {
-                                    //     return null;
-                                    //   }
-                                    // },
+                                    validate: (re_password) {
+                                      if (re_password!.isEmpty ||
+                                          re_password.length < 6) {
+                                        return 'Retype correct password';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
                                   ),
                                   MainButton(
                                       title: 'Register',

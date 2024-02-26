@@ -4,13 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/home-screen/error_home_screen.dart';
-
-import 'package:pregathi/main-screens/home-screen/volunteer/volunteer_home_screen.dart';
 import 'package:pregathi/main-screens/login-screen/forgot_pwd.dart';
 import 'package:pregathi/main-screens/register_select_screen.dart';
-// import 'package:pregathi/main-screens/verification-screens/volunteer_verification.dart';
-// import 'package:pregathi/main-screens/verification-screens/wife_verfication.dart';
-import 'package:pregathi/widgets/home/bottom_page.dart';
+import 'package:pregathi/main-screens/verification-screens/volunteer_verification.dart';
+import 'package:pregathi/main-screens/verification-screens/wife_verfication.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/buttons/main_button.dart';
 import 'package:pregathi/widgets/textfield.dart';
@@ -45,12 +42,10 @@ class _LoginScreenState extends State<LoginScreen> {
             .then((userData) {
           if (userData['role'] == 'wife') {
             UserSharedPreference.setUserRole('wife');
-            goToDisableBack(context, BottomPage());
-            // goToDisableBack(context, WifeEmailVerify());
+            goToDisableBack(context, WifeEmailVerify());
           } else if (userData['role'] == 'volunteer') {
             UserSharedPreference.setUserRole('volunteer');
-            goToDisableBack(context, VolunteerHomeScreen());
-            // goToDisableBack(context, VolunteerEmailVerify());
+            goToDisableBack(context, VolunteerEmailVerify());
           } else {
             UserSharedPreference.setUserRole('');
             goToDisableBack(context, ErrorHomePage());
@@ -135,15 +130,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                     onsave: (email) {
                                       _formData['email'] = email ?? '';
                                     },
-                                    // validate: (email) {
-                                    //   if (email!.isEmpty ||
-                                    //       email.length < 3 ||
-                                    //       !email.contains('@')) {
-                                    //     return 'Enter correct email';
-                                    //   } else {
-                                    //     return null;
-                                    //   }
-                                    // },
+                                    validate: (email) {
+                                      if (email!.isEmpty ||
+                                          email.length < 3 ||
+                                          !email.contains('@')) {
+                                        return 'Enter correct email';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
                                   ),
                                   CustomTextField(
                                     hintText: 'Enter Password',
@@ -171,14 +166,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 Icons.visibility_off,
                                                 color: textColor,
                                               )),
-                                    // validate: (password) {
-                                    //   if (password!.isEmpty ||
-                                    //       password.length < 6) {
-                                    //     return 'Enter correct password';
-                                    //   } else {
-                                    //     return null;
-                                    //   }
-                                    // },
+                                    validate: (password) {
+                                      if (password!.isEmpty ||
+                                          password.length < 6) {
+                                        return 'Enter correct password';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
                                   ),
                                   MainButton(
                                       title: 'Login',

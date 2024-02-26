@@ -4,25 +4,26 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pregathi/community-chat/controller/community_controller.dart';
 import 'package:pregathi/community-chat/post/controller/post_controller.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/const/error_text.dart';
 import 'package:pregathi/model/community.dart';
 
-class AddPostTypeScreen extends ConsumerStatefulWidget {
+class CommunityPostTypeScreen extends ConsumerStatefulWidget {
   final String type;
-  const AddPostTypeScreen({
+  final Community community;
+  const CommunityPostTypeScreen({
     super.key,
     required this.type,
+    required this.community,
   });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _AddPostTypeScreenState();
+      _CommunityPostTypeScreenState();
 }
 
-class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
+class _CommunityPostTypeScreenState
+    extends ConsumerState<CommunityPostTypeScreen> {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final linkController = TextEditingController();
@@ -61,7 +62,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
         ref.read(postControllerProvider.notifier).deleteImagePost(
               context: context,
               title: titleController.text.trim(),
-              selectedCommunity: selectedCommunity ?? communities[0],
+              selectedCommunity: widget.community,
               file: bannerFile,
               userId: user!.uid,
             );
@@ -69,7 +70,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
         ref.read(postControllerProvider.notifier).shareImagePost(
               context: context,
               title: titleController.text.trim(),
-              selectedCommunity: selectedCommunity ?? communities[0],
+              selectedCommunity: widget.community,
               file: bannerFile,
               userId: user!.uid,
             );
@@ -83,7 +84,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
         ref.read(postControllerProvider.notifier).deleteTextPost(
               context: context,
               title: titleController.text.trim(),
-              selectedCommunity: selectedCommunity ?? communities[0],
+              selectedCommunity: widget.community,
               description: descriptionController.text.trim(),
               userId: user!.uid,
             );
@@ -91,7 +92,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
         ref.read(postControllerProvider.notifier).shareTextPost(
               context: context,
               title: titleController.text.trim(),
-              selectedCommunity: selectedCommunity ?? communities[0],
+              selectedCommunity: widget.community,
               description: descriptionController.text.trim(),
               userId: user!.uid,
             );
@@ -104,7 +105,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
         ref.read(postControllerProvider.notifier).deleteLinkPost(
               context: context,
               title: titleController.text.trim(),
-              selectedCommunity: selectedCommunity ?? communities[0],
+              selectedCommunity: widget.community,
               link: linkController.text.trim(),
               userId: user!.uid,
             );
@@ -112,7 +113,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
         ref.read(postControllerProvider.notifier).shareLinkPost(
               context: context,
               title: titleController.text.trim(),
-              selectedCommunity: selectedCommunity ?? communities[0],
+              selectedCommunity: widget.community,
               link: linkController.text.trim(),
               userId: user!.uid,
             );
@@ -182,14 +183,16 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
                         fillColor: boxColor,
                         hintText: 'Enter title here',
                         focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.black, width: 2),
+                          borderSide:
+                              const BorderSide(color: Colors.black, width: 2),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.black, width: 2),
+                          borderSide:
+                              const BorderSide(color: Colors.black, width: 2),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        border: InputBorder.none, 
+                        border: InputBorder.none,
                         contentPadding: const EdgeInsets.all(18),
                       ),
                       maxLength: 30,
@@ -237,14 +240,16 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
                           fillColor: boxColor,
                           hintText: 'Enter description here',
                           focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black, width: 1),
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 1),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black, width: 1),
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 1),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          border: InputBorder.none, 
+                          border: InputBorder.none,
                           contentPadding: const EdgeInsets.all(18),
                         ),
                         maxLines: 5,
@@ -260,61 +265,22 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
                           fillColor: boxColor,
                           hintText: 'Enter link here',
                           focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black, width: 1),
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 1),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.black, width: 1),
+                            borderSide:
+                                const BorderSide(color: Colors.black, width: 1),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          border: InputBorder.none, 
+                          border: InputBorder.none,
                           contentPadding: const EdgeInsets.all(18),
                         ),
                       ),
                     ),
                   const SizedBox(
                     height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal:10, vertical: 5),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text('Select Community', style: TextStyle(fontSize: 20),),
-                    ),
-                  ),
-                  ref.watch(userCommunitiesProvider(user!.uid)).when(
-                    data: (data) {
-                      communities = data;
-
-                      if (data.isEmpty) {
-                        return const SizedBox();
-                      }
-
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal:10),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: DropdownButton(
-                            value: selectedCommunity ?? data[0],
-                            items: data
-                                .map((e) => DropdownMenuItem(
-                                      value: e,
-                                      child: Text(e.name),
-                                    ))
-                                .toList(),
-                            onChanged: (val) {
-                              setState(() {
-                                selectedCommunity = val;
-                              });
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                    error: (error, stackTrace) => ErrorText(
-                      error: error.toString(),
-                    ),
-                    loading: () => progressIndicator(context),
                   ),
                 ],
               ),

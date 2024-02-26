@@ -138,13 +138,13 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                     onsave: (name) {
                                       _formData['name'] = name ?? '';
                                     },
-                                    // validate: (name) {
-                                    //   if (name!.isEmpty || name.length < 2) {
-                                    //     return 'Name should contain atleast 2 characters';
-                                    //   } else {
-                                    //     return null;
-                                    //   }
-                                    // },
+                                    validate: (name) {
+                                      if (name!.isEmpty || name.length < 2) {
+                                        return 'Name should contain atleast 2 characters';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
                                   ),
                                   CustomTextField(
                                     hintText: 'Enter phone',
@@ -157,13 +157,13 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                     onsave: (phone) {
                                       _formData['phone'] = phone ?? '';
                                     },
-                                    // validate: (phone) {
-                                    //   if (phone!.isEmpty || phone.length < 10) {
-                                    //     return 'Phone number should contain 10 digits';
-                                    //   } else {
-                                    //     return null;
-                                    //   }
-                                    // },
+                                    validate: (phone) {
+                                      if (phone!.isEmpty || phone.length < 10) {
+                                        return 'Phone number should contain 10 digits';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
                                   ),
                                   CustomTextField(
                                     hintText: 'Enter email',
@@ -177,15 +177,15 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                       _formData['volunteer_email'] =
                                           volunteer_email ?? '';
                                     },
-                                    // validate: (volunteer_email) {
-                                    //   if (volunteer_email!.isEmpty ||
-                                    //       volunteer_email.length < 3 ||
-                                    //       !volunteer_email.contains('@')) {
-                                    //     return 'Enter correct email';
-                                    //   } else {
-                                    //     return null;
-                                    //   }
-                                    // },
+                                    validate: (volunteer_email) {
+                                      if (volunteer_email!.isEmpty ||
+                                          volunteer_email.length < 3 ||
+                                          !volunteer_email.contains('@')) {
+                                        return 'Enter correct email';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
                                   ),
                                   CustomTextField(
                                     hintText: 'Enter password',
@@ -213,13 +213,13 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                                 Icons.visibility_off,
                                                 color: textColor,
                                               )),
-                                    // validate: (password) {
-                                    //   if (password!.isEmpty || password.length < 6) {
-                                    //     return 'Enter correct password';
-                                    //   } else {
-                                    //     return null;
-                                    //   }
-                                    // },
+                                    validate: (password) {
+                                      if (password!.isEmpty || password.length < 6) {
+                                        return 'Enter correct password';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
                                   ),
                                   CustomTextField(
                                     hintText: 'Retype password',
@@ -248,14 +248,14 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                                 Icons.visibility_off,
                                                 color: textColor,
                                               )),
-                                    // validate: (re_password) {
-                                    //   if (re_password!.isEmpty ||
-                                    //       re_password.length < 6) {
-                                    //     return 'Retype correct password';
-                                    //   } else {
-                                    //     return null;
-                                    //   }
-                                    // },
+                                    validate: (re_password) {
+                                      if (re_password!.isEmpty ||
+                                          re_password.length < 6) {
+                                        return 'Retype correct password';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
                                   ),
                                   MainButton(
                                       title: 'Register',

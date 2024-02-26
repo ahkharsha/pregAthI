@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
 import 'package:pregathi/community-chat/post/post_card.dart';
+import 'package:pregathi/community-chat/post/screens/community-specific/community_post.dart';
 import 'package:pregathi/community-chat/screens/mod_tools_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
@@ -25,95 +27,101 @@ class CommunityScreen extends ConsumerWidget {
     return Scaffold(
       body: ref.watch(getCommunityByNameProvider(name)).when(
             data: (community) => NestedScrollView(
-                headerSliverBuilder: (context, innerBoxIsScrolled) {
-                  return [
-                    SliverAppBar(
-                      expandedHeight: 150,
-                      floating: true,
-                      snap: true,
-                      flexibleSpace: Stack(
-                        children: [
-                          Positioned.fill(
-                            child: Image.network(
-                              community.banner,
-                              fit: BoxFit.cover,
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    expandedHeight: 150,
+                    floating: true,
+                    snap: true,
+                    flexibleSpace: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: Image.network(
+                            community.banner,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.all(15),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage(community.avatar),
+                              radius: 35,
                             ),
+                          ),
+                          const SizedBox(height: 5),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '${community.name}',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              community.mods.contains(user!.uid)
+                                  ? OutlinedButton(
+                                      onPressed: () {
+                                        goTo(
+                                            context,
+                                            ModToolsScreen(
+                                              name: community.name,
+                                            ));
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 25),
+                                      ),
+                                      child: const Text('Mod Tools'),
+                                    )
+                                  : OutlinedButton(
+                                      onPressed: () => joinCommunity(
+                                          ref, community, context),
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 25),
+                                      ),
+                                      child: Text(
+                                          community.members.contains(user.uid)
+                                              ? 'Leave'
+                                              : 'Join'),
+                                    ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
+                            child:
+                                Text('PregMoms: ${community.members.length}'),
+                          ),
+                          SubButton(
+                            title: 'Add Post',
+                            onPressed: () {
+                              goTo(context, CommunityPost(community: community));
+                            },
                           ),
                         ],
                       ),
                     ),
-                    SliverPadding(
-                      padding: const EdgeInsets.all(15),
-                      sliver: SliverList(
-                        delegate: SliverChildListDelegate(
-                          [
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage(community.avatar),
-                                radius: 35,
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  '${community.name}',
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                community.mods.contains(user!.uid)
-                                    ? OutlinedButton(
-                                        onPressed: () {
-                                          goTo(
-                                              context,
-                                              ModToolsScreen(
-                                                name: community.name,
-                                              ));
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                          ),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 25),
-                                        ),
-                                        child: const Text('Mod Tools'),
-                                      )
-                                    : OutlinedButton(
-                                        onPressed: () => joinCommunity(
-                                            ref, community, context),
-                                        style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                          ),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 25),
-                                        ),
-                                        child: Text(
-                                            community.members.contains(user.uid)
-                                                ? 'Leave'
-                                                : 'Join'),
-                                      ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child:
-                                  Text('PregMoms: ${community.members.length}'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ];
-                },
-                 body: ref.watch(getCommunityPostsProvider(name)).when(
+                  )
+                ];
+              },
+              body: ref.watch(getCommunityPostsProvider(name)).when(
                     data: (data) {
                       return ListView.builder(
                         itemCount: data.length,

@@ -93,7 +93,7 @@ Widget build(BuildContext context) {
                         Text(
                           'Verify email',
                           style: TextStyle(
-                            fontSize: 35.sp,
+                            fontSize: 32.sp,
                             fontWeight: FontWeight.bold,
                             color: primaryColor,
                           ),
@@ -111,7 +111,7 @@ Widget build(BuildContext context) {
                             'A verification mail has been sent to your email',
                             style: TextStyle(
                               color: primaryColor,
-                              fontSize: 15.h,
+                              fontSize: 20.sp,
                             ),
                             textAlign: TextAlign.center,
                           ),

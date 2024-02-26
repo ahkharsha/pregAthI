@@ -10,7 +10,7 @@ class SearchCommunityDelegate extends SearchDelegate {
   SearchCommunityDelegate(this.ref);
 
   @override
-  String get searchFieldLabel => 'Search Communities'; // Change the hint text
+  String get searchFieldLabel => 'Search Communities'; 
 
   @override
   List<Widget>? buildActions(BuildContext context) {
