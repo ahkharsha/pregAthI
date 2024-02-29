@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -7,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:pregathi/main-screens/announcements.dart';
 import 'package:pregathi/main-screens/drawers/wife/volunteer/volunteer_profile_drawer.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/volunteer_history.dart';
@@ -80,6 +83,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
   Position? _currentPosition;
   LocationPermission? permission;
   late DocumentReference _documentReference;
+  Timer? timer;
 
   void openProfileDrawer(BuildContext context) {
     Scaffold.of(context).openEndDrawer();
@@ -93,8 +97,72 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
     _getToken();
     _getProfilePic();
     _updateVolunteerLocation();
+    _checkLatestAnnoucement();
     initPermissions();
     updateLastLogin();
+  }
+
+   _checkLatestAnnoucement() async {
+    DocumentSnapshot userData = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get();
+
+    DocumentSnapshot announcement = await FirebaseFirestore.instance
+        .collection('pregAthI')
+        .doc('version')
+        .get();
+
+    print('The current and the latest announcements are respectively');
+    print(userData['lastAnnouncement']);
+    print(announcement['latestAnnouncement']);
+
+    if (userData['lastAnnouncement'] != announcement['latestAnnouncement']) {
+      showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) => PopScope(
+          canPop: false,
+          child: AlertDialog(
+            title: Text(
+              'You have new unread announcements!',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 15.sp),
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () async {
+                  goTo(context, AnnouncementScreen());
+                },
+                child: const Text('View'),
+              ),
+            ],
+            actionsAlignment: MainAxisAlignment.center,
+          ),
+        ),
+      );
+      timer = Timer.periodic(
+        Duration(seconds: 1),
+        (_) => checkReadAnnouncement(),
+      );
+    }
+  }
+
+  Future checkReadAnnouncement() async {
+    DocumentSnapshot userData = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get();
+
+    DocumentSnapshot announcement = await FirebaseFirestore.instance
+        .collection('pregAthI')
+        .doc('version')
+        .get();
+
+    if (userData['lastAnnouncement'] == announcement['latestAnnouncement']) {
+      timer?.cancel();
+      goBack(context);
+    }
   }
 
   _getProfilePic() async {
