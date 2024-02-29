@@ -12,7 +12,10 @@ class WifeUserModel {
   int? strikeCount;
   int? banCount;
   bool? isBanned;
-  String? totalWeeks;
+  String? totalWeek;
+  String? lastAnnouncement;
+  String? weekUpdated;
+  bool? readGuidelines;
 
   WifeUserModel({
     this.name,
@@ -28,7 +31,10 @@ class WifeUserModel {
     this.strikeCount,
     this.banCount,
     this.isBanned,
-    this.totalWeeks,
+    this.totalWeek,
+    this.lastAnnouncement,
+    this.weekUpdated,
+    this.readGuidelines,
   });
 
   Map<String, dynamic> toJson() => {
@@ -45,6 +51,9 @@ class WifeUserModel {
         'strikeCount': strikeCount,
         'banCount': banCount,
         'isBanned': isBanned,
-        'totalWeeks': totalWeeks,
+        'totalWeek': totalWeek,
+        'lastAnnouncement': lastAnnouncement,
+        'weekUpdated': weekUpdated,
+        'readGuidelines': readGuidelines,
       };
 }

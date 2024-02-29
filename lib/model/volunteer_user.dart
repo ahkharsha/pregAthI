@@ -6,6 +6,7 @@ class VolunteerUserModel {
   String? role;
   String? profilePic;
   String? token;
+  String? lastAnnouncement;
 
   VolunteerUserModel({
     this.name,
@@ -15,6 +16,7 @@ class VolunteerUserModel {
     this.role,
     this.profilePic,
     this.token,
+    this.lastAnnouncement,
   });
 
   Map<String, dynamic> toJson() => {
@@ -24,7 +26,7 @@ class VolunteerUserModel {
         'volunteerEmail': volunteerEmail,
         'role': role,
         'profilePic': profilePic,
-        'token':token,
+        'token': token,
+        'lastAnnouncement': lastAnnouncement,
       };
-
 }

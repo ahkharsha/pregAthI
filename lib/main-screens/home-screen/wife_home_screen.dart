@@ -36,6 +36,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
   String? _currentAddress;
   String? profilePic = wifeProfileDefault;
   bool? isBanned = false;
+  String? lastAnnoucement;
 
   @override
   void initState() {
@@ -79,7 +80,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
               ElevatedButton(
                 onPressed: () async {
                   String googleUrl =
-                      'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+                      'https://pregathi-e856c9.webflow.io/';
 
                   final Uri _url = Uri.parse(googleUrl);
                   try {
@@ -183,23 +184,25 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
     DocumentSnapshot userData = await _reference.get();
     // ignore: unused_local_variable
     int diffWeek = 0;
-    int week = int.tryParse(userData['weekUpdated'] ?? '') ?? 0;
+    if (userData['weekUpdated'] != 'new') {
+      int week = int.tryParse(userData['weekUpdated'] ?? '') ?? 0;
 
-    int diffDays = DateTime(userData['weekUpdatedYear'],
-            userData['weekUpdatedMonth'], userData['weekUpdatedDay'])
-        .calendarDaysTill(current_year, current_mon, current_day);
+      int diffDays = DateTime(userData['weekUpdatedYear'],
+              userData['weekUpdatedMonth'], userData['weekUpdatedDay'])
+          .calendarDaysTill(current_year, current_mon, current_day);
 
-    if (diffDays > 7) {
-      while (diffDays >= 7) {
-        diffWeek += 1;
-        diffDays -= 7;
+      if (diffDays > 7) {
+        while (diffDays >= 7) {
+          diffWeek += 1;
+          diffDays -= 7;
+        }
+
+        week += diffWeek;
+
+        _reference.update({
+          'week': week.toString(),
+        });
       }
-
-      week += diffWeek;
-
-      _reference.update({
-        'week': week.toString(),
-      });
     }
   }
 

@@ -63,7 +63,6 @@ class _MyAppState extends State<MyApp> {
             textTheme: GoogleFonts.firaSansTextTheme(
               Theme.of(context).textTheme,
             ),
-            primarySwatch: Colors.blue,
           ),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
