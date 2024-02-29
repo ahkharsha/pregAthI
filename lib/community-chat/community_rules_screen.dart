@@ -68,7 +68,7 @@ class _CommunityRulesScreenState extends State<CommunityRulesScreen> {
                 style: TextStyle(fontSize: 19),
               ),
               subtitle: Text(
-                'Refrain from posting any inappropriate or offensive content.',
+                'Refrain from posting any inappropriate or offensive content. Initial warnings will be issued, with subsequent violations resulting in account bans.',
                 textAlign: TextAlign.start,
                 style: TextStyle(fontSize: 16),
               ),
