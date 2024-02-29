@@ -61,6 +61,7 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
             lastAnnouncement:'',
             weekUpdated: 'new',
             readGuidelines: false,
+            currentAddress: 'Fetching current location...',
           );
           final jsonData = user.toJson();
           await db.set(jsonData).whenComplete(() {

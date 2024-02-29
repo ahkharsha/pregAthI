@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/community_list_drawer.dart';
+import 'package:pregathi/community-chat/community_rules_screen.dart';
 import 'package:pregathi/community-chat/delegate/search_community_delegate.dart';
+import 'package:pregathi/community-chat/new_guidelines.dart';
 import 'package:pregathi/const/constants.dart';
 
 class CommunityHome extends ConsumerStatefulWidget {
@@ -14,6 +18,13 @@ class CommunityHome extends ConsumerStatefulWidget {
 
 class _CommunityHomeState extends ConsumerState<CommunityHome> {
   int _page = 0;
+  bool readGuidelines = false;
+
+  @override
+  void initState() {
+    _checkReadGuidelines();
+    super.initState();
+  }
 
   void drawerDisplay(BuildContext context) {
     Scaffold.of(context).openDrawer();
@@ -25,72 +36,101 @@ class _CommunityHomeState extends ConsumerState<CommunityHome> {
     });
   }
 
+  _checkReadGuidelines() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    DocumentSnapshot userData = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get();
+      
+    print(userData['readGuidelines']);
+
+    if (userData['readGuidelines']) {
+      setState(() {
+        readGuidelines = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Communities",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
+    if (!readGuidelines) {
+      return NewCommunityRulesScreen();
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Communities",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
+          leading: Builder(builder: (context) {
+            return IconButton(
+              onPressed: () => drawerDisplay(context),
+              icon: Icon(
+                Icons.menu,
+                color: Colors.white,
+              ),
+            );
+          }),
+          actions: [
+            IconButton(
+              onPressed: () {
+                goTo(context, CommunityRulesScreen());
+              },
+              icon: const Icon(
+                Icons.rule_outlined,
+                color: Colors.white,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                showSearch(
+                    context: context, delegate: SearchCommunityDelegate(ref));
+              },
+              icon: const Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
+            ),
+          ],
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          backgroundColor: primaryColor,
         ),
-        leading: Builder(builder: (context) {
-          return IconButton(
-            onPressed: () => drawerDisplay(context),
-            icon: Icon(
-              Icons.menu,
-              color: Colors.white,
-            ),
-          );
-        }),
-        actions: [
-          IconButton(
-            onPressed: () {
-              showSearch(
-                  context: context, delegate: SearchCommunityDelegate(ref));
-            },
-            icon: const Icon(
-              Icons.search,
-              color: Colors.white,
-            ),
-          ),
-        ],
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: primaryColor,
-      ),
-      drawer: CommunityDrawer(),
-      body: tabWidgets[_page],
-      bottomNavigationBar: CupertinoTabBar(
-        activeColor: primaryColor,
-        backgroundColor: appBgColor,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Padding(
-              padding: EdgeInsets.only(
-                top: 8.0,
-                bottom: 8,
+        drawer: CommunityDrawer(),
+        body: tabWidgets[_page],
+        bottomNavigationBar: CupertinoTabBar(
+          activeColor: primaryColor,
+          backgroundColor: appBgColor,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Padding(
+                padding: EdgeInsets.only(
+                  top: 8.0,
+                  bottom: 8,
+                ),
+                child: Icon(Icons.home),
               ),
-              child: Icon(Icons.home),
+              label: '',
             ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Padding(
-              padding: EdgeInsets.only(
-                bottom: 8.0,
-                top: 8,
+            BottomNavigationBarItem(
+              icon: Padding(
+                padding: EdgeInsets.only(
+                  bottom: 8.0,
+                  top: 8,
+                ),
+                child: Icon(Icons.add),
               ),
-              child: Icon(Icons.add),
+              label: '',
             ),
-            label: '',
-          ),
-        ],
-        onTap: onPageChanged,
-        currentIndex: _page,
-      ),
-    );
+          ],
+          onTap: onPageChanged,
+          currentIndex: _page,
+        ),
+      );
+    }
   }
 }

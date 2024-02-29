@@ -16,6 +16,7 @@ class WifeUserModel {
   String? lastAnnouncement;
   String? weekUpdated;
   bool? readGuidelines;
+  String? currentAddress;
 
   WifeUserModel({
     this.name,
@@ -35,6 +36,7 @@ class WifeUserModel {
     this.lastAnnouncement,
     this.weekUpdated,
     this.readGuidelines,
+    this.currentAddress,
   });
 
   Map<String, dynamic> toJson() => {
@@ -55,5 +57,6 @@ class WifeUserModel {
         'lastAnnouncement': lastAnnouncement,
         'weekUpdated': weekUpdated,
         'readGuidelines': readGuidelines,
+        'currentAddress': currentAddress,
       };
 }

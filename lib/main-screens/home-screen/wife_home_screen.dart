@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:basics/basics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,6 +11,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
+import 'package:pregathi/main-screens/announcements.dart';
 import 'package:pregathi/main-screens/drawers/wife/profile_drawer.dart';
 import 'package:pregathi/main-screens/drawers/wife/options_drawer.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
@@ -37,6 +40,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
   String? profilePic = wifeProfileDefault;
   bool? isBanned = false;
   String? lastAnnoucement;
+  Timer? timer;
 
   @override
   void initState() {
@@ -45,6 +49,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
     _checkBan();
     _getProfilePic();
     _getCurrentLocation();
+    _checkLatestAnnoucement();
     initPermissions();
     updateLastLogin();
     updatedWifeWeek();
@@ -56,6 +61,69 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
 
   void openProfileDrawer() {
     _scaffoldKey.currentState?.openEndDrawer();
+  }
+
+  _checkLatestAnnoucement() async {
+    DocumentSnapshot userData = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get();
+
+    DocumentSnapshot announcement = await FirebaseFirestore.instance
+        .collection('pregAthI')
+        .doc('version')
+        .get();
+
+    print('The current and the latest announcements are respectively');
+    print(userData['lastAnnouncement']);
+    print(announcement['latestAnnouncement']);
+
+    if (userData['lastAnnouncement'] != announcement['latestAnnouncement']) {
+      showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) => PopScope(
+          canPop: false,
+          child: AlertDialog(
+            title: Text(
+              'You have new unread announcements!',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 15.sp),
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () async {
+                  goTo(context, AnnouncementScreen());
+                },
+                child: const Text('View'),
+              ),
+            ],
+            actionsAlignment: MainAxisAlignment.center,
+          ),
+        ),
+      );
+      timer = Timer.periodic(
+        Duration(seconds: 1),
+        (_) => checkReadAnnouncement(),
+      );
+    }
+  }
+
+  Future checkReadAnnouncement() async {
+    DocumentSnapshot userData = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get();
+
+    DocumentSnapshot announcement = await FirebaseFirestore.instance
+        .collection('pregAthI')
+        .doc('version')
+        .get();
+
+    if (userData['lastAnnouncement'] == announcement['latestAnnouncement']) {
+      timer?.cancel();
+      goBack(context);
+    }
   }
 
   _checkUpdate() async {
@@ -79,8 +147,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
             actions: [
               ElevatedButton(
                 onPressed: () async {
-                  String googleUrl =
-                      'https://pregathi-e856c9.webflow.io/';
+                  String googleUrl = 'https://pregathi-e856c9.webflow.io/';
 
                   final Uri _url = Uri.parse(googleUrl);
                   try {
