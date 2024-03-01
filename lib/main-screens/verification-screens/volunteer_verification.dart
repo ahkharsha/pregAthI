@@ -82,60 +82,62 @@ class _VolunteerEmailVerifyState extends State<VolunteerEmailVerify> {
             padding: const EdgeInsets.all(10),
             child: Stack(
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.6,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            'Verify email',
-                            style: TextStyle(
-                              fontSize: 32.sp,
-                              fontWeight: FontWeight.bold,
-                              color: primaryColor,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10.h,
-                          ),
-                          Image.asset(
-                            'assets/images/login/email_verification.png',
-                            height: 20.h,
-                            width: 30.w,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20, right: 20, top: 15),
-                            child: Text(
-                              'A verification mail has been sent to your email',
+                SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.6,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              'Verify email',
                               style: TextStyle(
+                                fontSize: 32.sp,
+                                fontWeight: FontWeight.bold,
                                 color: primaryColor,
-                                fontSize: 20.sp,
                               ),
-                              textAlign: TextAlign.center,
                             ),
-                          ),
-                          SizedBox(
-                            height: 10.h,
-                          ),
-                          MainButton(
-                              title: 'Resend email',
-                              onPressed: () async {
-                                canResendEmail ? sendVerificationEmail() : null;
-                              }),
-                          SubButton(
-                              title: 'Cancel',
-                              onPressed: () async {
-                                await FirebaseAuth.instance.signOut();
-                                goToDisableBack(context, LoginScreen());
-                              }),
-                        ],
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            Image.asset(
+                              'assets/images/login/email_verification.png',
+                              height: 20.h,
+                              width: 30.w,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20, right: 20, top: 15),
+                              child: Text(
+                                'A verification mail has been sent to your email',
+                                style: TextStyle(
+                                  color: primaryColor,
+                                  fontSize: 20.sp,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            MainButton(
+                                title: 'Resend email',
+                                onPressed: () async {
+                                  canResendEmail ? sendVerificationEmail() : null;
+                                }),
+                            SubButton(
+                                title: 'Cancel',
+                                onPressed: () async {
+                                  await FirebaseAuth.instance.signOut();
+                                  goToDisableBack(context, LoginScreen());
+                                }),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),

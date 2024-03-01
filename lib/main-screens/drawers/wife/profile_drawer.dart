@@ -85,14 +85,14 @@ class WifeProfileDrawer extends ConsumerWidget {
             ),
             ListTile(
               title: Text(translation(context).profile),
-              leading: Icon(Icons.person),
+              leading: Icon(Icons.person_outline_outlined),
               onTap: () {
                 goTo(context, WifeProfileScreen());
               },
             ),
             ListTile(
               title: Text(translation(context).announcements),
-              leading: Icon(Icons.notifications_active_rounded),
+              leading: Icon(Icons.notifications_active_outlined),
               onTap: () {
                 goTo(context, AnnouncementScreen());
               },
@@ -124,7 +124,7 @@ class WifeProfileDrawer extends ConsumerWidget {
             ),
             ListTile(
               title: Text('Privacy Policy'),
-              leading: const Icon(Icons.shield_rounded),
+              leading: const Icon(Icons.shield_outlined),
               onTap: () {
                 goTo(context, PrivacyPolicyScreen());
               },

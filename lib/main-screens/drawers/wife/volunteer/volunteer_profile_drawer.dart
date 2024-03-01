@@ -71,14 +71,14 @@ class VolunteerProfileDrawer extends ConsumerWidget {
           ),
           ListTile(
             title: Text("Profile"),
-            leading: Icon(Icons.person),
+            leading: Icon(Icons.person_outline_outlined),
             onTap: () {
               goTo(context, VolunteerProfileScreen());
             },
           ),
           ListTile(
             title: Text("Announcements"),
-            leading: Icon(Icons.notifications_active_rounded),
+            leading: Icon(Icons.notifications_active_outlined),
             onTap: () {
               goTo(context, AnnouncementScreen());
             },
@@ -99,7 +99,7 @@ class VolunteerProfileDrawer extends ConsumerWidget {
           ),
           ListTile(
             title: Text('Privacy Policy'),
-            leading: const Icon(Icons.shield_rounded),
+            leading: const Icon(Icons.shield_outlined),
             onTap: () {
               goTo(context, PrivacyPolicyScreen());
             },

@@ -375,6 +375,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
       },
     );
   }
+
   void _showFixedEmergencyAlertDialog() {
     showDialog(
       context: context,
@@ -393,7 +394,8 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage('https://firebasestorage.googleapis.com/v0/b/pregathi-69.appspot.com/o/profile%2Fd5b0dd9a-3b84-4c99-aef2-0a6369f54580?alt=media&token=43b530c7-fa1b-44b8-80f9-c8f38e140ad3'),
+                  backgroundImage: NetworkImage(
+                      'https://firebasestorage.googleapis.com/v0/b/pregathi-69.appspot.com/o/profile%2Fd5b0dd9a-3b84-4c99-aef2-0a6369f54580?alt=media&token=43b530c7-fa1b-44b8-80f9-c8f38e140ad3'),
                   maxRadius: 150,
                 ),
                 SizedBox(
@@ -408,7 +410,8 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                 ),
                 SizedBox(
                   height: 3.h,
-                ),Text(
+                ),
+                Text(
                   'This is a fixed sample emergency. Actual emergencies from your locality/pin code will appear on your home screen as and when they are initiated',
                 ),
                 Text(
@@ -426,7 +429,9 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                Fluttertoast.showToast(msg: 'This emergency is fixed for demo. It cannot be completed by you.');
+                Fluttertoast.showToast(
+                    msg:
+                        'This emergency is fixed for demo. It cannot be completed by you.');
                 goBack(context);
               },
               child: Text('Complete'),
@@ -434,7 +439,8 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
             ElevatedButton(
               onPressed: () async {
                 print(forceReload);
-                String googleUrl = 'https://www.google.com/maps/search/?api=1&query=13.1207482%2C80.078119';
+                String googleUrl =
+                    'https://www.google.com/maps/search/?api=1&query=13.1207482%2C80.078119';
 
                 final Uri _url = Uri.parse(googleUrl);
                 try {
@@ -459,12 +465,6 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            '(This is a fixed sample emergency)',
-            style: TextStyle(
-              fontSize: 15,
-            ),
-          ),
           Text(
             '${locality}, ${postal}',
             style: TextStyle(
@@ -598,8 +598,29 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  subtitle:
-                      checkCurrentDate('14:29', '21/02/24', 'Avadi', '600072'),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '(This is a fixed sample emergency)',
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                      Text(
+                        'Avadi, 600072',
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                      Text(
+                        '14:29, 21/02/24',
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
