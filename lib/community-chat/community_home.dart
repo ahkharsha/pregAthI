@@ -18,7 +18,7 @@ class CommunityHome extends ConsumerStatefulWidget {
 
 class _CommunityHomeState extends ConsumerState<CommunityHome> {
   int _page = 0;
-  bool readGuidelines = false;
+  bool readGuidelines = true;
 
   @override
   void initState() {
@@ -45,9 +45,9 @@ class _CommunityHomeState extends ConsumerState<CommunityHome> {
       
     print(userData['readGuidelines']);
 
-    if (userData['readGuidelines']) {
+    if (!userData['readGuidelines']) {
       setState(() {
-        readGuidelines = true;
+        readGuidelines = false;
       });
     }
   }
