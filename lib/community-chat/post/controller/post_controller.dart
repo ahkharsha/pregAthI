@@ -237,6 +237,7 @@ class PostController extends StateNotifier<bool> {
         'lastStrikeDay': now.day,
         'lastStrikeMonth': now.month,
         'lastStrikeYear': now.year,
+        'readGuidelines':false,
       });
       goToDisableBack(context, BottomPage());
       Future.delayed(const Duration(microseconds: 1), () {
@@ -257,6 +258,7 @@ class PostController extends StateNotifier<bool> {
         'lastBanDay': now.day,
         'lastBanMonth': now.month,
         'lastBanYear': now.year,
+        'readGuidelines':false,
       });
       goToDisableBack(context, LoginScreen());
 
