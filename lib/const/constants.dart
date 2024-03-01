@@ -37,6 +37,8 @@ Color appBgColor = Color.fromARGB(255, 254, 233, 251);
 
 Color boxColor = Colors.white;
 
+String supportEmail = 'pregathi2004@gmail.com';
+
 
 const tabWidgets = [
   FeedScreen(),
@@ -220,7 +222,7 @@ List<String> bannedWords = [
   'whore',
   'slut',
   'nigger',
-  'nigga'
+  'nigga',
   'faggot',
   'retard',
   'twat',

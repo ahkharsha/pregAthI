@@ -3,8 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/main-screens/about_us.dart';
 import 'package:pregathi/main-screens/announcements.dart';
+import 'package:pregathi/main-screens/contact_us.dart';
 import 'package:pregathi/main-screens/home-screen/volunteer/volunteer_profile_screen.dart';
+import 'package:pregathi/main-screens/privacy_policy.dart';
 
 class VolunteerProfileDrawer extends ConsumerWidget {
   const VolunteerProfileDrawer({Key? key});
@@ -81,9 +84,25 @@ class VolunteerProfileDrawer extends ConsumerWidget {
             },
           ),
           ListTile(
-            title: Text("About"),
+            title: Text("About Us"),
             leading: const Icon(Icons.info_outline_rounded),
-            onTap: () {},
+            onTap: () {
+              goTo(context, AboutUsScreen());
+            },
+          ),
+          ListTile(
+            title: Text('Contact Us'),
+            leading: const Icon(Icons.contact_support_outlined),
+            onTap: () {
+              goTo(context, ContactUsScreen());
+            },
+          ),
+          ListTile(
+            title: Text('Privacy Policy'),
+            leading: const Icon(Icons.shield_rounded),
+            onTap: () {
+              goTo(context, PrivacyPolicyScreen());
+            },
           ),
           ListTile(
             title: Text("Logout"),

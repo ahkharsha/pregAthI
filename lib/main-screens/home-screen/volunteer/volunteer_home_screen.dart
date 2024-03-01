@@ -102,7 +102,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
     updateLastLogin();
   }
 
-   _checkLatestAnnoucement() async {
+  _checkLatestAnnoucement() async {
     DocumentSnapshot userData = await FirebaseFirestore.instance
         .collection('users')
         .doc(user!.uid)
@@ -112,10 +112,6 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
         .collection('pregAthI')
         .doc('version')
         .get();
-
-    print('The current and the latest announcements are respectively');
-    print(userData['lastAnnouncement']);
-    print(announcement['latestAnnouncement']);
 
     if (userData['lastAnnouncement'] != announcement['latestAnnouncement']) {
       showDialog(
@@ -319,36 +315,38 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(emergencyDetails['profilePic']),
-                maxRadius: 150,
-              ),
-              SizedBox(
-                height: 7.h,
-              ),
-              Text(
-                'Mom in emergency!!!',
-                style: TextStyle(
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.bold,
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage(emergencyDetails['profilePic']),
+                  maxRadius: 150,
                 ),
-              ),
-              SizedBox(
-                height: 3.h,
-              ),
-              Text(
-                'Name: ${emergencyDetails['name']}',
-              ),
-              Text(
-                'Phone: ${emergencyDetails['phone']}',
-              ),
-              Text(
-                'Time: ${emergencyDetails['time']} @ ${emergencyDetails['locality']}, ${emergencyDetails['postal']}',
-              )
-            ],
+                SizedBox(
+                  height: 3.h,
+                ),
+                Text(
+                  'Mom in emergency!!!',
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 3.h,
+                ),
+                Text(
+                  'Name: ${emergencyDetails['name']}',
+                ),
+                Text(
+                  'Phone: ${emergencyDetails['phone']}',
+                ),
+                Text(
+                  'Time: ${emergencyDetails['time']} @ ${emergencyDetails['locality']}, ${emergencyDetails['postal']}',
+                )
+              ],
+            ),
           ),
           actions: [
             ElevatedButton(
@@ -377,6 +375,82 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
       },
     );
   }
+  void _showFixedEmergencyAlertDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Emergency Alert',
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 22.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage('https://firebasestorage.googleapis.com/v0/b/pregathi-69.appspot.com/o/profile%2Fd5b0dd9a-3b84-4c99-aef2-0a6369f54580?alt=media&token=43b530c7-fa1b-44b8-80f9-c8f38e140ad3'),
+                  maxRadius: 150,
+                ),
+                SizedBox(
+                  height: 3.h,
+                ),
+                Text(
+                  'Mom in emergency!!!',
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 3.h,
+                ),Text(
+                  'This is a fixed sample emergency. Actual emergencies from your locality/pin code will appear on your home screen as and when they are initiated',
+                ),
+                Text(
+                  'Name: Varshini',
+                ),
+                Text(
+                  'Phone: xxxxxxxxxx',
+                ),
+                Text(
+                  'Time: 14:29 @ Avadi, 600072',
+                )
+              ],
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Fluttertoast.showToast(msg: 'This emergency is fixed for demo. It cannot be completed by you.');
+                goBack(context);
+              },
+              child: Text('Complete'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                print(forceReload);
+                String googleUrl = 'https://www.google.com/maps/search/?api=1&query=13.1207482%2C80.078119';
+
+                final Uri _url = Uri.parse(googleUrl);
+                try {
+                  await launchUrl(_url);
+                } catch (e) {
+                  Fluttertoast.showToast(msg: 'Error');
+                }
+              },
+              child: Text('Maps'),
+            ),
+          ],
+          actionsAlignment: MainAxisAlignment.center,
+        );
+      },
+    );
+  }
 
   checkCurrentDate(String time, String date, String locality, String postal) {
     DateTime now = DateTime.now();
@@ -386,16 +460,20 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
+            '(This is a fixed sample emergency)',
+            style: TextStyle(
+              fontSize: 15,
+            ),
+          ),
+          Text(
             '${locality}, ${postal}',
             style: TextStyle(
-              color: textColor,
               fontSize: 15,
             ),
           ),
           Text(
             '${time}, Today',
             style: TextStyle(
-              color: textColor,
               fontSize: 15,
             ),
           ),
@@ -408,14 +486,12 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
           Text(
             '${locality}, ${postal}',
             style: TextStyle(
-              color: textColor,
               fontSize: 15,
             ),
           ),
           Text(
             '${time}, ${date}',
             style: TextStyle(
-              color: textColor,
               fontSize: 15,
             ),
           ),
@@ -492,6 +568,42 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
               style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
             ),
           ),
+          GestureDetector(
+            onTap: () {
+              _showFixedEmergencyAlertDialog();
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: 15, right: 15, bottom: 10, top: 10),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: boxColor,
+                  border: Border.all(
+                    color: Colors.black,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 35,
+                    backgroundImage: NetworkImage(
+                        'https://firebasestorage.googleapis.com/v0/b/pregathi-69.appspot.com/o/profile%2Fd5b0dd9a-3b84-4c99-aef2-0a6369f54580?alt=media&token=43b530c7-fa1b-44b8-80f9-c8f38e140ad3'),
+                  ),
+                  title: Text(
+                    'Varshini',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle:
+                      checkCurrentDate('14:29', '21/02/24', 'Avadi', '600072'),
+                ),
+              ),
+            ),
+          ),
           StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
                 .collection('emergencies')
@@ -546,7 +658,8 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                           _showEmergencyAlertDialog(thisItem);
                         },
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 15,right: 15,bottom: 10,top: 10),
+                          padding: const EdgeInsets.only(
+                              left: 15, right: 15, bottom: 10, top: 10),
                           child: Container(
                             decoration: BoxDecoration(
                               color: boxColor,
@@ -567,7 +680,6 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
                               title: Text(
                                 '${thisItem['name']}',
                                 style: TextStyle(
-                                  color: textColor,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),

@@ -323,19 +323,20 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
 
   Widget _buildDeleteAccountButton() {
     return ElevatedButton(
-        onPressed: () async {
-          showDeleteDialog(context);
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red,
+      onPressed: () async {
+        showDeleteDialog(context);
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.red,
+      ),
+      child: Text(
+        translation(context).deleteAccount,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 12.sp,
         ),
-        child: Text(
-          translation(context).deleteAccount,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 12.sp,
-          ),
-        ));
+      ),
+    );
   }
 }
 

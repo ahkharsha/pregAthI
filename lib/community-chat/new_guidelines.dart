@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pregathi/buttons/sub_button.dart';
+import 'package:pregathi/buttons/variable_button.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
+import 'package:sizer/sizer.dart';
 
 class NewCommunityRulesScreen extends StatefulWidget {
   NewCommunityRulesScreen({Key? key}) : super(key: key);
@@ -29,7 +30,7 @@ class _NewCommunityRulesScreenState extends State<NewCommunityRulesScreen> {
               goToDisableBack(context, BottomPage());
             }),
         title: Text(
-          "Accept Community Rules",
+          "Community Rules",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -42,6 +43,16 @@ class _NewCommunityRulesScreenState extends State<NewCommunityRulesScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 15.0, bottom: 10, left: 15),
+              child: Text(
+                'Accept the following rules to proceed using communities',
+                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
             ListTile(
               title: Text(
                 'Rule 1',
@@ -69,10 +80,22 @@ class _NewCommunityRulesScreenState extends State<NewCommunityRulesScreen> {
                 'Rule 3',
                 style: TextStyle(fontSize: 19),
               ),
-              subtitle: Text(
-                'Refrain from posting any inappropriate or offensive content. Initial warnings will be issued, with subsequent violations resulting in account bans.',
-                textAlign: TextAlign.start,
-                style: TextStyle(fontSize: 16),
+              subtitle: Column(
+                children: [
+                  Text(
+                    'There is an Automatic Banning System (ABS) in place',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'Refrain from posting any inappropriate or offensive content. Initial warnings will be issued, with subsequent violations resulting in account bans.',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
               ),
             ),
             ListTile(
@@ -174,8 +197,8 @@ class _NewCommunityRulesScreenState extends State<NewCommunityRulesScreen> {
                 style: TextStyle(fontSize: 16),
               ),
             ),
-            SubButton(
-              title: 'I have read all the rules',
+            VariableButton(
+              title: 'Agree',
               onPressed: () {
                 goToDisableBack(context, BottomPage());
                 _updateReadGuidelines();
