@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:pregathi/const/constants.dart';
 
@@ -108,6 +110,21 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    GestureDetector(
+                      onTap: () async {
+                        final Uri _url = Uri.parse(websiteLink);
+                        try {
+                          await launchUrl(_url);
+                        } catch (e) {
+                          Fluttertoast.showToast(msg: 'Error');
+                        }
+                      },
+                      child: _buildCard(
+                        'Website',
+                        'Click here to view our website',
+                        Colors.black,
+                      ),
+                    ),
                     _buildCard(
                       'About us',
                       'We, Team pregAthI, embarked on creating this app following an incident involving Saran\'s mother. During her pregnancy, she encountered distress while her husband was away at work, unable to reach him for assistance. This led to her losing consciousness, only to be discovered by the household maid half an hour later.\n\nOur mission is to cater to the well-being of expectant mothers, a vital segment of our society, and ensure the safety of newborns, who are the future of any nation. We are committed to extending these essential services to all women, particularly those residing in many rural pockets of India who do not have easy access to medical facilities, ensuring inclusivity and accessibility.\n\nOnce this model has been proven successful, our aim is to expand beyond India and extend this initiative to other third-world countries, where access to medical facilities is limited or non-existent.',

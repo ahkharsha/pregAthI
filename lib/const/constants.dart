@@ -11,6 +11,7 @@ import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/model/post.dart';
 
 // ignore: constant_identifier_names
+const String websiteLink = 'https://pregathi-website.vercel.app/';
 const apiKey = "AIzaSyCAYDrBcb41UV2-2inRihCUS80VdRWv6vs";
 const bannerDefault = 'https://cdn-icons-png.flaticon.com/128/1474/1474494.png';
 const avatarDefault =
@@ -39,12 +40,10 @@ Color boxColor = Colors.white;
 
 String supportEmail = 'pregathi2004@gmail.com';
 
-
 const tabWidgets = [
   FeedScreen(),
   AddPostScreen(),
 ];
-
 
 void goTo(BuildContext context, Widget nextScreen) {
   Navigator.push(
