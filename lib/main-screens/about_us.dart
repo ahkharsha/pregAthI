@@ -112,7 +112,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                   children: [
                     GestureDetector(
                       onTap: () async {
-                        final Uri _url = Uri.parse(websiteLink);
+                        final Uri _url = Uri.parse(pregathiWebsiteLink);
                         try {
                           await launchUrl(_url);
                         } catch (e) {
