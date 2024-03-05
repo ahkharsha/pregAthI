@@ -41,6 +41,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
   bool? isBanned = false;
   String? lastAnnoucement;
   Timer? timer;
+  String? username = '';
 
   @override
   void initState() {
@@ -223,6 +224,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
 
     setState(() {
       profilePic = userData['profilePic'];
+      username = userData['name'];
     });
   }
 
@@ -362,8 +364,38 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                 shrinkWrap: true,
                 children: [
                   Padding(
-                    padding:
-                        const EdgeInsets.only(top: 8.0, bottom: 8, left: 15),
+                      padding:
+                          const EdgeInsets.only(top: 16, bottom: 1, left: 15),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Hello ',
+                            style: TextStyle(
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'BebasNeue',
+                            ),
+                          ),
+                          Text(
+                            '$username',
+                            style: TextStyle(
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'BebasNeue',
+                            ),
+                          ),
+                          Text(
+                            ',',
+                            style: TextStyle(
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'BebasNeue',
+                            ),
+                          ),
+                        ],
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4, bottom: 8, left: 15),
                     child: Text(
                       translation(context).emergency,
                       style: TextStyle(

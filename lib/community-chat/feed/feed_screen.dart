@@ -9,7 +9,6 @@ import 'package:pregathi/const/error_text.dart';
 
 class FeedScreen extends ConsumerWidget {
   const FeedScreen({super.key});
-  
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,19 +16,32 @@ class FeedScreen extends ConsumerWidget {
     return ref.watch(userCommunitiesProvider(user!.uid)).when(
           data: (communities) => ref.watch(userPostsProvider(communities)).when(
                 data: (data) {
-                  return ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final post = data[index];
-                      return PostCard(post: post);
-                    },
-                  );
+                  if (data.length == 0) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 25, left: 15, right: 15),
+                      child: Text(
+                        'No posts to display in your feed. Join a community and add some posts.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 17,
+                        ),
+                      ),
+                    );
+                  } else {
+                    return ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final post = data[index];
+                        return PostCard(post: post);
+                      },
+                    );
+                  }
                 },
                 error: (error, stackTrace) {
                   print(error);
                   return ErrorText(
-                  error: error.toString(),
-                );
+                    error: error.toString(),
+                  );
                 },
                 loading: () => progressIndicator(context),
               ),

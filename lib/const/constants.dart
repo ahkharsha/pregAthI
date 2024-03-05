@@ -45,10 +45,6 @@ const tabWidgets = [
   AddPostScreen(),
 ];
 
-const IconData upIcon =
-    IconData(0xe800, fontFamily: 'MyFlutterApp', fontPackage: null);
-const IconData downIcon =
-    IconData(0xe801, fontFamily: 'MyFlutterApp', fontPackage: null);
 
 void goTo(BuildContext context, Widget nextScreen) {
   Navigator.push(

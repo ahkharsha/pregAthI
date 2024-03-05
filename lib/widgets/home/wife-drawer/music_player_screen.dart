@@ -46,15 +46,18 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
   Future setAudio() async {
     audioPlayer.setReleaseMode(ReleaseMode.loop);
 
-    String url =
-        widget.music.url;
-    audioPlayer.setSourceUrl(url);
-    audioPlayer.resume();
-    isPlaying=true;
+    String url = widget.music.url;
+    await audioPlayer.play(UrlSource(url));
+    isPlaying = true;
   }
+
+  void stopAudio() async {
+  await audioPlayer.stop();
+}
 
   @override
   void dispose() {
+    stopAudio();
     audioPlayer.dispose();
     super.dispose();
   }
@@ -80,6 +83,7 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
             color: Colors.white,
             onPressed: () {
               Navigator.of(context).pop();
+              stopAudio();
             }),
         title: Text(
           "Music Player",
@@ -159,10 +163,7 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
                 // ),
                 IconButton(
                   onPressed: () async {
-                    final newPosition = max(
-                        0,
-                        position.inSeconds -
-                            10);
+                    final newPosition = max(0, position.inSeconds - 10);
                     await audioPlayer.seek(Duration(seconds: newPosition));
                   },
                   icon: Icon(
@@ -185,10 +186,8 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
                 ),
                 IconButton(
                   onPressed: () async {
-                    final newPosition = min(
-                        duration.inSeconds,
-                        position.inSeconds +
-                            10); 
+                    final newPosition =
+                        min(duration.inSeconds, position.inSeconds + 10);
                     await audioPlayer.seek(Duration(seconds: newPosition));
                   },
                   icon: Icon(
