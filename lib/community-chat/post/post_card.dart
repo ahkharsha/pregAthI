@@ -52,7 +52,7 @@ class PostCard extends ConsumerWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 25),
+          padding: const EdgeInsets.only(left: 15, right: 15, top:20, bottom: 5),
           child: Container(
             decoration: BoxDecoration(
               color: boxColor,
