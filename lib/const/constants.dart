@@ -247,3 +247,12 @@ List<String> bannedWords = [
   'clit',
   'fanny',
 ];
+
+bool checkForBannedWords(String text) {
+    for (String word in bannedWords) {
+      if (text.toLowerCase().contains(word.toLowerCase())) {
+        return true;
+      }
+    }
+    return false;
+  }

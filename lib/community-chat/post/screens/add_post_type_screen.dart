@@ -122,14 +122,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
     }
   }
 
-  bool checkForBannedWords(String text) {
-    for (String word in bannedWords) {
-      if (text.toLowerCase().contains(word.toLowerCase())) {
-        return true;
-      }
-    }
-    return false;
-  }
+  
 
   @override
   Widget build(BuildContext context) {

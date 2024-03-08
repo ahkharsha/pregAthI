@@ -51,6 +51,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
     _getProfilePic();
     _getCurrentLocation();
     _checkLatestAnnoucement();
+    _updateUserVersion();
     initPermissions();
     updateLastLogin();
     updatedWifeWeek();
@@ -62,6 +63,12 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
 
   void openProfileDrawer() {
     _scaffoldKey.currentState?.openEndDrawer();
+  }
+
+  _updateUserVersion() {
+    FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
+      'userVersion': currentVersion,
+    });
   }
 
   _checkLatestAnnoucement() async {
@@ -191,7 +198,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
             canPop: false,
             child: AlertDialog(
               title: Text(
-                'Your account was banned for 7 days due to receiving multiple account strikes. Please wait ${7 - diffDays} day(s) before continuing to use your account.',
+                'Your account was banned for 7 days due to receiving multiple account strikes. Please wait ${7 - diffDays} days before continuing to use your account.',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 15.sp),
               ),

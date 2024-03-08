@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
@@ -7,6 +9,8 @@ import 'package:pregathi/model/community.dart';
 import 'package:pregathi/model/post.dart';
 import 'package:pregathi/providers/firebase_providers.dart';
 import 'package:pregathi/type_defs.dart';
+
+int rep = 0;
 
 final communityRepositoryProvider = Provider((ref) {
   return CommunityRepository(firestore: ref.watch(firestoreProvider));
@@ -24,6 +28,27 @@ class CommunityRepository {
         throw 'Oops! Community name exists already...';
       }
       return right(_communities.doc(community.name).set(community.toMap()));
+    } on FirebaseException catch (e) {
+      return left(Failure(e.message!));
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  int randomInt(int max) {
+    Random random = Random();
+    return random.nextInt(max);
+  }
+
+  FutureVoid flagAndDeleteCommunity(Community community) async {
+    try {
+      var communityDoc = await _flaggedCommunities.doc(community.name).get();
+      if (communityDoc.exists) {
+        rep = randomInt(1000000);
+        return right(
+            _flaggedCommunities.doc(community.name + '$rep').set(community.toMap()));
+      }
+      return right(_flaggedCommunities.doc(community.name).set(community.toMap()));
     } on FirebaseException catch (e) {
       return left(Failure(e.message!));
     } catch (e) {
@@ -109,7 +134,7 @@ class CommunityRepository {
   FutureVoid addMods(String communityName, List<String> uids) async {
     try {
       return right(_communities.doc(communityName).update({
-        'mods':uids,
+        'mods': uids,
       }));
     } on FirebaseException catch (e) {
       throw e.message!;
@@ -121,7 +146,7 @@ class CommunityRepository {
   FutureVoid removeMembers(String communityName, List<String> uids) async {
     try {
       return right(_communities.doc(communityName).update({
-        'members':uids,
+        'members': uids,
       }));
     } on FirebaseException catch (e) {
       throw e.message!;
@@ -130,8 +155,12 @@ class CommunityRepository {
     }
   }
 
-   Stream<List<Post>> getCommunityPosts(String name) {
-    return _posts.where('communityName', isEqualTo: name).orderBy('createdAt', descending: true).snapshots().map(
+  Stream<List<Post>> getCommunityPosts(String name) {
+    return _posts
+        .where('communityName', isEqualTo: name)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map(
           (event) => event.docs
               .map(
                 (e) => Post.fromMap(
@@ -141,7 +170,12 @@ class CommunityRepository {
               .toList(),
         );
   }
- CollectionReference get _posts => _firestore.collection(FirebaseConstants.postsCollection);
+
+  CollectionReference get _posts =>
+      _firestore.collection(FirebaseConstants.postsCollection);
   CollectionReference get _communities =>
       _firestore.collection(FirebaseConstants.communitiesCollection);
+
+  CollectionReference get _flaggedCommunities =>
+      _firestore.collection(FirebaseConstants.flagCommunitiesCollection);
 }

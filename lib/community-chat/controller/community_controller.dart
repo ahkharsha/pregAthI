@@ -1,14 +1,23 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:intl/intl.dart';
 import 'package:pregathi/community-chat/screens/community_screen.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/failure.dart';
+import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/model/community.dart';
 import 'package:pregathi/community-chat/repository/community_repository.dart';
 import 'package:pregathi/model/post.dart';
 import 'package:pregathi/providers/storage_repository_provider.dart';
+import 'package:pregathi/widgets/home/bottom_page.dart';
+
+int finalStrikeCount = 0;
+int finalBanCount = 0;
 
 final userCommunitiesProvider =
     StreamProvider.family<List<Community>, String>((ref, userId) {
@@ -56,6 +65,7 @@ class CommunityController extends StateNotifier<bool> {
         super(false);
   void createCommunity(String name, BuildContext context, String userId) async {
     state = true;
+    DateTime now = DateTime.now();
     Community community = Community(
       id: name,
       name: name,
@@ -63,6 +73,8 @@ class CommunityController extends StateNotifier<bool> {
       avatar: avatarDefault,
       members: [userId],
       mods: [userId],
+      createTime: '${DateFormat('kk:mm').format(now)}',
+      createDate: '${DateFormat('dd/MM/yy').format(now)}',
     );
 
     final res = await _communityRepository.createCommunity(community);
@@ -71,6 +83,78 @@ class CommunityController extends StateNotifier<bool> {
       showSnackBar(context, 'Community created successfully');
       Navigator.pop(context);
     });
+  }
+
+  void flagAndDeleteCommunity(
+      String name, BuildContext context, String userId) async {
+    state = true;
+    DateTime now = DateTime.now();
+    Community community = Community(
+      id: name,
+      name: name,
+      banner: bannerDefault,
+      avatar: avatarDefault,
+      members: [userId],
+      mods: [userId],
+      createTime: '${DateFormat('kk:mm').format(now)}',
+      createDate: '${DateFormat('dd/MM/yy').format(now)}',
+    );
+
+    final res = await _communityRepository.flagAndDeleteCommunity(community);
+    state = false;
+
+    res.fold(
+      (l) => showSnackBar(context, l.message),
+      (r) {
+        banUser(context, userId, 'Community name');
+      },
+    );
+  }
+
+  banUser(BuildContext context, String userId, String type) async {
+    DocumentReference<Map<String, dynamic>> _reference =
+        FirebaseFirestore.instance.collection('users').doc(userId);
+    DocumentSnapshot userData = await _reference.get();
+    DateTime now = DateTime.now();
+    if (userData['strikeCount'] < 2) {
+      finalStrikeCount = userData['strikeCount'] + 1;
+      await _reference.update({
+        'strikeCount': finalStrikeCount,
+        'lastStrikeDay': now.day,
+        'lastStrikeMonth': now.month,
+        'lastStrikeYear': now.year,
+        'readGuidelines': false,
+      });
+      goToDisableBack(context, BottomPage());
+      Future.delayed(const Duration(microseconds: 1), () {
+        dialogueBoxWithButton(context,
+            "Your ${type} contained banned words. Your post has been flagged and deleted. You have received an account strike. You have ${3 - finalStrikeCount} strikes remaining");
+      });
+    } else if (userData['strikeCount'] == 2) {
+      print('account going to be banned');
+
+      finalBanCount = userData['banCount'] + 1;
+      await _reference.update({
+        'banCount': finalBanCount,
+        'strikeCount': 0,
+        'isBanned': true,
+        'lastStrikeDay': now.day,
+        'lastStrikeMonth': now.month,
+        'lastStrikeYear': now.year,
+        'lastBanDay': now.day,
+        'lastBanMonth': now.month,
+        'lastBanYear': now.year,
+        'readGuidelines': false,
+      });
+      goToDisableBack(context, LoginScreen());
+
+      Future.delayed(const Duration(microseconds: 1), () {
+        dialogueBoxWithButton(context,
+            "Your ${type} contained banned words. It has been flagged and deleted. Your account has been banned for 7 days due to receiving multiple account strikes.");
+      });
+      await FirebaseAuth.instance.signOut();
+      UserSharedPreference.setUserRole('');
+    }
   }
 
   void joinCommunity(

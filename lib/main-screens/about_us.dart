@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/widgets/home/wife-drawer/cards/link_card.dart';
 import 'package:pregathi/widgets/home/wife-drawer/cards/text_card.dart';
@@ -15,11 +17,27 @@ class AboutUsScreen extends StatefulWidget {
 class _AboutUsScreenState extends State<AboutUsScreen> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
-  bool _showControls = false;
 
   @override
   void initState() {
     super.initState();
+    _initPlayer();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+    _didOpen();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _controller.play();
+  }
+
+  _initPlayer() {
     _controller = VideoPlayerController.network(
       "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
     );
@@ -28,22 +46,12 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
     _controller.setVolume(1.0);
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _controller.play();
-    _showControls = false;
-  }
-
-  void _toggleControlsVisibility() {
-    setState(() {
-      _showControls = !_showControls;
+  _didOpen() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({
+      'aboutUs': true,
     });
   }
 
@@ -70,40 +78,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
       ),
       body: Column(
         children: [
-          GestureDetector(
-            onTap: _toggleControlsVisibility,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                _buildVideoPlayer(),
-                if (_showControls)
-                  Positioned(
-                    bottom: 16.0,
-                    child: _buildVideoProgressBar(),
-                  ),
-                if (_showControls)
-                  Positioned(
-                    bottom: 80.0,
-                    child: FloatingActionButton(
-                      onPressed: () {
-                        setState(() {
-                          if (_controller.value.isPlaying) {
-                            _controller.pause();
-                          } else {
-                            _controller.play();
-                          }
-                        });
-                      },
-                      child: Icon(
-                        _controller.value.isPlaying
-                            ? Icons.pause
-                            : Icons.play_arrow,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
+          _buildVideoPlayer(),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -136,18 +111,65 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
     );
   }
 
+  Widget _buildVideoControls() {
+    return Positioned(
+      bottom: 5.0,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                if (_controller.value.isPlaying) {
+                  _controller.pause();
+                } else {
+                  _controller.play();
+                }
+              });
+            },
+            icon: Icon(
+              _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+              color: Colors.black,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _controller
+                    .setVolume(_controller.value.volume == 0 ? 1.0 : 0.0);
+              });
+            },
+            icon: Icon(
+              _controller.value.volume == 0
+                  ? Icons.volume_off
+                  : Icons.volume_up,
+              color: Colors.black,
+            ),
+          ),
+          _buildVideoProgressBar(),
+        ],
+      ),
+    );
+  }
+
   Widget _buildVideoPlayer() {
     return FutureBuilder(
       future: _initializeVideoPlayerFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
-            child: VideoPlayer(_controller),
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              ),
+              _buildVideoControls(),
+            ],
           );
         } else {
           return Center(
-            child: progressIndicator(context),
+            child: smallProgressIndicator(context),
           );
         }
       },
@@ -156,7 +178,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
 
   Widget _buildVideoProgressBar() {
     return Container(
-      width: 300.0,
+      width: 68.w,
       child: VideoProgressIndicator(
         _controller,
         allowScrubbing: true,

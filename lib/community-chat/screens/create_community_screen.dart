@@ -23,11 +23,21 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
   }
 
   void createCommunity() {
-    ref.read(communityControllerProvider.notifier).createCommunity(
-          communityNameController.text.trim(),
-          context,
-          user!.uid,
-        );
+    bool containsBannedWords = false;
+    containsBannedWords = checkForBannedWords(communityNameController.text);
+    if (containsBannedWords) {
+      ref.read(communityControllerProvider.notifier).flagAndDeleteCommunity(
+            communityNameController.text.trim(),
+            context,
+            user!.uid,
+          );
+    } else {
+      ref.read(communityControllerProvider.notifier).createCommunity(
+            communityNameController.text.trim(),
+            context,
+            user!.uid,
+          );
+    }
   }
 
   @override
@@ -48,30 +58,30 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
         ),
         backgroundColor: primaryColor,
       ),
-      body:  Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                children: [
-                  const Align(
-                      alignment: Alignment.topLeft,
-                      child: Text("Community Name")),
-                  const SizedBox(height: 15),
-                  TextField(
-                    controller: communityNameController,
-                    decoration: const InputDecoration(
-                        hintText: "Community Name",
-                        filled: true,
-                        contentPadding: EdgeInsets.all(10)),
-                    maxLength: 30,
-                  ),
-                  const SizedBox(height: 20),
-                  RegularButton(
-                    title: "Create Community",
-                    onPressed: createCommunity,
-                  )
-                ],
-              ),
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          children: [
+            const Align(
+                alignment: Alignment.topLeft, child: Text("Enter Community name", style: TextStyle(fontSize: 18),)),
+            const SizedBox(height: 15),
+            TextField(
+              controller: communityNameController,
+              decoration: const InputDecoration(
+                  fillColor: Colors.white,
+                  hintText: "Community Name",
+                  filled: true,
+                  contentPadding: EdgeInsets.all(10)),
+              maxLength: 30,
             ),
+            const SizedBox(height: 20),
+            RegularButton(
+              title: "Create Community",
+              onPressed: createCommunity,
+            )
+          ],
+        ),
+      ),
     );
   }
 }

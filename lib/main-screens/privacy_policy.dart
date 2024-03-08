@@ -65,7 +65,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                       'pregAthI retains user data only for as long as necessary to fulfill the purposes outlined in our Privacy Policy. Once the data is no longer required, it is securely deleted or anonymized to protect user privacy.'),
               GestureDetector(
                 onTap: () {
-                  goToDisableBack(context, ContactUsScreen());
+                  goTo(context, ContactUsScreen());
                 },
                 child: TextCard(
                     title: 'Contact Us',

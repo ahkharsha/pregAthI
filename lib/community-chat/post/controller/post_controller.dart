@@ -15,8 +15,8 @@ import 'package:pregathi/providers/storage_repository_provider.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:uuid/uuid.dart';
 
-int? finalStrikeCount;
-int? finalBanCount;
+int finalStrikeCount =0;
+int finalBanCount = 0;
 
 final postControllerProvider =
     StateNotifierProvider<PostController, bool>((ref) {
@@ -232,7 +232,7 @@ class PostController extends StateNotifier<bool> {
     DateTime now = DateTime.now();
     if (userData['strikeCount'] < 2) {
       finalStrikeCount = userData['strikeCount'] + 1;
-      _reference.update({
+      await _reference.update({
         'strikeCount': finalStrikeCount,
         'lastStrikeDay': now.day,
         'lastStrikeMonth': now.month,
@@ -242,13 +242,13 @@ class PostController extends StateNotifier<bool> {
       goToDisableBack(context, BottomPage());
       Future.delayed(const Duration(microseconds: 1), () {
         dialogueBoxWithButton(context,
-            "Your ${type} contained banned words. Your post has been flagged and deleted. You have received an account strike.");
+            "Your ${type} contained banned words. Your post has been flagged and deleted. You have received an account strike. You have ${3-finalStrikeCount} strikes remaining");
       });
     } else if (userData['strikeCount'] == 2) {
       print('account going to be banned');
 
       finalBanCount = userData['banCount'] + 1;
-      _reference.update({
+      await _reference.update({
         'banCount': finalBanCount,
         'strikeCount': 0,
         'isBanned': true,

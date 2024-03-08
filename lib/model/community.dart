@@ -7,6 +7,9 @@ class Community {
   final String avatar;
   final List<String> members;
   final List<String> mods;
+  final String createDate;
+  final String createTime;
+
   Community({
     required this.id,
     required this.name,
@@ -14,6 +17,8 @@ class Community {
     required this.avatar,
     required this.members,
     required this.mods,
+    required this.createDate,
+    required this.createTime,
   });
 
   Community copyWith({
@@ -23,6 +28,8 @@ class Community {
     String? avatar,
     List<String>? members,
     List<String>? mods,
+    String? createDate,
+    String? createTime,
   }) {
     return Community(
       id: id ?? this.id,
@@ -31,6 +38,8 @@ class Community {
       avatar: avatar ?? this.avatar,
       members: members ?? this.members,
       mods: mods ?? this.mods,
+      createDate: createDate ?? this.createDate,
+      createTime: createTime ?? this.createTime,
     );
   }
 
@@ -42,6 +51,8 @@ class Community {
       'avatar': avatar,
       'members': members,
       'mods': mods,
+      'createDate': createDate,
+      'createTime': createTime,
     };
   }
 
@@ -53,12 +64,14 @@ class Community {
       avatar: map['avatar'] ?? '',
       members: List<String>.from(map['members']),
       mods: List<String>.from(map['mods']),
+      createDate: map['createDate'] ?? '',
+      createTime: map['createTime'] ?? '',
     );
   }
 
   @override
   String toString() {
-    return 'Community(id: $id, name: $name, banner: $banner, avatar: $avatar, members: $members, mods: $mods)';
+    return 'Community(id: $id, name: $name, banner: $banner, avatar: $avatar, members: $members, mods: $mods, createDate: $createDate, createTime: $createTime)';
   }
 
   @override
@@ -71,11 +84,20 @@ class Community {
         other.banner == banner &&
         other.avatar == avatar &&
         listEquals(other.members, members) &&
-        listEquals(other.mods, mods);
+        listEquals(other.mods, mods) &&
+        other.createDate == createDate &&
+        other.createTime == createTime;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ name.hashCode ^ banner.hashCode ^ avatar.hashCode ^ members.hashCode ^ mods.hashCode;
+    return id.hashCode ^
+        name.hashCode ^
+        banner.hashCode ^
+        avatar.hashCode ^
+        members.hashCode ^
+        mods.hashCode ^
+        createDate.hashCode ^
+        createTime.hashCode;
   }
 }

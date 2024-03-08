@@ -86,18 +86,15 @@ class _NewCommunityRulesScreenState extends State<NewCommunityRulesScreen> {
               content:
                   'Avoid posting misleading or false information; strive for accuracy and honesty.',
             ),
-            SizedBox(
-              height: 2.h,
-            ),
             RegularButton(
-              title: 'Agree',
+              title: 'I Agree',
               onPressed: () {
                 goToDisableBack(context, BottomPage());
                 _updateReadGuidelines();
               },
             ),
             SizedBox(
-              height: 25,
+              height: 50,
             )
           ],
         ),
