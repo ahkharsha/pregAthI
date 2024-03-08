@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pregathi/buttons/sub_button.dart';
+import 'package:pregathi/buttons/regular_button.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/widgets/home/wife-drawer/cards/text_card.dart';
+import 'package:sizer/sizer.dart';
 
 class AnnouncementScreen extends StatefulWidget {
   AnnouncementScreen({Key? key}) : super(key: key);
@@ -56,38 +58,48 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
 
             if (data == null || data.isEmpty) {
               return Center(
-                child: Text('There are no new announcements'),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 20.0, bottom: 20, left: 20, right: 20),
+                  child: Text(
+                    'There are no new announcements right now. Come back later!',
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontSize: 15.sp,),
+                  ),
+                ),
               );
             }
 
             List<Widget> announcementTiles = [];
 
-            data.forEach((key, value) {
-              announcementTiles.add(
+            data.forEach(
+              (key, value) {
+                announcementTiles.add(
+                  TextCard(
+                      title: '${announcementTiles.length + 1}. $key',
+                      content: value.toString()),
+                );
+              },
+            );
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: ListTile(
-                    title: Text(
-                      '${announcementTiles.length + 1}. $key',
-                      style: TextStyle(fontSize: 19),
-                    ),
-                    subtitle: Text(
-                      value.toString(),
-                      textAlign: TextAlign.start,
-                      style: TextStyle(fontSize: 16),
-                    ),
+                  padding: const EdgeInsets.only(
+                      top: 20.0, bottom: 20, left: 20, right: 20),
+                  child: Text(
+                    'Here are the latest announcements!',
+                    style:
+                        TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
                   ),
                 ),
-              );
-            });
-
-            return ListView(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: announcementTiles,
+                ...announcementTiles,
+                SizedBox(
+                  height: 2.h,
                 ),
-                SubButton(
+                RegularButton(
                   title: 'Done',
                   onPressed: () {
                     _updateLastAnnouncement();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:pregathi/widgets/home/wife-drawer/cards/link_card.dart';
+import 'package:pregathi/widgets/home/wife-drawer/cards/text_card.dart';
+import 'package:sizer/sizer.dart';
 import 'package:video_player/video_player.dart';
 import 'package:pregathi/const/constants.dart';
 
@@ -105,113 +106,32 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
           ),
           Expanded(
             child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    GestureDetector(
-                      onTap: () async {
-                        final Uri _url = Uri.parse(pregathiWebsiteLink);
-                        try {
-                          await launchUrl(_url);
-                        } catch (e) {
-                          Fluttertoast.showToast(msg: 'Error');
-                        }
-                      },
-                      child: _buildWebsiteCard(
-                        'Website',
-                        'Click here to view our website',
-                        Colors.black,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    _buildCard(
-                      'About us',
-                      'We, Team pregAthI, embarked on creating this app following an incident involving Saran\'s mother. During her pregnancy, she encountered distress while her husband was away at work, unable to reach him for assistance. This led to her losing consciousness, only to be discovered by the household maid half an hour later.\n\nOur mission is to cater to the well-being of expectant mothers, a vital segment of our society, and ensure the safety of newborns, who are the future of any nation. We are committed to extending these essential services to all women, particularly those residing in many rural pockets of India who do not have easy access to medical facilities, ensuring inclusivity and accessibility.\n\nOnce this model has been proven successful, our aim is to expand beyond India and extend this initiative to other third-world countries, where access to medical facilities is limited or non-existent.',
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  LinkCard(
+                    title: 'Website',
+                    content: 'Click here to view our website',
+                    link: pregathiWebsiteLink,
+                  ),
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  TextCard(
+                      title: 'About us',
+                      content:
+                          'We, Team pregAthI, embarked on creating this app following an incident involving Saran\'s mother. During her pregnancy, she encountered distress while her husband was away at work, unable to reach him for assistance. This led to her losing consciousness, only to be discovered by the household maid half an hour later.\n\nOur mission is to cater to the well-being of expectant mothers, a vital segment of our society, and ensure the safety of newborns, who are the future of any nation. We are committed to extending these essential services to all women, particularly those residing in many rural pockets of India who do not have easy access to medical facilities, ensuring inclusivity and accessibility.\n\nOnce this model has been proven successful, our aim is to expand beyond India and extend this initiative to other third-world countries, where access to medical facilities is limited or non-existent.'),
+                  SizedBox(
+                    height: 50,
+                  ),
+                ],
               ),
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildCard(String title, String content) {
-    return Container(
-      decoration: BoxDecoration(
-        color: boxColor,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.black,
-          width: 1,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(26.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Text(
-              content,
-              style: const TextStyle(fontSize: 18.0),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildWebsiteCard(String title, String content, Color color) {
-    return Container(
-      decoration: BoxDecoration(
-        color: boxColor,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.black,
-          width: 1,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(26.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Text(
-              content,
-              style: const TextStyle(
-                fontSize: 18.0,
-                color: Color.fromARGB(255, 39, 149, 239),
-                decoration: TextDecoration.underline,
-                decorationColor: Color.fromARGB(255, 39, 149, 239),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -227,7 +147,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
           );
         } else {
           return Center(
-            child: CircularProgressIndicator(),
+            child: progressIndicator(context),
           );
         }
       },
@@ -241,9 +161,8 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
         _controller,
         allowScrubbing: true,
         colors: VideoProgressColors(
-          playedColor: Color.fromARGB(255, 18, 116, 228),
-          bufferedColor: Colors.grey,
-          backgroundColor: Colors.black,
+          playedColor: Colors.red,
+          bufferedColor: Colors.white,
         ),
       ),
     );

@@ -136,7 +136,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     final title = _titleController.text.trim();
     final message = _messageController.text.trim();
 
-    final email = supportEmail;
+    final email = pregathiSupportEmail;
     final subject = Uri.encodeComponent(title);
     final body = Uri.encodeComponent(message);
 

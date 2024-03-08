@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/community_list_drawer.dart';
 import 'package:pregathi/community-chat/community_rules_screen.dart';
 import 'package:pregathi/community-chat/delegate/search_community_delegate.dart';
-import 'package:pregathi/community-chat/new_guidelines.dart';
+import 'package:pregathi/community-chat/new_community_guidelines.dart';
 import 'package:pregathi/const/constants.dart';
 
 class CommunityHome extends ConsumerStatefulWidget {

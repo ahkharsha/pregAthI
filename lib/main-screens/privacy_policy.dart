@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/main-screens/contact_us.dart';
+import 'package:pregathi/widgets/home/wife-drawer/cards/text_card.dart';
+import 'package:sizer/sizer.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
   PrivacyPolicyScreen({Key? key}) : super(key: key);
@@ -27,64 +30,50 @@ class PrivacyPolicyScreen extends StatelessWidget {
       ),
       body: Container(
         decoration: const BoxDecoration(),
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.symmetric(vertical: 20),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildCard(
-                'Introduction',
-                'Welcome to pregAthI, an app designed to empower women around the world. At pregAthI, we take your privacy and security seriously. This privacy policy outlines how we collect, use, and protect your personal information.',
-                Colors.black,
-              ),
-              const SizedBox(height: 20.0),
-              _buildCard(
-                'Data Collection',
-                'We collect your email id, username, and profile picture when you create an account on pregAthI. This information is stored securely on Firebase servers provided by Google. We do not share, sell, or disclose your personal information to any third party.',
-                Colors.black,
-              ),
-              const SizedBox(height: 20.0),
-              _buildCard(
-                'Data Protection',
-                'At pregAthI, we take the security of your personal information seriously. We use industry-standard security measures to protect your data. All data is protected, and access to our servers is restricted to authorized personnel only.',
-                Colors.black,
+              Padding(
+                  padding: const EdgeInsets.only( bottom: 20, left: 20, right: 20),
+                  child: Text(
+                    'Last Updated: March 08, 2024\n\nThis Privacy Policy describes the policies and procedures on the collection, use and disclosure of your information when you use this service.',
+                    style:
+                        TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              TextCard(
+                  title: 'About this service',
+                  content:
+                      'Welcome to pregAthI, an app crafted to support you throughout your pregnancy journey. At pregAthI, we prioritize the security and confidentiality of your personal information. This privacy policy elucidates our practices in collecting, utilizing, and safeguarding your data.'),
+              TextCard(
+                  title: 'Information Gathering',
+                  content:
+                      'When you register an account on pregAthI, we gather your email address, username, and profile image. This data is securely stored on Firebase servers operated by Google. Rest assured, we never distribute, trade, or reveal your personal details to external parties.'),
+              TextCard(
+                  title: 'Ensuring Data Security',
+                  content:
+                      'At pregAthI, safeguarding your personal information is paramount to us. We employ industry-standard security protocols to shield your data. Access to our servers is restricted to authorized personnel, ensuring comprehensive protection for all data.'),
+              TextCard(
+                  title: 'Data Utilization Guidelines',
+                  content:
+                      ' The data collected by pregAthI is used solely for enhancing user experience and providing personalized services. We adhere to strict guidelines regarding the utilization of your information to ensure transparency and accountability.'),
+              TextCard(
+                  title: 'Data Retention Period',
+                  content:
+                      'pregAthI retains user data only for as long as necessary to fulfill the purposes outlined in our Privacy Policy. Once the data is no longer required, it is securely deleted or anonymized to protect user privacy.'),
+              GestureDetector(
+                onTap: () {
+                  goToDisableBack(context, ContactUsScreen());
+                },
+                child: TextCard(
+                    title: 'Contact Us',
+                    content:
+                        'If you have any questions about this Privacy Policy, you can contact us at $pregathiSupportEmail'),
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCard(String title, String content, Color color) {
-    return Container(
-      decoration: BoxDecoration(
-        color: boxColor,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.black,
-          width: 1,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(26.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                color: color,
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Text(
-              content,
-              style: const TextStyle(fontSize: 18.0),
-            ),
-          ],
         ),
       ),
     );

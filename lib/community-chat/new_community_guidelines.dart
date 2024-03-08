@@ -3,17 +3,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/buttons/regular_button.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:pregathi/widgets/home/wife-drawer/cards/text_card.dart';
 import 'package:sizer/sizer.dart';
 
-class CommunityRulesScreen extends StatefulWidget {
-  CommunityRulesScreen({Key? key}) : super(key: key);
+class NewCommunityRulesScreen extends StatefulWidget {
+  NewCommunityRulesScreen({Key? key}) : super(key: key);
 
   @override
-  State<CommunityRulesScreen> createState() => _CommunityRulesScreenState();
+  State<NewCommunityRulesScreen> createState() =>
+      _NewCommunityRulesScreenState();
 }
 
-class _CommunityRulesScreenState extends State<CommunityRulesScreen> {
+class _NewCommunityRulesScreenState extends State<NewCommunityRulesScreen> {
   @override
   void initState() {
     super.initState();
@@ -26,7 +28,7 @@ class _CommunityRulesScreenState extends State<CommunityRulesScreen> {
         leading: BackButton(
             color: Colors.white,
             onPressed: () {
-              goBack(context);
+              goToDisableBack(context, BottomPage());
             }),
         title: Text(
           "Community Rules",
@@ -43,14 +45,16 @@ class _CommunityRulesScreenState extends State<CommunityRulesScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(
-                  top: 20.0, bottom: 20, left: 20, right: 20),
+              padding: const EdgeInsets.only(top: 20.0, bottom: 20, left: 20, right: 20),
               child: Text(
-                'Please adhere to these guidelines consistently when engaging with the community.',
+                'Accept the following rules to proceed using communities',
                 style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
               ),
             ),
-            TextCard(
+            SizedBox(
+              height: 5,
+            ),
+           TextCard(
               title: 'Rule 1 - Respect',
               content:
                   'Respect the diversity of opinions and beliefs within the community.',
@@ -85,13 +89,10 @@ class _CommunityRulesScreenState extends State<CommunityRulesScreen> {
               content:
                   'Avoid posting misleading or false information; strive for accuracy and honesty.',
             ),
-            SizedBox(
-              height: 2.h,
-            ),
             RegularButton(
-              title: 'Ok',
+              title: 'Agree',
               onPressed: () {
-                goBack(context);
+                goToDisableBack(context, BottomPage());
                 _updateReadGuidelines();
               },
             ),
@@ -109,6 +110,10 @@ class _CommunityRulesScreenState extends State<CommunityRulesScreen> {
 
     await FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
       'readGuidelines': true,
+    });
+    goToDisableBack(context, BottomPage());
+    Future.delayed(const Duration(microseconds: 1), () {
+      dialogueBoxWithButton(context, "You can now proceed using Communities");
     });
   }
 }

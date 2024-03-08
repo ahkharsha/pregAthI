@@ -83,7 +83,6 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
         ),
         centerTitle: false,
         backgroundColor: primaryColor,
-        
       ),
       body: ref.watch(getPostByIdProvider(widget.postId)).when(
             data: (data) {
@@ -91,7 +90,11 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
                 children: [
                   PostCard(post: data),
                   TextField(
-                    onSubmitted: (val) => addComment(data),
+                    onSubmitted: (val) {
+                      if (val.isNotEmpty) {
+                        addComment(data);
+                      }
+                    },
                     controller: commentController,
                     decoration: const InputDecoration(
                       hintText: 'What are your thoughts?',
