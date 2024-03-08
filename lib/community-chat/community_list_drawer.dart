@@ -57,7 +57,7 @@ class CommunityDrawer extends ConsumerWidget {
                       Map<String, dynamic> thisItem = items[index];
                       print(thisItem['members']);
                       
-                      if (thisItem['name'] == '1st Trimester' || thisItem['name'] == '2nd Trimester' || thisItem['name'] == '3rd Trimester') {
+                      if (thisItem['name'] == '1st Trimester' || thisItem['name'] == '2nd Trimester' || thisItem['name'] == '3rd Trimester'|| thisItem['name'] == 'Art' || thisItem['name'] == 'Fitness'|| thisItem['name'] == 'Music') {
                         return ListTile(
                           leading: CircleAvatar(
                             backgroundImage: NetworkImage(thisItem['avatar']),
