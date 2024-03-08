@@ -51,9 +51,6 @@ class _NewCommunityRulesScreenState extends State<NewCommunityRulesScreen> {
                 style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
               ),
             ),
-            SizedBox(
-              height: 5,
-            ),
            TextCard(
               title: 'Rule 1 - Respect',
               content:
@@ -88,6 +85,9 @@ class _NewCommunityRulesScreenState extends State<NewCommunityRulesScreen> {
               title: 'Rule 7 - Factual Accuracy',
               content:
                   'Avoid posting misleading or false information; strive for accuracy and honesty.',
+            ),
+            SizedBox(
+              height: 2.h,
             ),
             RegularButton(
               title: 'Agree',
