@@ -86,126 +86,128 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               isLoading
                   ? progressIndicator(context)
-                  : SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  'User Login',
-                                  style: TextStyle(
-                                    fontSize: 35.sp,
-                                    fontWeight: FontWeight.bold,
-                                    color: primaryColor,
-                                  ),
-                                ),
-                                Image.asset(
-                                  'assets/images/login/login_logo.png',
-                                  height: 20.h,
-                                  width: 30.w,
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.35,
-                            child: Form(
-                              key: _formKey,
+                  : Center(
+                    child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.3,
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  CustomTextField(
-                                    hintText: 'Enter Email',
-                                    textInputAction: TextInputAction.next,
-                                    keyboardtype: TextInputType.emailAddress,
-                                    prefix: Icon(
-                                      Icons.person,
-                                      color: textColor,
+                                  Text(
+                                    'User Login',
+                                    style: TextStyle(
+                                      fontSize: 35.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: primaryColor,
                                     ),
-                                    onsave: (email) {
-                                      _formData['email'] = email ?? '';
-                                    },
-                                    validate: (email) {
-                                      if (email!.isEmpty ||
-                                          email.length < 3 ||
-                                          !email.contains('@')) {
-                                        return 'Enter correct email';
-                                      } else {
-                                        return null;
-                                      }
-                                    },
                                   ),
-                                  CustomTextField(
-                                    hintText: 'Enter Password',
-                                    isPassword: isPasswordHidden,
-                                    prefix: Icon(
-                                      Icons.vpn_key_rounded,
-                                      color: textColor,
-                                    ),
-                                    onsave: (password) {
-                                      _formData['password'] = password ?? '';
-                                    },
-                                    suffix: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            isPasswordHidden =
-                                                !isPasswordHidden;
-                                          });
-                                        },
-                                        icon: isPasswordHidden
-                                            ? Icon(
-                                                Icons.visibility,
-                                                color: textColor,
-                                              )
-                                            : Icon(
-                                                Icons.visibility_off,
-                                                color: textColor,
-                                              )),
-                                    validate: (password) {
-                                      if (password!.isEmpty ||
-                                          password.length < 6) {
-                                        return 'Enter correct password';
-                                      } else {
-                                        return null;
-                                      }
-                                    },
+                                  Image.asset(
+                                    'assets/images/login/login_logo.png',
+                                    height: 20.h,
+                                    width: 30.w,
                                   ),
-                                  MainButton(
-                                      title: 'Login',
-                                      onPressed: () {
-                                        if (_formKey.currentState!.validate()) {
-                                          _onSubmit();
+                                ],
+                              ),
+                            ),
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.35,
+                              child: Form(
+                                key: _formKey,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    CustomTextField(
+                                      hintText: 'Enter Email',
+                                      textInputAction: TextInputAction.next,
+                                      keyboardtype: TextInputType.emailAddress,
+                                      prefix: Icon(
+                                        Icons.person,
+                                        color: textColor,
+                                      ),
+                                      onsave: (email) {
+                                        _formData['email'] = email ?? '';
+                                      },
+                                      validate: (email) {
+                                        if (email!.isEmpty ||
+                                            email.length < 3 ||
+                                            !email.contains('@')) {
+                                          return 'Enter correct email';
+                                        } else {
+                                          return null;
                                         }
+                                      },
+                                    ),
+                                    CustomTextField(
+                                      hintText: 'Enter Password',
+                                      isPassword: isPasswordHidden,
+                                      prefix: Icon(
+                                        Icons.vpn_key_rounded,
+                                        color: textColor,
+                                      ),
+                                      onsave: (password) {
+                                        _formData['password'] = password ?? '';
+                                      },
+                                      suffix: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              isPasswordHidden =
+                                                  !isPasswordHidden;
+                                            });
+                                          },
+                                          icon: isPasswordHidden
+                                              ? Icon(
+                                                  Icons.visibility,
+                                                  color: textColor,
+                                                )
+                                              : Icon(
+                                                  Icons.visibility_off,
+                                                  color: textColor,
+                                                )),
+                                      validate: (password) {
+                                        if (password!.isEmpty ||
+                                            password.length < 6) {
+                                          return 'Enter correct password';
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                    ),
+                                    MainButton(
+                                        title: 'Login',
+                                        onPressed: () {
+                                          if (_formKey.currentState!.validate()) {
+                                            _onSubmit();
+                                          }
+                                        }),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SubButton(
+                                      title: 'New user? Sign up',
+                                      onPressed: () {
+                                        goTo(context, RegisterSelectScreen());
+                                      }),
+                                  SubButton(
+                                      title: 'Forgot password',
+                                      onPressed: () {
+                                        goTo(context, ForgotPasswordScreen());
                                       }),
                                 ],
                               ),
                             ),
-                          ),
-                          Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                SubButton(
-                                    title: 'New user? Sign up',
-                                    onPressed: () {
-                                      goTo(context, RegisterSelectScreen());
-                                    }),
-                                SubButton(
-                                    title: 'Forgot password',
-                                    onPressed: () {
-                                      goTo(context, ForgotPasswordScreen());
-                                    }),
-                              ],
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
+                  ),
             ],
           ),
         ),

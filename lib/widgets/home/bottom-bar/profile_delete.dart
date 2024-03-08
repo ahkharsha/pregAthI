@@ -45,11 +45,12 @@ class _DeleteProfileDialogState extends State<DeleteProfileDialog> {
           title: 'Delete',
           onPressed: () async {
             if (_deleteDialogController.text == 'CONFIRM') {
-              storeUserData();
+              await storeUserData();
 
-              Future.delayed(const Duration(milliseconds: 500), () {
-                deleteUserAccount();
-              });
+              // Future.delayed(const Duration(milliseconds: 500), () {
+              //   deleteUserAccount();
+              // });
+              deleteUserAccount();
 
               UserSharedPreference.setUserRole('');
               goToDisableBack(context, LoginScreen());
