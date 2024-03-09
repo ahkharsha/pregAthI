@@ -1,6 +1,7 @@
 // Google Gemini API has been used here
 
 import 'package:flutter/material.dart';
+import 'package:pregathi/bottom-sheet/insta_share_bottom_sheet.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/widgets/home/ai-chat/chat/image_chat.dart';
 import 'package:pregathi/widgets/home/ai-chat/chat/text_chat.dart';
@@ -25,8 +26,11 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Scaffold(
             appBar: AppBar(
               backgroundColor: primaryColor,
-              leading: BackButton(
-                  color: Colors.white,
+              leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.white,
+          ),
                   onPressed: () {
                     goToDisableBack(context, BottomPage());
                   }),
@@ -36,6 +40,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
               ),
               centerTitle: false,
+              
               bottom: TabBar(
                 labelColor: Colors.white,
                 indicatorColor: Colors.black,
@@ -47,6 +52,25 @@ class _ChatScreenState extends State<ChatScreen> {
                 ],
               ),
             ),
+            floatingActionButton: Padding(
+                padding: const EdgeInsets.only(bottom: 5.0, right: 5.0),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return InstaShareBottomSheet();
+                      },
+                    );
+                  },
+                  backgroundColor: Colors.red,
+                  foregroundColor: boxColor,
+                  highlightElevation: 50,
+                  child: Icon(
+                    Icons.warning_outlined,
+                  ),
+                ),
+              ),
             body: const TabBarView(
               physics: NeverScrollableScrollPhysics(),
               children: [

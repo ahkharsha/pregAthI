@@ -140,8 +140,11 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
             color: Colors.white,
           ),
         ),
-        leading: BackButton(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
+          ),
             onPressed: () {
               Navigator.of(context).pop();
             }),

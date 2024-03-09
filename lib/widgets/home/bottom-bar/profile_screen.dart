@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pregathi/bottom-sheet/insta_share_bottom_sheet.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/login-screen/login_screen.dart';
@@ -70,8 +71,11 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
+          ),
             onPressed: () {
               goToDisableBack(context, BottomPage());
             }),
@@ -99,6 +103,25 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 10.0, right: 10.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            showModalBottomSheet<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return InstaShareBottomSheet();
+              },
+            );
+          },
+          backgroundColor: Colors.red,
+          foregroundColor: boxColor,
+          highlightElevation: 50,
+          child: Icon(
+            Icons.warning_outlined,
+          ),
+        ),
       ),
       body: isSaving
           ? progressIndicator(context)

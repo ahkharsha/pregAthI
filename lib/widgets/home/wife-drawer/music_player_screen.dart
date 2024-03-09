@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:pregathi/bottom-sheet/insta_share_bottom_sheet.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:pregathi/model/music.dart';
@@ -52,8 +53,8 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
   }
 
   void stopAudio() async {
-  await audioPlayer.stop();
-}
+    await audioPlayer.stop();
+  }
 
   @override
   void dispose() {
@@ -79,8 +80,11 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
+          ),
             onPressed: () {
               Navigator.of(context).pop();
               stopAudio();
@@ -95,6 +99,25 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: primaryColor,
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 5.0, right: 5.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            showModalBottomSheet<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return InstaShareBottomSheet();
+              },
+            );
+          },
+          backgroundColor: Colors.red,
+          foregroundColor: boxColor,
+          highlightElevation: 50,
+          child: Icon(
+            Icons.warning_outlined,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),

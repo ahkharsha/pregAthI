@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pregathi/bottom-sheet/insta_share_bottom_sheet.dart';
 import 'package:pregathi/community-chat/community_list_drawer.dart';
 import 'package:pregathi/community-chat/community_guidelines_screen.dart';
 import 'package:pregathi/community-chat/delegate/search_community_delegate.dart';
@@ -101,6 +102,25 @@ class _CommunityHomeState extends ConsumerState<CommunityHome> {
           backgroundColor: primaryColor,
         ),
         drawer: CommunityDrawer(),
+        floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 5.0, right: 5.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            showModalBottomSheet<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return InstaShareBottomSheet();
+              },
+            );
+          },
+          backgroundColor: Colors.red,
+          foregroundColor: boxColor,
+          highlightElevation: 50,
+          child: Icon(
+            Icons.warning_outlined,
+          ),
+        ),
+      ),
         body: tabWidgets[_page],
         bottomNavigationBar: CupertinoTabBar(
           activeColor: primaryColor,

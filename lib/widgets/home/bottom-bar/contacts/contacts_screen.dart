@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pregathi/bottom-sheet/insta_share_bottom_sheet.dart';
 import 'package:pregathi/buttons/full_screen_button.dart';
 import 'package:pregathi/db/db_services.dart';
 import 'package:pregathi/model/contacts.dart';
@@ -81,8 +82,11 @@ class _ContactsScreenState extends State<ContactsScreen> {
     }
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
-          color: Colors.white,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.white,
+          ),
           onPressed: () {
             goToDisableBack(context, BottomPage());
           },
@@ -93,6 +97,25 @@ class _ContactsScreenState extends State<ContactsScreen> {
         ),
         centerTitle: false,
         backgroundColor: primaryColor,
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 5.0, right: 5.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            showModalBottomSheet<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return InstaShareBottomSheet();
+              },
+            );
+          },
+          backgroundColor: Colors.red,
+          foregroundColor: boxColor,
+          highlightElevation: 50,
+          child: Icon(
+            Icons.warning_outlined,
+          ),
+        ),
       ),
       body: SafeArea(
         child: Container(

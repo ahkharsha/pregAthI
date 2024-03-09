@@ -25,8 +25,11 @@ class _NewCommunityRulesScreenState extends State<NewCommunityRulesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
+          ),
             onPressed: () {
               goToDisableBack(context, BottomPage());
             }),

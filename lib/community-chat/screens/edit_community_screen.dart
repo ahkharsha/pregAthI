@@ -64,8 +64,11 @@ class _EditCommunityScreenState extends ConsumerState<EditCommunityScreen> {
                 style: TextStyle(color: Colors.white),
               ),
               centerTitle: false,
-              leading: BackButton(
-                  color: Colors.white,
+              leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.white,
+          ),
                   onPressed: () {
                     goToDisableBack(
                         context, CommunityScreen(name: widget.name));

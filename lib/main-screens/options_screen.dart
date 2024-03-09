@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pregathi/main-screens/contact_us.dart';
-import 'package:pregathi/main-screens/help_screen.dart';
+// import 'package:pregathi/main-screens/help_screen.dart';
 import 'package:pregathi/main-screens/privacy_policy.dart';
 import 'package:pregathi/const/constants.dart';
 
@@ -11,8 +11,11 @@ class OptionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
+          ),
             onPressed: () {
               goBack(context);
             }),
@@ -38,13 +41,13 @@ class OptionsScreen extends StatelessWidget {
                 goTo(context, PrivacyPolicyScreen());
               },
             ),
-            ListTile(
-              title: Text('Help'),
-              leading: const Icon(Icons.help_outline_outlined),
-              onTap: () {
-                goTo(context, HelpScreen());
-              },
-            ),
+            // ListTile(
+            //   title: Text('Help'),
+            //   leading: const Icon(Icons.help_outline_outlined),
+            //   onTap: () {
+            //     goTo(context, HelpScreen());
+            //   },
+            // ),
         ],
       ),
     );

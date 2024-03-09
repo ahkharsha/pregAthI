@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:pregathi/bottom-sheet/insta_share_bottom_sheet.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/announcements.dart';
@@ -43,7 +44,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
   bool? isBanned = false;
   String? lastAnnoucement;
   Timer? timer;
-  String? username = '';
+  String username = 'user';
   String quote = 'Loading...';
 
   @override
@@ -392,6 +393,25 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
       ),
       drawer: WifeOptionsDrawer(),
       endDrawer: WifeProfileDrawer(),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 5.0, right: 5.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            showModalBottomSheet<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return InstaShareBottomSheet();
+              },
+            );
+          },
+          backgroundColor: Colors.red,
+          foregroundColor: boxColor,
+          highlightElevation: 50,
+          child: Icon(
+            Icons.warning_outlined,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [

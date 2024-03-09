@@ -23,8 +23,11 @@ class _CommunityRulesScreenState extends State<CommunityRulesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
+          ),
             onPressed: () {
               goBack(context);
             }),
@@ -44,10 +47,13 @@ class _CommunityRulesScreenState extends State<CommunityRulesScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  top: 20.0, bottom: 20,),
+                top: 20.0,
+                bottom: 20,
+              ),
               child: Text(
                 'Please adhere to these guidelines consistently when engaging with the community.',
-                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.normal),
+                style:
+                    TextStyle(fontSize: 15.sp, fontWeight: FontWeight.normal),
               ),
             ),
             TextCard(
