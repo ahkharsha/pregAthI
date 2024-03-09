@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:basics/basics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,6 +22,7 @@ import 'package:pregathi/widgets/home/ai-chat/ai_chat.dart';
 import 'package:pregathi/widgets/home/emergency.dart';
 import 'package:pregathi/widgets/home/services.dart';
 import 'package:pregathi/widgets/home/insta_share/insta_share.dart';
+import 'package:pregathi/widgets/home/wife-drawer/cards/quote_card.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -42,6 +44,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
   String? lastAnnoucement;
   Timer? timer;
   String? username = '';
+  String quote = 'Loading...';
 
   @override
   void initState() {
@@ -52,6 +55,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
     _getCurrentLocation();
     _checkLatestAnnoucement();
     _updateUserVersion();
+    _loadQuote();
     initPermissions();
     updateLastLogin();
     updatedWifeWeek();
@@ -69,6 +73,32 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
     FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
       'userVersion': currentVersion,
     });
+  }
+
+  _loadQuote() async {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection('pregAthI')
+        .doc('quotes')
+        .get();
+
+    var quotesData = documentSnapshot.data() as Map<String, dynamic>?;
+
+    if (quotesData != null) {
+      List<String> quotes = [];
+      quotesData.forEach((key, value) {
+        quotes.add(value.toString());
+      });
+
+      int randomIndex = Random().nextInt(quotes.length);
+
+      setState(() {
+        quote = quotes[randomIndex];
+      });
+    } else {
+      setState(() {
+        quote = 'No quotes available';
+      });
+    }
   }
 
   _checkLatestAnnoucement() async {
@@ -182,13 +212,13 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
 
     if (userData['isBanned']) {
       DateTime now = DateTime.now();
-      var current_year = now.year;
-      var current_mon = now.month;
-      var current_day = now.day;
+      var currentYear = now.year;
+      var currentMon = now.month;
+      var currentDay = now.day;
 
       int diffDays = DateTime(userData['lastBanYear'], userData['lastBanMonth'],
               userData['lastBanDay'])
-          .calendarDaysTill(current_year, current_mon, current_day);
+          .calendarDaysTill(currentYear, currentMon, currentDay);
 
       if (diffDays < 7) {
         showDialog(
@@ -254,18 +284,17 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
     DateTime now = DateTime.now();
     DocumentReference<Map<String, dynamic>> _reference =
         FirebaseFirestore.instance.collection('users').doc(user!.uid);
-    var current_year = now.year;
-    var current_mon = now.month;
-    var current_day = now.day;
+    var currentYear = now.year;
+    var currentMon = now.month;
+    var currentDay = now.day;
     DocumentSnapshot userData = await _reference.get();
-    // ignore: unused_local_variable
     int diffWeek = 0;
     if (userData['weekUpdated'] != 'new') {
       int week = int.tryParse(userData['weekUpdated'] ?? '') ?? 0;
 
       int diffDays = DateTime(userData['weekUpdatedYear'],
               userData['weekUpdatedMonth'], userData['weekUpdatedDay'])
-          .calendarDaysTill(current_year, current_mon, current_day);
+          .calendarDaysTill(currentYear, currentMon, currentDay);
 
       if (diffDays > 7) {
         while (diffDays >= 7) {
@@ -371,36 +400,38 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
                 shrinkWrap: true,
                 children: [
                   Padding(
-                      padding:
-                          const EdgeInsets.only(top: 16, bottom: 1, left: 15),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Hello ',
-                            style: TextStyle(
-                              fontSize: 25.sp,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'BebasNeue',
-                            ),
+                    padding:
+                        const EdgeInsets.only(top: 16, bottom: 1, left: 15),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Hello ',
+                          style: TextStyle(
+                            fontSize: 25.sp,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'BebasNeue',
                           ),
-                          Text(
-                            '$username',
-                            style: TextStyle(
-                              fontSize: 25.sp,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'BebasNeue',
-                            ),
+                        ),
+                        Text(
+                          '$username',
+                          style: TextStyle(
+                            fontSize: 25.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'BebasNeue',
                           ),
-                          Text(
-                            ',',
-                            style: TextStyle(
-                              fontSize: 25.sp,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'BebasNeue',
-                            ),
+                        ),
+                        Text(
+                          ',',
+                          style: TextStyle(
+                            fontSize: 25.sp,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'BebasNeue',
                           ),
-                        ],
-                      )),
+                        ),
+                      ],
+                    ),
+                  ),
+                  QuoteCard(quote: quote),
                   Padding(
                     padding: const EdgeInsets.only(top: 4, bottom: 8, left: 15),
                     child: Text(

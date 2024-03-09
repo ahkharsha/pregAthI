@@ -88,11 +88,11 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
-                      top: 20.0, bottom: 20, left: 20, right: 20),
+                      top: 20.0, bottom: 20,),
                   child: Text(
-                    'Here are the latest announcements!',
+                    'Here are your latest announcements!',
                     style:
-                        TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 15.sp, fontWeight: FontWeight.normal),
                   ),
                 ),
                 ...announcementTiles,

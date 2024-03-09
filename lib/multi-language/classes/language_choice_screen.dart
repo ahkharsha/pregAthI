@@ -5,6 +5,7 @@ import 'package:pregathi/buttons/main_button.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/multi-language/classes/language.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../main.dart';
 
@@ -81,8 +82,16 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
         backgroundColor: primaryColor,
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          Padding(
+                  padding: const EdgeInsets.only(top:30, bottom: 20,),
+                  child: Text(
+                    'Choose your default language',
+                    style:
+                        TextStyle(fontSize: 15.sp, fontWeight: FontWeight.normal),
+                  ),
+                ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

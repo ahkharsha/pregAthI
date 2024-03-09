@@ -47,15 +47,14 @@ final getPostCommentsProvider = StreamProvider.family((ref, String postId) {
 
 class PostController extends StateNotifier<bool> {
   final PostRepository _postRepository;
-  // ignore: unused_field
-  final Ref _ref;
+  final Ref ref;
   final StorageRepository _storageRepository;
   PostController({
     required PostRepository postRepository,
     required Ref ref,
     required StorageRepository storageRepository,
   })  : _postRepository = postRepository,
-        _ref = ref,
+        ref = ref,
         _storageRepository = storageRepository,
         super(false);
 

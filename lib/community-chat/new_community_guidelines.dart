@@ -45,10 +45,10 @@ class _NewCommunityRulesScreenState extends State<NewCommunityRulesScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 20.0, bottom: 20, left: 20, right: 20),
+              padding: const EdgeInsets.only(top: 20.0, bottom: 20,),
               child: Text(
                 'Accept the following rules to proceed using communities',
-                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.normal),
               ),
             ),
            TextCard(

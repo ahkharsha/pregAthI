@@ -40,7 +40,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   child: Text(
                     'Last Updated: March 08, 2024\n\nThis Privacy Policy describes the policies and procedures on the collection, use and disclosure of your information when you use this service.',
                     style:
-                        TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 15.sp, fontWeight: FontWeight.normal),
                   ),
                 ),
               TextCard(

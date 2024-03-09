@@ -52,15 +52,14 @@ final getCommunityPostsProvider = StreamProvider.family((ref, String name) {
 
 class CommunityController extends StateNotifier<bool> {
   final CommunityRepository _communityRepository;
-  // ignore: unused_field
-  final Ref _ref;
+  final Ref ref;
   final StorageRepository _storageRepository;
   CommunityController({
     required CommunityRepository communityRepository,
     required Ref ref,
     required StorageRepository storageRepository,
   })  : _communityRepository = communityRepository,
-        _ref = ref,
+        ref = ref,
         _storageRepository = storageRepository,
         super(false);
   void createCommunity(String name, BuildContext context, String userId) async {

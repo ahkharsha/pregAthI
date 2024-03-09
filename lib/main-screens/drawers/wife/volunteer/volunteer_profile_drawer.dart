@@ -5,10 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/main-screens/about_us.dart';
 import 'package:pregathi/main-screens/announcements.dart';
-import 'package:pregathi/main-screens/contact_us.dart';
-import 'package:pregathi/main-screens/help_screen.dart';
 import 'package:pregathi/main-screens/home-screen/volunteer/volunteer_profile_screen.dart';
-import 'package:pregathi/main-screens/privacy_policy.dart';
+import 'package:pregathi/main-screens/options_screen.dart';
 
 class VolunteerProfileDrawer extends ConsumerWidget {
   const VolunteerProfileDrawer({Key? key});
@@ -92,24 +90,10 @@ class VolunteerProfileDrawer extends ConsumerWidget {
             },
           ),
           ListTile(
-            title: Text('Contact Us'),
-            leading: const Icon(Icons.email_outlined),
-            onTap: () {
-              goTo(context, ContactUsScreen());
-            },
-          ),
-          ListTile(
-            title: Text('Privacy Policy'),
-            leading: const Icon(Icons.security_outlined),
-            onTap: () {
-              goTo(context, PrivacyPolicyScreen());
-            },
-          ),
-          ListTile(
-              title: Text('Help'),
-              leading: const Icon(Icons.help_outline_outlined),
+              title: Text('Options'),
+              leading: const Icon(Icons.settings_rounded),
               onTap: () {
-                goTo(context, HelpScreen());
+                goTo(context, OptionsScreen());
               },
             ),
           ListTile(
