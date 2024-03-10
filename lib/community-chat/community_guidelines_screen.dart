@@ -47,8 +47,7 @@ class _CommunityRulesScreenState extends State<CommunityRulesScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                top: 20.0,
-                bottom: 20,
+                top: 20.0, bottom: 20, left: 20, right: 20
               ),
               child: Text(
                 'Please adhere to these guidelines consistently when engaging with the community.',

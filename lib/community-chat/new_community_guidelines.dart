@@ -26,10 +26,10 @@ class _NewCommunityRulesScreenState extends State<NewCommunityRulesScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: Colors.white,
-          ),
+            icon: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: Colors.white,
+            ),
             onPressed: () {
               goToDisableBack(context, BottomPage());
             }),
@@ -48,13 +48,15 @@ class _NewCommunityRulesScreenState extends State<NewCommunityRulesScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 20.0, bottom: 20,),
+              padding: const EdgeInsets.only(
+                  top: 20.0, bottom: 20, left: 20, right: 20),
               child: Text(
                 'Accept the following rules to proceed using communities',
-                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.normal),
+                style:
+                    TextStyle(fontSize: 15.sp, fontWeight: FontWeight.normal),
               ),
             ),
-           TextCard(
+            TextCard(
               title: 'Rule 1 - Respect',
               content:
                   'Respect the diversity of opinions and beliefs within the community.',

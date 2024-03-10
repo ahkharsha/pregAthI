@@ -31,7 +31,7 @@ class QuoteCard extends ConsumerWidget {
               padding: const EdgeInsets.all(20.0),
               child: Text(
                 quote,
-                style: const TextStyle(fontSize: 14.0),
+                style: const TextStyle(fontSize: 17.0),
                 textAlign: TextAlign.center,
               ),
             ),

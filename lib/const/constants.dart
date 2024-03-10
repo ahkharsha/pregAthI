@@ -11,17 +11,20 @@ import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/model/post.dart';
 
 // ignore: constant_identifier_names
-const String pregathiWebsiteLink = 'https://pregathi-website.vercel.app/';
+const String pregathiWebsiteLink = "https://pregathi-website.vercel.app/";
+const String pregathiAboutUsLink= "https://ahkharsha.github.io/assets/pregAthI/videos/aboutUs.mp4";
+String pregathiSupportEmail= 'pregathi2024@gmail.com';
+
 const apiKey = "AIzaSyCAYDrBcb41UV2-2inRihCUS80VdRWv6vs";
-const bannerDefault = 'https://cdn-icons-png.flaticon.com/128/1474/1474494.png';
+const bannerDefault = 'https://img.freepik.com/free-vector/young-women-group-standing-camp_25030-39599.jpg';
 const avatarDefault =
-    'https://external-preview.redd.it/5kh5OreeLd85QsqYO1Xz_4XSLYwZntfjqou-8fyBFoE.png?auto=webp&s=dbdabd04c399ce9c761ff899f5d38656d1de87c2';
+    'https://cdn-icons-png.flaticon.com/512/1474/1474494.png';
 
 const wifeProfileDefault =
-    'https://thumbs.dreamstime.com/b/abstract-stained-pattern-rectangle-background-blue-sky-over-fiery-red-orange-color-modern-painting-art-watercolor-effe-texture-123047399.jpg';
+    'https://cdn-icons-png.flaticon.com/512/4406/4406029.png';
 
 const volunteerProfileDefault =
-    'https://thumbs.dreamstime.com/b/abstract-stained-pattern-rectangle-background-blue-sky-over-fiery-red-orange-color-modern-painting-art-watercolor-effe-texture-123047399.jpg';
+    'https://cdn-icons-png.flaticon.com/512/9337/9337706.png';
 
 // Disha's
 Color primaryColor = Color.fromARGB(255, 174, 110, 165);
@@ -37,8 +40,6 @@ Color textColor = Color.fromARGB(255, 93, 11, 82);
 Color appBgColor = Color.fromARGB(255, 254, 233, 251);
 
 Color boxColor = Colors.white;
-
-String pregathiSupportEmail= 'pregathi2004@gmail.com';
 
 const tabWidgets = [
   FeedScreen(),

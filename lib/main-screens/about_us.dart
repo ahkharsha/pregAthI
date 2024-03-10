@@ -39,7 +39,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
 
   _initPlayer() {
     _controller = VideoPlayerController.network(
-      "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
+      pregathiAboutUsLink,
     );
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
@@ -132,7 +132,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
             },
             icon: Icon(
               _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
           IconButton(
@@ -146,7 +146,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
               _controller.value.volume == 0
                   ? Icons.volume_off
                   : Icons.volume_up,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
           _buildVideoProgressBar(),
@@ -186,7 +186,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
         _controller,
         allowScrubbing: true,
         colors: VideoProgressColors(
-          playedColor: Colors.red,
+          playedColor: Colors.pink,
           bufferedColor: Colors.white,
         ),
       ),
