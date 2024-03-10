@@ -203,7 +203,7 @@ class _InstaShareBottomSheetState extends State<InstaShareBottomSheet> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              "Send current location immediately to emergency contacts and nearby volunteers..",
+              "Send current location immediately to your emergency contacts and nearby volunteers..",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 24),
             ),
