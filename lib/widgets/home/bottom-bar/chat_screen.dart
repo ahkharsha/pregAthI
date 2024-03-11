@@ -7,6 +7,7 @@ import 'package:pregathi/widgets/home/ai-chat/chat/image_chat.dart';
 import 'package:pregathi/widgets/home/ai-chat/chat/text_chat.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
+import 'package:sizer/sizer.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({
@@ -53,7 +54,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
             floatingActionButton: Padding(
-                padding: const EdgeInsets.only(bottom: 5.0, right: 5.0),
+                padding: EdgeInsets.only(bottom: 35.h, right: 5.0),
                 child: FloatingActionButton(
                   onPressed: () {
                     showModalBottomSheet<void>(
@@ -71,6 +72,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                 ),
               ),
+              floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             body: const TabBarView(
               physics: NeverScrollableScrollPhysics(),
               children: [
