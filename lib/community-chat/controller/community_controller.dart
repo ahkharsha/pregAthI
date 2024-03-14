@@ -259,3 +259,25 @@ class CommunityController extends StateNotifier<bool> {
     return _communityRepository.getCommunityPosts(name);
   }
 }
+
+Future<Community?> returnCommunityByName(String communityName) async {
+  try {
+
+    CollectionReference communities =
+        FirebaseFirestore.instance.collection('communities');
+    QuerySnapshot querySnapshot = await communities
+        .where('name', isEqualTo: communityName)
+        .limit(1)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      return Community.fromMap(
+          querySnapshot.docs.first.data() as Map<String, dynamic>);
+    } else {
+      return null;
+    }
+  } catch (e) {
+    print('Error retrieving community: $e');
+    return null;
+  }
+}

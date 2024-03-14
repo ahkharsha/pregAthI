@@ -42,15 +42,19 @@ navigateToCommunityRules(BuildContext context) {
 }
 
 navigateToCommunity(BuildContext context, String name) {
-  Routemaster.of(context).push('/community/$name');
+  Routemaster.of(context).push('/$name');
 }
 
 navigateToModTools(BuildContext context, String name) {
-  Routemaster.of(context).push('/community/$name/mod-tools');
+  Routemaster.of(context).push('/$name/mod-tools');
 }
 
 navigateToComments(BuildContext context, String id, String name) {
-  Routemaster.of(context).push('/community/$name/post-comments/$id');
+  Routemaster.of(context).push('/$name/post-comments/$id');
+}
+
+navigateToCommunityAddPost(BuildContext context, String name) {
+  Routemaster.of(context).push('/$name/add-post');
 }
 
 navigateToAnnouncement(BuildContext context) {

@@ -49,14 +49,6 @@ RouteMap buildRoutes(BuildContext context) {
           ),
         );
       },
-      // '/:community/add-post': (routeData) {
-      //   final Community community = routeData.pathParameters['community']!;
-      //   return MaterialPage(
-      //     child: CommunityPost(
-      //       community: community,
-      //     ),
-      //   );
-      // },
       '/:name/post-comments/:id': (routeData) {
         final id = routeData.pathParameters['id']!;
         return MaterialPage(
