@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
-import 'package:pregathi/community-chat/screens/community_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
+import 'package:pregathi/navigators.dart';
 
 class SearchCommunityDelegate extends SearchDelegate {
   final WidgetRef ref;
@@ -46,9 +46,7 @@ class SearchCommunityDelegate extends SearchDelegate {
               backgroundImage: NetworkImage(community.avatar),
             ),
             title: Text('${community.name}'),
-            onTap: () {
-              goTo(context, CommunityScreen(name: "${community.name}"));
-            },
+            onTap: () => navigateToCommunity(context, community.name)
           );
         },
       ),

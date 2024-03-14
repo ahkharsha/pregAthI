@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:sizer/sizer.dart';
 
-class ErrorHomePage extends StatelessWidget {
-  const ErrorHomePage({super.key});
+class ErrorHomeScreen extends StatelessWidget {
+  const ErrorHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

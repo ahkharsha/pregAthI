@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/buttons/regular_button.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/widgets/home/bottom_page.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/widgets/home/wife-drawer/cards/text_card.dart';
 import 'package:sizer/sizer.dart';
 
@@ -26,13 +26,12 @@ class _NewCommunityRulesScreenState extends State<NewCommunityRulesScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios_new_rounded,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              goToDisableBack(context, BottomPage());
-            }),
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.white,
+          ),
+          onPressed: () => navigateToWifeHome(context),
+        ),
         title: Text(
           "Community Rules",
           style: TextStyle(
@@ -94,7 +93,7 @@ class _NewCommunityRulesScreenState extends State<NewCommunityRulesScreen> {
             RegularButton(
               title: 'I Agree',
               onPressed: () {
-                goToDisableBack(context, BottomPage());
+                navigateToWifeHome(context);
                 _updateReadGuidelines();
               },
             ),
@@ -113,7 +112,6 @@ class _NewCommunityRulesScreenState extends State<NewCommunityRulesScreen> {
     await FirebaseFirestore.instance.collection('users').doc(user!.uid).update({
       'readGuidelines': true,
     });
-    goToDisableBack(context, BottomPage());
     Future.delayed(const Duration(microseconds: 1), () {
       dialogueBoxWithButton(context, "You can now proceed using Communities");
     });

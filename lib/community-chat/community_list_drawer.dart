@@ -3,9 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pregathi/community-chat/screens/community_screen.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/community-chat/screens/create_community_screen.dart';
+import 'package:pregathi/navigators.dart';
 
 class CommunityDrawer extends ConsumerWidget {
   const CommunityDrawer({Key? key});
@@ -19,9 +18,7 @@ class CommunityDrawer extends ConsumerWidget {
             ListTile(
               title: Text("Create a community.."),
               leading: Icon(Icons.add),
-              onTap: () {
-                goTo(context, CreateCommunityScreen());
-              },
+              onTap: () => navigateToCreateCommunity(context),
             ),
             StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
@@ -56,17 +53,20 @@ class CommunityDrawer extends ConsumerWidget {
                           FirebaseAuth.instance.currentUser!.uid;
                       Map<String, dynamic> thisItem = items[index];
                       print(thisItem['members']);
-                      
-                      if (thisItem['name'] == '1st Trimester' || thisItem['name'] == '2nd Trimester' || thisItem['name'] == '3rd Trimester'|| thisItem['name'] == 'Art' || thisItem['name'] == 'Fitness'|| thisItem['name'] == 'Music') {
+
+                      if (thisItem['name'] == '1st Trimester' ||
+                          thisItem['name'] == '2nd Trimester' ||
+                          thisItem['name'] == '3rd Trimester' ||
+                          thisItem['name'] == 'Art' ||
+                          thisItem['name'] == 'Fitness' ||
+                          thisItem['name'] == 'Music') {
                         return ListTile(
                           leading: CircleAvatar(
                             backgroundImage: NetworkImage(thisItem['avatar']),
                           ),
                           title: Text('${thisItem['name']}'),
-                          onTap: () {
-                            goTo(context,
-                                CommunityScreen(name: '${thisItem['name']}'));
-                          },
+                          onTap: () => navigateToCommunity(context, thisItem['name']),
+                          
                           trailing: Transform.rotate(
                             angle: 45 * math.pi / 180,
                             child: Icon(Icons.push_pin_rounded),
@@ -80,10 +80,7 @@ class CommunityDrawer extends ConsumerWidget {
                             backgroundImage: NetworkImage(thisItem['avatar']),
                           ),
                           title: Text('${thisItem['name']}'),
-                          onTap: () {
-                            goTo(context,
-                                CommunityScreen(name: '${thisItem['name']}'));
-                          },
+                          onTap: () => navigateToCommunity(context, thisItem['name']),
                         );
                       }
 

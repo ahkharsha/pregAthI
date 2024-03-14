@@ -5,11 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
 import 'package:pregathi/community-chat/post/controller/post_controller.dart';
-import 'package:pregathi/community-chat/post/screens/comments_screen.dart';
-import 'package:pregathi/community-chat/screens/community_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
 import 'package:pregathi/model/post.dart';
+import 'package:pregathi/navigators.dart';
 
 class PostCard extends ConsumerWidget {
   final Post post;
@@ -79,11 +78,7 @@ class PostCard extends ConsumerWidget {
                                 Row(
                                   children: [
                                     GestureDetector(
-                                      onTap: () => goTo(
-                                          context,
-                                          CommunityScreen(
-                                            name: post.communityName,
-                                          )),
+                                      onTap: () => navigateToCommunity(context, post.communityName),
                                       child: CircleAvatar(
                                         backgroundImage: NetworkImage(
                                             post.communityProfilePic),
@@ -97,11 +92,7 @@ class PostCard extends ConsumerWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           GestureDetector(
-                                            onTap: () => goTo(
-                                                context,
-                                                CommunityScreen(
-                                                  name: post.communityName,
-                                                )),
+                                            onTap: () => navigateToCommunity(context, post.communityName),
                                             child: Text(
                                               '${post.communityName}',
                                               style: TextStyle(
@@ -225,8 +216,7 @@ class PostCard extends ConsumerWidget {
                                 Row(
                                   children: [
                                     IconButton(
-                                      onPressed: () => goTo(context,
-                                          CommentsScreen(postId: post.id)),
+                                      onPressed: () => navigateToComments(context,  post.id,post.communityName),
                                       icon: const Icon(
                                         Icons.comment,
                                       ),

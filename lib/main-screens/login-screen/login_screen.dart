@@ -3,13 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/db/shared_pref.dart';
-import 'package:pregathi/main-screens/home-screen/error_home_screen.dart';
-import 'package:pregathi/main-screens/login-screen/forgot_pwd.dart';
-import 'package:pregathi/main-screens/register_select_screen.dart';
-import 'package:pregathi/main-screens/verification-screens/volunteer_verification.dart';
-import 'package:pregathi/main-screens/verification-screens/wife_verfication.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/buttons/main_button.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/widgets/textfield.dart';
 import 'package:sizer/sizer.dart';
 
@@ -42,13 +38,13 @@ class _LoginScreenState extends State<LoginScreen> {
             .then((userData) {
           if (userData['role'] == 'wife') {
             UserSharedPreference.setUserRole('wife');
-            goToDisableBack(context, WifeEmailVerify());
+            navigateToWifeEmailVerify(context);
           } else if (userData['role'] == 'volunteer') {
             UserSharedPreference.setUserRole('volunteer');
-            goToDisableBack(context, VolunteerEmailVerify());
+            navigateToVolunteerEmailVerify(context);
           } else {
             UserSharedPreference.setUserRole('');
-            goToDisableBack(context, ErrorHomePage());
+            navigateToErrorHome(context);
           }
           setState(() {
             isLoading = false;
@@ -193,14 +189,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: [
                                   SubButton(
                                       title: 'New user? Sign up',
-                                      onPressed: () {
-                                        goTo(context, RegisterSelectScreen());
-                                      }),
+                                      onPressed: () => navigateToRegisterSelect(context)),
                                   SubButton(
                                       title: 'Forgot password',
-                                      onPressed: () {
-                                        goTo(context, ForgotPasswordScreen());
-                                      }),
+                                      onPressed: () => navigateToForgotPassword(context)),
                                 ],
                               ),
                             ),

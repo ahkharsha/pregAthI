@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pregathi/db/shared_pref.dart';
-
-import 'package:pregathi/main-screens/home-screen/volunteer/volunteer_home_screen.dart';
-import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/widgets/home/bottom_page.dart';
+import 'package:pregathi/router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:routemaster/routemaster.dart';
 import 'multi-language/classes/language_constants.dart';
 import 'package:sizer/sizer.dart';
 
@@ -55,7 +53,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Sizer(
       builder: (context, orientation, deviceType) {
-        return MaterialApp(
+        return MaterialApp.router(
           title: 'pregAthI',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
@@ -67,19 +65,21 @@ class _MyAppState extends State<MyApp> {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: _locale,
-          home: FutureBuilder(
-            future: UserSharedPreference.getUserRole(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.data == '') {
-                return LoginScreen();
-              } else if (snapshot.data == 'wife') {
-                return BottomPage();
-              } else if (snapshot.data == 'volunteer') {
-                return VolunteerHomeScreen();
-              } 
-              return progressIndicator(context);
-            },
-          ),
+          routerDelegate: RoutemasterDelegate(routesBuilder: (context) => buildRoutes(context)),
+          routeInformationParser: const RoutemasterParser(),
+          // home: FutureBuilder(
+          //   future: UserSharedPreference.getUserRole(),
+          //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+          //     if (snapshot.data == '') {
+          //       return LoginScreen();
+          //     } else if (snapshot.data == 'wife') {
+          //       return BottomPage();
+          //     } else if (snapshot.data == 'volunteer') {
+          //       return VolunteerHomeScreen();
+          //     } 
+          //     return progressIndicator(context);
+          //   },
+          // ),
         );
       },
     );

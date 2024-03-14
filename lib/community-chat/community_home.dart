@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/bottom-sheet/insta_share_bottom_sheet.dart';
 import 'package:pregathi/community-chat/community_list_drawer.dart';
-import 'package:pregathi/community-chat/community_guidelines_screen.dart';
 import 'package:pregathi/community-chat/delegate/search_community_delegate.dart';
-import 'package:pregathi/community-chat/new_community_guidelines.dart';
+import 'package:pregathi/community-chat/new_community_rules.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/navigators.dart';
 
 class CommunityHome extends ConsumerStatefulWidget {
   const CommunityHome({Key? key}) : super(key: key);
@@ -43,7 +43,7 @@ class _CommunityHomeState extends ConsumerState<CommunityHome> {
         .collection('users')
         .doc(user!.uid)
         .get();
-      
+
     print(userData['readGuidelines']);
 
     if (!userData['readGuidelines']) {
@@ -78,9 +78,7 @@ class _CommunityHomeState extends ConsumerState<CommunityHome> {
           }),
           actions: [
             IconButton(
-              onPressed: () {
-                goTo(context, CommunityRulesScreen());
-              },
+              onPressed: () => navigateToCommunityRules(context),
               icon: const Icon(
                 Icons.rule_outlined,
                 color: Colors.white,
@@ -103,24 +101,24 @@ class _CommunityHomeState extends ConsumerState<CommunityHome> {
         ),
         drawer: CommunityDrawer(),
         floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 5.0, right: 5.0),
-        child: FloatingActionButton(
-          onPressed: () {
-            showModalBottomSheet<void>(
-              context: context,
-              builder: (BuildContext context) {
-                return InstaShareBottomSheet();
-              },
-            );
-          },
-          backgroundColor: Colors.red,
-          foregroundColor: boxColor,
-          highlightElevation: 50,
-          child: Icon(
-            Icons.warning_outlined,
+          padding: const EdgeInsets.only(bottom: 5.0, right: 5.0),
+          child: FloatingActionButton(
+            onPressed: () {
+              showModalBottomSheet<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return InstaShareBottomSheet();
+                },
+              );
+            },
+            backgroundColor: Colors.red,
+            foregroundColor: boxColor,
+            highlightElevation: 50,
+            child: Icon(
+              Icons.warning_outlined,
+            ),
           ),
         ),
-      ),
         body: tabWidgets[_page],
         bottomNavigationBar: CupertinoTabBar(
           activeColor: primaryColor,

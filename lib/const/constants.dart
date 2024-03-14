@@ -7,8 +7,8 @@ import 'package:pregathi/community-chat/feed/feed_screen.dart';
 import 'package:pregathi/community-chat/post/controller/post_controller.dart';
 import 'package:pregathi/community-chat/post/screens/add_post_screen.dart';
 import 'package:pregathi/db/shared_pref.dart';
-import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/model/post.dart';
+import 'package:pregathi/navigators.dart';
 
 // ignore: constant_identifier_names
 const String pregathiWebsiteLink = "https://pregathi-website.vercel.app/";
@@ -111,6 +111,9 @@ dialogueBoxWithButton(BuildContext context, String text) {
   );
 }
 
+
+
+
 logoutConfirmation(BuildContext context) {
   showDialog(
     context: context,
@@ -130,9 +133,10 @@ logoutConfirmation(BuildContext context) {
         SubButton(
           title: 'Yes',
           onPressed: () async {
-            goToDisableBack(context, LoginScreen());
+            Navigator.of(context).pop();
             await FirebaseAuth.instance.signOut();
-            UserSharedPreference.setUserRole('');
+            await UserSharedPreference.setUserRole('');
+            navigateToLogin(context);
           },
         ),
       ],

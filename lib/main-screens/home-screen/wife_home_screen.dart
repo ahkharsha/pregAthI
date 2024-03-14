@@ -13,11 +13,10 @@ import 'package:intl/intl.dart';
 import 'package:pregathi/bottom-sheet/insta_share_bottom_sheet.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
-import 'package:pregathi/main-screens/announcements.dart';
 import 'package:pregathi/main-screens/drawers/wife/profile_drawer.dart';
 import 'package:pregathi/main-screens/drawers/wife/options_drawer.dart';
-import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/user_permission.dart';
 import 'package:pregathi/widgets/home/ai-chat/ai_chat.dart';
 import 'package:pregathi/widgets/home/emergency.dart';
@@ -132,7 +131,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
             actions: [
               ElevatedButton(
                 onPressed: () async {
-                  goTo(context, AnnouncementScreen());
+                  navigateToAnnouncement(context);
                 },
                 child: const Text('View'),
               ),
@@ -236,9 +235,9 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
               actions: [
                 ElevatedButton(
                   onPressed: () async {
-                    goToDisableBack(context, LoginScreen());
                     await FirebaseAuth.instance.signOut();
-                    UserSharedPreference.setUserRole('');
+                    await UserSharedPreference.setUserRole('');
+                    navigateToLogin(context);
                   },
                   child: const Text('Ok'),
                 ),

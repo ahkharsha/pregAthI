@@ -5,10 +5,10 @@ import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
 import 'package:pregathi/community-chat/post/post_card.dart';
 import 'package:pregathi/community-chat/post/screens/community-specific/community_post.dart';
-import 'package:pregathi/community-chat/screens/mod_tools_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
 import 'package:pregathi/model/community.dart';
+import 'package:pregathi/navigators.dart';
 
 class CommunityScreen extends ConsumerWidget {
   final String name;
@@ -69,13 +69,7 @@ class CommunityScreen extends ConsumerWidget {
                               ),
                               community.mods.contains(user!.uid)
                                   ? OutlinedButton(
-                                      onPressed: () {
-                                        goTo(
-                                            context,
-                                            ModToolsScreen(
-                                              name: community.name,
-                                            ));
-                                      },
+                                      onPressed: () => navigateToModTools(context, community.name),
                                       style: ElevatedButton.styleFrom(
                                         shape: RoundedRectangleBorder(
                                           borderRadius:

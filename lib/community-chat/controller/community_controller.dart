@@ -5,16 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:intl/intl.dart';
-import 'package:pregathi/community-chat/screens/community_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/failure.dart';
-import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/model/community.dart';
 import 'package:pregathi/community-chat/repository/community_repository.dart';
 import 'package:pregathi/model/post.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/providers/storage_repository_provider.dart';
-import 'package:pregathi/widgets/home/bottom_page.dart';
 
 int finalStrikeCount = 0;
 int finalBanCount = 0;
@@ -124,7 +122,7 @@ class CommunityController extends StateNotifier<bool> {
         'lastStrikeYear': now.year,
         'readGuidelines': false,
       });
-      goToDisableBack(context, BottomPage());
+      navigateToWifeHome(context);
       Future.delayed(const Duration(microseconds: 1), () {
         dialogueBoxWithButton(context,
             "Your ${type} contained banned words. Your post has been flagged and deleted. You have received an account strike. You have ${3 - finalStrikeCount} strikes remaining");
@@ -145,7 +143,7 @@ class CommunityController extends StateNotifier<bool> {
         'lastBanYear': now.year,
         'readGuidelines': false,
       });
-      goToDisableBack(context, LoginScreen());
+      navigateToLogin(context);
 
       Future.delayed(const Duration(microseconds: 1), () {
         dialogueBoxWithButton(context,
@@ -237,7 +235,7 @@ class CommunityController extends StateNotifier<bool> {
       (l) => showSnackBar(context, l.message),
       (r) => {
         if (!uids.contains(userId))
-          goToDisableBack(context, CommunityScreen(name: communityName))
+          navigateToCommunity(context, communityName)
         else
           Navigator.of(context).pop()
       },

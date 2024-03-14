@@ -7,12 +7,11 @@ import 'package:intl/intl.dart';
 import 'package:pregathi/community-chat/post/respository/post_repository.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
-import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/model/comment.dart';
 import 'package:pregathi/model/community.dart';
 import 'package:pregathi/model/post.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/providers/storage_repository_provider.dart';
-import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:uuid/uuid.dart';
 
 int finalStrikeCount =0;
@@ -238,7 +237,7 @@ class PostController extends StateNotifier<bool> {
         'lastStrikeYear': now.year,
         'readGuidelines':false,
       });
-      goToDisableBack(context, BottomPage());
+      navigateToWifeHome(context);
       Future.delayed(const Duration(microseconds: 1), () {
         dialogueBoxWithButton(context,
             "Your ${type} contained banned words. Your post has been flagged and deleted. You have received an account strike. You have ${3-finalStrikeCount} strikes remaining");
@@ -259,7 +258,7 @@ class PostController extends StateNotifier<bool> {
         'lastBanYear': now.year,
         'readGuidelines':false,
       });
-      goToDisableBack(context, LoginScreen());
+      navigateToWifeHome(context);
 
       Future.delayed(const Duration(microseconds: 1), () {
         dialogueBoxWithButton(context,

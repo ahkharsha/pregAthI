@@ -9,7 +9,7 @@ import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/db_services.dart';
 import 'package:pregathi/model/contacts.dart';
 import 'package:pregathi/model/emergency_message.dart';
-import 'package:pregathi/widgets/home/insta_share/wife_emergency_alert.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:background_sms/background_sms.dart';
@@ -67,7 +67,7 @@ class _InstaShareBottomSheetState extends State<InstaShareBottomSheet> {
       simSlot: simSlot,
     ).then((SmsStatus status) {
       if (status == SmsStatus.sent) {
-        Fluttertoast.showToast(msg: "Sent");
+        Fluttertoast.showToast(msg: 'Sent alert to your trusted contacts...');
       } else {
         Fluttertoast.showToast(msg: "Oops! Failed to send");
       }
@@ -222,6 +222,7 @@ class _InstaShareBottomSheetState extends State<InstaShareBottomSheet> {
                 title: "Send Alert",
                 onPressed: () async {
                   {
+                    navigateToWifeEmergency(context);
                     permission = await Geolocator.checkPermission();
                     if (permission == LocationPermission.denied) {
                       permission = await Geolocator.requestPermission();
@@ -266,8 +267,6 @@ class _InstaShareBottomSheetState extends State<InstaShareBottomSheet> {
                       );
                     }
 
-                    goTo(context, WifeEmergencyScreen());
-                    Fluttertoast.showToast(msg: 'Sent alert to your trusted contacts...');
                     // else {
                     //   Fluttertoast.showToast(msg: "Something is wrong..");
                     // }
