@@ -50,7 +50,7 @@ navigateToModTools(BuildContext context, String name) {
 }
 
 navigateToComments(BuildContext context, String id, String name) {
-  Routemaster.of(context).push('/$name/post-comments/$id');
+  Routemaster.of(context).push('/$name/post/comments/$id');
 }
 
 navigateToCommunityAddPost(BuildContext context, String name) {

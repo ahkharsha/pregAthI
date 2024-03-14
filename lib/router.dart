@@ -49,7 +49,7 @@ RouteMap buildRoutes(BuildContext context) {
           ),
         );
       },
-      '/:name/post-comments/:id': (routeData) {
+      '/:name/post/comments/:id': (routeData) {
         final id = routeData.pathParameters['id']!;
         return MaterialPage(
           child: CommentsScreen(
