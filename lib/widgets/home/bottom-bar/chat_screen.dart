@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:pregathi/bottom-sheet/insta_share_bottom_sheet.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/widgets/home/ai-chat/chat/image_chat.dart';
 import 'package:pregathi/widgets/home/ai-chat/chat/text_chat.dart';
-import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
 import 'package:sizer/sizer.dart';
 
@@ -32,9 +32,7 @@ class _ChatScreenState extends State<ChatScreen> {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-                  onPressed: () {
-                    goToDisableBack(context, BottomPage());
-                  }),
+                  onPressed: () => goBack(context)),
               title: Text(
                 translation(context).aiChat,
                 style:

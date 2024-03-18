@@ -9,10 +9,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'package:pregathi/main-screens/announcements.dart';
 import 'package:pregathi/main-screens/drawers/wife/volunteer/volunteer_profile_drawer.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/volunteer_history.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/user_permission.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -127,9 +127,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
             ),
             actions: [
               ElevatedButton(
-                onPressed: () async {
-                  goTo(context, AnnouncementScreen());
-                },
+                onPressed: () => navigateToAnnouncement(context),
                 child: const Text('View'),
               ),
             ],
@@ -251,7 +249,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
         .doc(emergency['id']);
 
     _documentReference.delete();
-    goTo(context, VolunteerHomeScreen());
+    navigateToVolunteerHome(context);
   }
 
   _getToken() async {

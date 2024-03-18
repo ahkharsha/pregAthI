@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/buttons/regular_button.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/widgets/home/wife-drawer/cards/text_card.dart';
 import 'package:sizer/sizer.dart';
 
@@ -28,9 +29,7 @@ class _CommunityRulesScreenState extends State<CommunityRulesScreen> {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-            onPressed: () {
-              goBack(context);
-            }),
+            onPressed: () => goBack(context)),
         title: Text(
           "Community Rules",
           style: TextStyle(

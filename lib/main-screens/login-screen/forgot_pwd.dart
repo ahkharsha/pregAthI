@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/buttons/sub_button.dart';
-import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/buttons/main_button.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/widgets/textfield.dart';
 import 'package:sizer/sizer.dart';
 
@@ -28,7 +28,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       });
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: _formData['email'].toString());
-      goToDisableBack(context, LoginScreen());
+      navigateToLogin(context);
 
       Future.delayed(const Duration(microseconds: 1), () {
         dialogueBoxWithButton(context,
@@ -121,10 +121,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                         }),
                                     SubButton(
                                         title: 'Back to Login',
-                                        onPressed: () {
-                                          goToDisableBack(
-                                              context, LoginScreen());
-                                        }),
+                                        onPressed: () =>navigateToLogin(context)),
                                   ],
                                 ),
                               ),

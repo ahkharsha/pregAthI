@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pregathi/community-chat/community_home.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/widgets/home/bottom-bar/calendar_screen.dart';
-import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
-import 'package:pregathi/widgets/home/bottom-bar/contacts/contacts_screen.dart';
-import 'package:pregathi/widgets/home/wife-drawer/music_list.dart';
-import 'package:pregathi/widgets/home/wife-drawer/news_screen.dart';
-import 'package:pregathi/widgets/home/wife-drawer/work_from_home.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
 
 class WifeOptionsDrawer extends ConsumerWidget {
@@ -51,51 +45,37 @@ class WifeOptionsDrawer extends ConsumerWidget {
             ListTile(
               title: Text(translation(context).community),
               leading: const Icon(Icons.groups_2_rounded),
-              onTap: () {
-                goTo(context, const CommunityHome());
-              },
+              onTap: () =>navigateToCommunityHome(context),
             ),
             ListTile(
               title: Text(translation(context).aiChat),
               leading: const Icon(Icons.mark_unread_chat_alt_rounded),
-              onTap: () {
-                goTo(context, const ChatScreen());
-              },
+              onTap: () => navigateToAIChat(context),
             ),
             ListTile(
               title: Text(translation(context).contacts),
               leading: const Icon(Icons.contacts),
-              onTap: () {
-                goTo(context, const ContactsScreen());
-              },
+              onTap: () => navigateToTrustedContacts(context),
             ),
             ListTile(
               title: Text(translation(context).calendar),
               leading: const Icon(Icons.calendar_month_rounded),
-              onTap: () {
-                goTo(context, const CalendarScreen());
-              },
+              onTap: () => navigateToCalender(context),
             ),
             ListTile(
               title: Text(translation(context).musicPlayer),
               leading: const Icon(Icons.music_note_rounded),
-              onTap: () {
-                goTo(context, const MusicListScreen());
-              },
+              onTap: () => navigateToMusicList(context),
             ),
             ListTile(
               title: Text(translation(context).workFromHome),
               leading: const Icon(Icons.work_rounded),
-              onTap: () {
-                goTo(context, const WorkFromHomeScreen());
-              },
+              onTap: () => navigateToWFH(context),
             ),
             ListTile(
               title: Text(translation(context).pregNews),
               leading: const Icon(Icons.newspaper_outlined),
-              onTap: () {
-                goTo(context, const NewsScreen());
-              },
+              onTap: () => navigateToNews(context),
             ),
             
           ],

@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
-import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
+import 'package:pregathi/navigators.dart';
 class DeleteProfileDialog extends StatefulWidget {
   @override
   _DeleteProfileDialogState createState() => _DeleteProfileDialogState();
@@ -53,7 +53,7 @@ class _DeleteProfileDialogState extends State<DeleteProfileDialog> {
               deleteUserAccount();
 
               UserSharedPreference.setUserRole('');
-              goToDisableBack(context, LoginScreen());
+              navigateToLogin(context);
               Future.delayed(const Duration(microseconds: 1), () {
                 dialogueBoxWithButton(
                     context, 'Your account has been deleted successfully!');

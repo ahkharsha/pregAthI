@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pregathi/community-chat/screens/add_mods_screen.dart';
-import 'package:pregathi/community-chat/screens/edit_community_screen.dart';
-import 'package:pregathi/community-chat/screens/remove_members_screen.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/navigators.dart';
 
 class ModToolsScreen extends StatelessWidget {
   final String name;
@@ -13,13 +11,11 @@ class ModToolsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: Colors.white,
-          ),
-            onPressed: () {
-              goBack(context);
-            }),
+            icon: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: Colors.white,
+            ),
+            onPressed: () => goBack(context)),
         backgroundColor: primaryColor,
         title: const Text(
           "Mod Tools",
@@ -31,17 +27,17 @@ class ModToolsScreen extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.remove_moderator_rounded),
             title: const Text('Remove Members'),
-            onTap: () {goTo(context, RemoveMembersScreen(name: name,));},
+            onTap: () => navigateToRemoveMembers(context, name),
           ),
           ListTile(
             leading: const Icon(Icons.add_moderator),
             title: const Text('Add Moderators'),
-            onTap: () {goTo(context, AddModsScreen(name: name,));},
+            onTap: () =>navigateToAddMods(context, name),
           ),
           ListTile(
             leading: const Icon(Icons.edit),
             title: const Text('Edit Community'),
-            onTap: () {goTo(context, EditCommunityScreen(name: name,));},
+            onTap: () => navigateToEditCommunity(context, name),
           ),
         ],
       ),

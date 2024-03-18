@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pregathi/community-chat/post/screens/add_post_type_screen.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/navigators.dart';
 
 class AddPostScreen extends ConsumerWidget {
   const AddPostScreen({super.key});
@@ -17,7 +17,7 @@ class AddPostScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           GestureDetector(
-            onTap: () => goTo(context, AddPostTypeScreen(type: 'image')),
+            onTap: () => navigateToAddPostType(context, 'image'),
             child: SizedBox(
               height: cardHeightWidth,
               width: cardHeightWidth,
@@ -38,7 +38,7 @@ class AddPostScreen extends ConsumerWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => goTo(context, AddPostTypeScreen(type: 'text')),
+            onTap: () => navigateToAddPostType(context, 'text'),
             child: SizedBox(
               height: cardHeightWidth,
               width: cardHeightWidth,
@@ -59,7 +59,7 @@ class AddPostScreen extends ConsumerWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => goTo(context, AddPostTypeScreen(type: 'link')),
+            onTap: () => navigateToAddPostType(context, 'link'),
             child: SizedBox(
               height: cardHeightWidth,
               width: cardHeightWidth,

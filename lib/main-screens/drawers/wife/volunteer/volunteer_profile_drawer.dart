@@ -3,10 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/main-screens/about_us.dart';
-import 'package:pregathi/main-screens/announcements.dart';
-import 'package:pregathi/main-screens/home-screen/volunteer/volunteer_profile_screen.dart';
-import 'package:pregathi/main-screens/options_screen.dart';
+import 'package:pregathi/navigators.dart';
 
 class VolunteerProfileDrawer extends ConsumerWidget {
   const VolunteerProfileDrawer({Key? key});
@@ -71,30 +68,22 @@ class VolunteerProfileDrawer extends ConsumerWidget {
           ListTile(
             title: Text("Profile"),
             leading: Icon(Icons.person_outline_outlined),
-            onTap: () {
-              goTo(context, VolunteerProfileScreen());
-            },
+            onTap: () => navigateToVolunteerProfile(context),
           ),
           ListTile(
             title: Text("Announcements"),
             leading: Icon(Icons.notifications_active_outlined),
-            onTap: () {
-              goTo(context, AnnouncementScreen());
-            },
+            onTap: () => navigateToAnnouncement(context),
           ),
           ListTile(
             title: Text("About Us"),
             leading: const Icon(Icons.info_outline_rounded),
-            onTap: () {
-              goTo(context, AboutUsScreen());
-            },
+            onTap: () => navigateToAboutUs(context),
           ),
           ListTile(
               title: Text('Options'),
               leading: const Icon(Icons.settings_rounded),
-              onTap: () {
-                goTo(context, OptionsScreen());
-              },
+              onTap: () => navigateToOptions(context),
             ),
           ListTile(
             title: Text("Logout"),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
-import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:sizer/sizer.dart';
 
 class AIChat extends StatelessWidget {
@@ -17,9 +17,7 @@ class AIChat extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: InkWell(
-          onTap: () {
-            goTo(context, ChatScreen());
-          },
+          onTap: () => goBack(context),
           child: Container(
             height: MediaQuery.of(context).size.height*0.25,
             width: MediaQuery.of(context).size.width * 0.7,

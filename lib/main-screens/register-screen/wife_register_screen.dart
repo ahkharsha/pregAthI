@@ -2,12 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/buttons/sub_button.dart';
-import 'package:pregathi/main-screens/login-screen/login_screen.dart';
-import 'package:pregathi/main-screens/register_select_screen.dart';
-import 'package:pregathi/main-screens/verification-screens/wife_verfication.dart';
 import 'package:pregathi/model/wife_user.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/buttons/main_button.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/widgets/textfield.dart';
 import 'package:sizer/sizer.dart';
 
@@ -65,7 +63,7 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
           );
           final jsonData = user.toJson();
           await db.set(jsonData).whenComplete(() {
-            goToDisableBack(context, WifeEmailVerify());
+            navigateToWifeEmailVerify(context);
             setState(() {
               isLoading = false;
             });
@@ -325,18 +323,13 @@ class _WifeRegisterScreenState extends State<WifeRegisterScreen> {
                                 Container(
                                   child: SubButton(
                                       title: 'Already have an account? Login',
-                                      onPressed: () {
-                                        goToDisableBack(context, LoginScreen());
-                                      }),
+                                      onPressed: () => navigateToLogin(context)),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: SubButton(
                                       title: 'Back to User select',
-                                      onPressed: () {
-                                        goToDisableBack(
-                                            context, RegisterSelectScreen());
-                                      }),
+                                      onPressed: () => navigateToRegisterSelect(context)),
                                 ),
                               ],
                             ),

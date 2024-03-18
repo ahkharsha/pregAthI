@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
+import 'package:pregathi/navigators.dart';
 
 class AddModsScreen extends ConsumerStatefulWidget {
   final String name;
@@ -73,9 +74,7 @@ class _AddModsScreenState extends ConsumerState<AddModsScreen> {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-            onPressed: () {
-              goBack(context);
-            }),
+            onPressed: () => goBack(context)),
         backgroundColor: primaryColor,
         actions: [
           IconButton(

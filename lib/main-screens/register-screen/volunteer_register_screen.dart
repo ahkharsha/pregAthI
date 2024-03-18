@@ -8,6 +8,7 @@ import 'package:pregathi/main-screens/verification-screens/volunteer_verificatio
 import 'package:pregathi/model/volunteer_user.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/buttons/main_button.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/widgets/textfield.dart';
 import 'package:sizer/sizer.dart';
 
@@ -56,7 +57,7 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
               );
           final jsonData = user.toJson();
           await db.set(jsonData).whenComplete(() {
-            goToDisableBack(context, VolunteerEmailVerify());
+            navigateToVolunteerEmailVerify(context);
             setState(() {
               isLoading = false;
             });
@@ -277,18 +278,13 @@ class _VolunteerRegisterScreenState extends State<VolunteerRegisterScreen> {
                                 Container(
                                   child: SubButton(
                                       title: 'Already have an account? Login',
-                                      onPressed: () {
-                                        goToDisableBack(context, LoginScreen());
-                                      }),
+                                      onPressed: () => navigateToLogin(context)),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: SubButton(
                                       title: 'Back to User select',
-                                      onPressed: () {
-                                        goToDisableBack(
-                                            context, RegisterSelectScreen());
-                                      }),
+                                      onPressed: () => navigateToRegisterSelect(context)),
                                 ),
                               ],
                             ),

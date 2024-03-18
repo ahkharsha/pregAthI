@@ -5,6 +5,7 @@ import 'package:pregathi/buttons/main_button.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/multi-language/classes/language.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../main.dart';
@@ -68,9 +69,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
               Icons.arrow_back_ios_new_rounded,
             ),
             color: Colors.white,
-            onPressed: () {
-              goBack(context);
-            }),
+            onPressed: () => goBack(context)),
         title: Text(
           'Select Language',
           style: TextStyle(

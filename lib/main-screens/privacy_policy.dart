@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/main-screens/contact_us.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/widgets/home/wife-drawer/cards/text_card.dart';
 import 'package:sizer/sizer.dart';
 
@@ -67,9 +67,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   content:
                       'pregAthI retains user data only for as long as necessary to fulfill the purposes outlined in our Privacy Policy. Once the data is no longer required, it is securely deleted or anonymized to protect user privacy.'),
               GestureDetector(
-                onTap: () {
-                  goTo(context, ContactUsScreen());
-                },
+                onTap: () => navigateToContactUs(context),
                 child: TextCard(
                     title: 'Contact Us',
                     content:

@@ -3,12 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/main-screens/about_us.dart';
-import 'package:pregathi/main-screens/announcements.dart';
-import 'package:pregathi/main-screens/options_screen.dart';
-import 'package:pregathi/multi-language/classes/language_choice_screen.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
-import 'package:pregathi/widgets/home/bottom-bar/profile_screen.dart';
+import 'package:pregathi/navigators.dart';
 
 class WifeProfileDrawer extends ConsumerWidget {
   const WifeProfileDrawer({Key? key});
@@ -85,41 +81,27 @@ class WifeProfileDrawer extends ConsumerWidget {
             ListTile(
               title: Text(translation(context).profile),
               leading: Icon(Icons.person_outline_outlined),
-              onTap: () {
-                goTo(context, WifeProfileScreen());
-              },
+              onTap: () => navigateToWifeProfile(context),
             ),
             ListTile(
               title: Text(translation(context).announcements),
               leading: Icon(Icons.notifications_active_outlined),
-              onTap: () {
-                goTo(context, AnnouncementScreen());
-              },
+              onTap: () => navigateToAnnouncement(context),
             ),
             ListTile(
               title: Text(translation(context).languages),
               leading: const Icon(Icons.language_rounded),
-              onTap: () {
-                goTo(
-                    context,
-                    const LanguageSelectionScreen(
-                      initialLanguageCode: LANGUAGE_CODE,
-                    ));
-              },
+              onTap: () => navigateToLanguageSelection(context, LANGUAGE_CODE),
             ),
             ListTile(
               title: Text(translation(context).about),
               leading: const Icon(Icons.info_outline_rounded),
-              onTap: () {
-                goTo(context, AboutUsScreen());
-              },
+              onTap: () => navigateToAboutUs(context),
             ),
             ListTile(
               title: Text('Options'),
               leading: const Icon(Icons.settings_rounded),
-              onTap: () {
-                goTo(context, OptionsScreen());
-              },
+              onTap: () => navigateToOptions(context),
             ),
             ListTile(
               title: Text(translation(context).logout),

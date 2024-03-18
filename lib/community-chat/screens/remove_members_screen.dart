@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
-import 'package:pregathi/community-chat/screens/mod_tools_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:sizer/sizer.dart';
 
 class RemoveMembersScreen extends ConsumerStatefulWidget {
@@ -44,7 +44,7 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
 
   void saveMembers() {
     if (removeUids.isEmpty) {
-      goToDisableBack(context, ModToolsScreen(name: widget.name));
+      navigateToModTools(context, widget.name);
     } else {
       showDialog(
         context: context,
@@ -57,9 +57,7 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
           ),
           actions: [
             ElevatedButton(
-              onPressed: () async {
-                goBack(context);
-              },
+              onPressed: () => goBack(context),
               child: const Text('No'),
             ),
             ElevatedButton(
@@ -128,9 +126,7 @@ class _RemoveMembersScreenState extends ConsumerState<RemoveMembersScreen> {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-          onPressed: () {
-            goBack(context);
-          },
+          onPressed: () => goBack(context),
         ),
         backgroundColor: primaryColor,
         actions: [

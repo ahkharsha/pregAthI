@@ -8,8 +8,8 @@ import 'package:pregathi/buttons/full_screen_button.dart';
 import 'package:pregathi/db/db_services.dart';
 import 'package:pregathi/model/contacts.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/widgets/home/bottom-bar/contacts/add_contacts.dart';
-import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
@@ -87,9 +87,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-          onPressed: () {
-            goToDisableBack(context, BottomPage());
-          },
+          onPressed: () => goBack(context),
         ),
         title: Text(
           translation(context).trustedContacts,

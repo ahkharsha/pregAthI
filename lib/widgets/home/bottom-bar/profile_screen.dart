@@ -6,10 +6,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pregathi/bottom-sheet/insta_share_bottom_sheet.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
-import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/widgets/home/bottom-bar/profile_delete.dart';
-import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:sizer/sizer.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:io';
@@ -76,9 +75,7 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-            onPressed: () {
-              goToDisableBack(context, BottomPage());
-            }),
+            onPressed: () => goBack(context)),
         title: Text(
           translation(context).profile,
           style: TextStyle(
@@ -338,7 +335,7 @@ class _WifeProfileScreenState extends State<WifeProfileScreen> {
           onPressed: () async {
             await FirebaseAuth.instance.signOut();
             UserSharedPreference.setUserRole('');
-            goTo(context, LoginScreen());
+            navigateToLogin(context);
           },
           child: Text(translation(context).logout)),
     );

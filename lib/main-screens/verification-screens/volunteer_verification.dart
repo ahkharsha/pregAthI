@@ -7,7 +7,7 @@ import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/db/shared_pref.dart';
 import 'package:pregathi/main-screens/home-screen/volunteer/volunteer_home_screen.dart';
-import 'package:pregathi/main-screens/login-screen/login_screen.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:sizer/sizer.dart';
 
 class VolunteerEmailVerify extends StatefulWidget {
@@ -124,7 +124,7 @@ class _VolunteerEmailVerifyState extends State<VolunteerEmailVerify> {
                           title: 'Cancel',
                           onPressed: () async {
                             await FirebaseAuth.instance.signOut();
-                            goToDisableBack(context, LoginScreen());
+                            navigateToLogin(context);
                           },
                         ),
                       ],

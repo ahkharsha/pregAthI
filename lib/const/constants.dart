@@ -54,18 +54,6 @@ void goTo(BuildContext context, Widget nextScreen) {
       ));
 }
 
-void goToDisableBack(BuildContext context, Widget nextScreen) {
-  Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => nextScreen,
-      ));
-}
-
-void goBack(BuildContext context) {
-  Navigator.of(context).pop();
-}
-
 void showSnackBar(BuildContext context, String text) {
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()

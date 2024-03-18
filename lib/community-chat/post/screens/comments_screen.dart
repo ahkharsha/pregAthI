@@ -7,6 +7,7 @@ import 'package:pregathi/community-chat/post/widgets/comment_card.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
 import 'package:pregathi/model/post.dart';
+import 'package:pregathi/navigators.dart';
 
 class CommentsScreen extends ConsumerStatefulWidget {
   final String postId;
@@ -70,13 +71,11 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: Colors.white,
-          ),
-            onPressed: () {
-              goBack(context);
-            }),
+            icon: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: Colors.white,
+            ),
+            onPressed: () => goBack(context)),
         title: Text(
           'Comments',
           style: TextStyle(

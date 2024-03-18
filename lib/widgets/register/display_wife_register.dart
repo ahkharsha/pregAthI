@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/main-screens/register-screen/wife_register_screen.dart';
+import 'package:pregathi/navigators.dart';
 
 class DisplayWifeRegister extends StatelessWidget {
   const DisplayWifeRegister({super.key});
@@ -15,12 +15,7 @@ class DisplayWifeRegister extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => WifeRegisterScreen()),
-            );
-          },
+          onTap: () => navigateToWifeRegister(context),
           child: Container(
             height: 180,
             width: MediaQuery.of(context).size.width * 0.9,

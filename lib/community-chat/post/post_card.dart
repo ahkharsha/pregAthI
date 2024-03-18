@@ -51,7 +51,8 @@ class PostCard extends ConsumerWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15, top:20, bottom: 5),
+          padding:
+              const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 5),
           child: Container(
             decoration: BoxDecoration(
               color: boxColor,
@@ -78,7 +79,8 @@ class PostCard extends ConsumerWidget {
                                 Row(
                                   children: [
                                     GestureDetector(
-                                      onTap: () => navigateToCommunity(context, post.communityName),
+                                      onTap: () => navigateToCommunity(
+                                          context, post.communityName),
                                       child: CircleAvatar(
                                         backgroundImage: NetworkImage(
                                             post.communityProfilePic),
@@ -92,7 +94,8 @@ class PostCard extends ConsumerWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           GestureDetector(
-                                            onTap: () => navigateToCommunity(context, post.communityName),
+                                            onTap: () => navigateToCommunity(
+                                                context, post.communityName),
                                             child: Text(
                                               '${post.communityName}',
                                               style: TextStyle(
@@ -216,7 +219,8 @@ class PostCard extends ConsumerWidget {
                                 Row(
                                   children: [
                                     IconButton(
-                                      onPressed: () => navigateToComments(context,  post.id,post.communityName),
+                                      onPressed: () => navigateToComments(
+                                          context, post.communityName, post.id),
                                       icon: const Icon(
                                         Icons.comment,
                                       ),

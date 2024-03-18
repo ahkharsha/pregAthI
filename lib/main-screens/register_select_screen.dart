@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pregathi/buttons/sub_button.dart';
-import 'package:pregathi/main-screens/login-screen/login_screen.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/widgets/register/display_volunteer_register.dart';
 import 'package:pregathi/widgets/register/display_wife_register.dart';
 import 'package:sizer/sizer.dart';
@@ -43,9 +43,7 @@ class RegisterSelectScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 30.0),
                     child: SubButton(
                         title: 'Already have an account? Login',
-                        onPressed: () {
-                          goToDisableBack(context, LoginScreen());
-                        }),
+                        onPressed: () => navigateToLogin(context)),
                   ),
                 ),
               ],

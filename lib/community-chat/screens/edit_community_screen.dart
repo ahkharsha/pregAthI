@@ -3,10 +3,10 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
-import 'package:pregathi/community-chat/screens/community_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
 import 'package:pregathi/model/community.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:sizer/sizer.dart';
 
 class EditCommunityScreen extends ConsumerStatefulWidget {
@@ -65,14 +65,12 @@ class _EditCommunityScreenState extends ConsumerState<EditCommunityScreen> {
               ),
               centerTitle: false,
               leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: Colors.white,
-          ),
-                  onPressed: () {
-                    goToDisableBack(
-                        context, CommunityScreen(name: widget.name));
-                  }),
+                icon: Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: Colors.white,
+                ),
+                onPressed: () => navigateToCommunity(context, widget.name),
+              ),
               actions: [
                 TextButton(
                   onPressed: () => save(community),

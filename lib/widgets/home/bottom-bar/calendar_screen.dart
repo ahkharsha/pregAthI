@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/widgets/home/bottom_page.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
 
@@ -70,9 +70,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-            onPressed: () {
-              goToDisableBack(context, BottomPage());
-            }),
+            onPressed: () => goBack(context)),
         title: Text(
           translation(context).calendar,
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),

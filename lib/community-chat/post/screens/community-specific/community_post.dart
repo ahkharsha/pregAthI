@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/post/screens/community-specific/community_post_type_screen.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/community.dart';
+import 'package:pregathi/navigators.dart';
 
 class CommunityPost extends ConsumerWidget {
   final Community community;
@@ -20,9 +21,7 @@ class CommunityPost extends ConsumerWidget {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-            onPressed: () {
-              goBack(context);
-            }),
+            onPressed: () => goBack(context)),
         title: Text(
           'Add Post',
           style: TextStyle(
