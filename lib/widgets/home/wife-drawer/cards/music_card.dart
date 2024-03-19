@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/music.dart';
-import 'package:pregathi/widgets/home/wife-drawer/music_player_screen.dart';
+import 'package:pregathi/navigators.dart';
 
 class MusicCard extends ConsumerWidget {
   final Music music;
@@ -18,9 +18,7 @@ class MusicCard extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.only(top: 5, left: 15, right: 15),
           child: GestureDetector(
-            onTap: () async {
-              goTo(context, MusicPlayerScreen(music: music));
-            },
+            onTap: () => navigateToMusicPlayer(context, music.title),
             child: Container(
               decoration: BoxDecoration(
                 color: boxColor,
@@ -42,10 +40,7 @@ class MusicCard extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               IconButton(
-                                onPressed: () async {
-                                  goTo(
-                                      context, MusicPlayerScreen(music: music));
-                                },
+                                onPressed: ()=> navigateToMusicPlayer(context, music.title),
                                 icon: Icon(
                                   Icons.play_arrow_rounded,
                                 ),

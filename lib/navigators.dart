@@ -81,6 +81,10 @@ navigateToCommunityAddPost(BuildContext context, String name) {
   Routemaster.of(context).push('/$name/add-post');
 }
 
+navigateToCommunityAddPostType(BuildContext context, String name, String type) {
+  Routemaster.of(context).push('/$name/add-post/$type');
+}
+
 navigateToAddPostType(BuildContext context, String type) {
   Routemaster.of(context).push('/add-post/$type');
 }
@@ -119,6 +123,10 @@ navigateToTrustedContacts(BuildContext context) {
 
 navigateToMusicList(BuildContext context) {
   Routemaster.of(context).push('/music');
+}
+
+navigateToMusicPlayer(BuildContext context, String musicTitle) {
+  Routemaster.of(context).push('/music/$musicTitle');
 }
 
 navigateToCalender(BuildContext context) {

@@ -3,6 +3,8 @@ import 'package:pregathi/community-chat/community_home.dart';
 import 'package:pregathi/community-chat/community_rules_screen.dart';
 import 'package:pregathi/community-chat/post/screens/add_post_type_screen.dart';
 import 'package:pregathi/community-chat/post/screens/comments_screen.dart';
+import 'package:pregathi/community-chat/post/screens/community-specific/community_post.dart';
+import 'package:pregathi/community-chat/post/screens/community-specific/community_post_type_screen.dart';
 import 'package:pregathi/community-chat/screens/add_mods_screen.dart';
 import 'package:pregathi/community-chat/screens/community_screen.dart';
 import 'package:pregathi/community-chat/screens/create_community_screen.dart';
@@ -35,6 +37,7 @@ import 'package:pregathi/widgets/home/bottom-bar/profile_screen.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
 import 'package:pregathi/widgets/home/insta_share/wife_emergency_alert.dart';
 import 'package:pregathi/widgets/home/wife-drawer/music_list.dart';
+import 'package:pregathi/widgets/home/wife-drawer/music_player_screen.dart';
 import 'package:pregathi/widgets/home/wife-drawer/news_screen.dart';
 import 'package:pregathi/widgets/home/wife-drawer/work_from_home.dart';
 import 'package:routemaster/routemaster.dart';
@@ -109,11 +112,29 @@ RouteMap buildRoutes(BuildContext context) {
           ),
         );
       },
-      'add-post/:type': (routeData) {
+      '/add-post/:type': (routeData) {
         final type = routeData.pathParameters['type']!;
         return MaterialPage(
           child: AddPostTypeScreen(
             type: type,
+          ),
+        );
+      },
+      '/:name/add-post': (routeData) {
+        final name = routeData.pathParameters['name']!;
+        final finalName = name.replaceAll('%20', ' ');
+        return MaterialPage(
+          child: CommunityPost(communityName: finalName),
+        );
+      },
+      '/:name/add-post/:type': (routeData) {
+        final type = routeData.pathParameters['type']!;
+        final name = routeData.pathParameters['name']!;
+        final finalName = name.replaceAll('%20', ' ');
+        return MaterialPage(
+          child: CommunityPostTypeScreen(
+            type: type,
+            communityName: finalName,
           ),
         );
       },
@@ -128,6 +149,13 @@ RouteMap buildRoutes(BuildContext context) {
       '/community-home': (_) => MaterialPage(child: CommunityHome()),
       '/ai-chat': (_) => MaterialPage(child: ChatScreen()),
       '/music': (_) => MaterialPage(child: MusicListScreen()),
+      '/music/:musicTitle': (routeData) {
+        final musicTitle = routeData.pathParameters['musicTitle']!;
+        final finalMusicTitle = musicTitle.replaceAll('%20', ' ');
+        return MaterialPage(
+          child: MusicPlayerScreen(musicTitle: finalMusicTitle),
+        );
+      },
       '/calender': (_) => MaterialPage(child: CalendarScreen()),
       '/contacts': (_) => MaterialPage(child: ContactsScreen()),
       '/wfh': (_) => MaterialPage(child: WorkFromHomeScreen()),

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/bottom-sheet/insta_share_bottom_sheet.dart';
 import 'package:pregathi/const/constants.dart';
@@ -7,18 +8,23 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:pregathi/model/music.dart';
 
 class MusicPlayerScreen extends StatefulWidget {
-  final Music music;
-  MusicPlayerScreen({super.key, required this.music});
+  final String musicTitle;
+  MusicPlayerScreen({super.key, required this.musicTitle});
 
   @override
   State<MusicPlayerScreen> createState() => _MusicPlayerScreenState();
 }
 
 class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final audioPlayer = AudioPlayer();
   bool isPlaying = false;
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
+  Music? music;
+  String musicImage = musicImageDefault;
+  String musicTitle = 'Title';
+  String musicArtist = 'Artist';
 
   @override
   void initState() {
@@ -44,10 +50,44 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
     });
   }
 
+  Future<void> fetchMusicFromFirebase() async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    DocumentSnapshot docSnapshot =
+        await firestore.collection('pregAthI').doc('music').get();
+
+    if (docSnapshot.exists) {
+      Map<String, dynamic> musicData =
+          docSnapshot.data() as Map<String, dynamic>;
+
+      for (String key in musicData.keys) {
+        List<dynamic> musicArray = musicData[key];
+
+        if (musicArray.isNotEmpty && musicArray[0] == widget.musicTitle) {
+          setState(() {
+            music = Music(
+              title: musicArray[0],
+              artist: musicArray[1],
+              imageUrl: musicArray[2],
+              url: musicArray[3],
+            );
+          });
+          break;
+        }
+      }
+    }
+
+    print('The name of the music is ${music!.title}');
+  }
+
   Future setAudio() async {
     audioPlayer.setReleaseMode(ReleaseMode.loop);
-
-    String url = widget.music.url;
+    await fetchMusicFromFirebase();
+    setState(() {
+      musicTitle = music!.title;
+      musicArtist = music!.artist;
+      musicImage = music!.imageUrl;
+    });
+    String url = music!.url;
     await audioPlayer.play(UrlSource(url));
     isPlaying = true;
   }
@@ -81,10 +121,10 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: Colors.white,
-          ),
+            icon: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: Colors.white,
+            ),
             onPressed: () {
               Navigator.of(context).pop();
               stopAudio();
@@ -127,7 +167,7 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(
-                widget.music.imageUrl,
+                musicImage,
                 width: double.infinity,
                 height: 350,
                 fit: BoxFit.cover,
@@ -137,7 +177,7 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
               height: 32,
             ),
             Text(
-              widget.music.title,
+              musicTitle,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -147,7 +187,7 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
               height: 4,
             ),
             Text(
-              widget.music.artist,
+              musicArtist,
               style: TextStyle(
                 fontSize: 20,
               ),

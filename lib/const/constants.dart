@@ -26,6 +26,8 @@ const wifeProfileDefault =
 const volunteerProfileDefault =
     'https://cdn-icons-png.flaticon.com/512/9337/9337706.png';
 
+const musicImageDefault = 'https://media.wired.com/photos/5926df59f3e2356fd800ab80/master/w_1920,c_limit/GettyImages-543338600-S2.jpg';
+
 // Disha's
 Color primaryColor = Color.fromARGB(255, 174, 110, 165);
 // Color textColor = Color.fromARGB(255, 174, 110, 165);
@@ -45,14 +47,6 @@ const tabWidgets = [
   FeedScreen(),
   AddPostScreen(),
 ];
-
-void goTo(BuildContext context, Widget nextScreen) {
-  Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => nextScreen,
-      ));
-}
 
 void showSnackBar(BuildContext context, String text) {
   ScaffoldMessenger.of(context)

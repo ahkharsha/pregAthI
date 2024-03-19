@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,11 +11,11 @@ import 'package:pregathi/model/community.dart';
 
 class CommunityPostTypeScreen extends ConsumerStatefulWidget {
   final String type;
-  final Community community;
+  final String communityName;
   const CommunityPostTypeScreen({
     super.key,
     required this.type,
-    required this.community,
+    required this.communityName,
   });
 
   @override
@@ -27,11 +28,19 @@ class _CommunityPostTypeScreenState
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final linkController = TextEditingController();
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  Community? community;
 
   File? bannerFile;
   List<Community> communities = [];
   Community? selectedCommunity;
   final User? user = FirebaseAuth.instance.currentUser;
+
+  @override
+  void initState() {
+    fetchCommunityFromFirebase();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -51,6 +60,22 @@ class _CommunityPostTypeScreenState
     }
   }
 
+  
+
+  Future<void> fetchCommunityFromFirebase() async {
+    QuerySnapshot querySnapshot = await firestore
+        .collection('communities')
+        .where('name', isEqualTo: widget.communityName)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      setState(() {
+        community = Community.fromMap(
+            querySnapshot.docs.first.data() as Map<String, dynamic>);
+      });
+    }
+  }
+
   void sharePost() {
     bool containsBannedWords = false;
 
@@ -62,7 +87,7 @@ class _CommunityPostTypeScreenState
         ref.read(postControllerProvider.notifier).deleteImagePost(
               context: context,
               title: titleController.text.trim(),
-              selectedCommunity: widget.community,
+              selectedCommunity: community!,
               file: bannerFile,
               userId: user!.uid,
             );
@@ -70,7 +95,7 @@ class _CommunityPostTypeScreenState
         ref.read(postControllerProvider.notifier).shareImagePost(
               context: context,
               title: titleController.text.trim(),
-              selectedCommunity: widget.community,
+              selectedCommunity: community!,
               file: bannerFile,
               userId: user!.uid,
             );
@@ -84,7 +109,7 @@ class _CommunityPostTypeScreenState
         ref.read(postControllerProvider.notifier).deleteTextPost(
               context: context,
               title: titleController.text.trim(),
-              selectedCommunity: widget.community,
+              selectedCommunity: community!,
               description: descriptionController.text.trim(),
               userId: user!.uid,
             );
@@ -92,7 +117,7 @@ class _CommunityPostTypeScreenState
         ref.read(postControllerProvider.notifier).shareTextPost(
               context: context,
               title: titleController.text.trim(),
-              selectedCommunity: widget.community,
+              selectedCommunity: community!,
               description: descriptionController.text.trim(),
               userId: user!.uid,
             );
@@ -105,7 +130,7 @@ class _CommunityPostTypeScreenState
         ref.read(postControllerProvider.notifier).deleteLinkPost(
               context: context,
               title: titleController.text.trim(),
-              selectedCommunity: widget.community,
+              selectedCommunity: community!,
               link: linkController.text.trim(),
               userId: user!.uid,
             );
@@ -113,7 +138,7 @@ class _CommunityPostTypeScreenState
         ref.read(postControllerProvider.notifier).shareLinkPost(
               context: context,
               title: titleController.text.trim(),
-              selectedCommunity: widget.community,
+              selectedCommunity: community!,
               link: linkController.text.trim(),
               userId: user!.uid,
             );
@@ -149,10 +174,10 @@ class _CommunityPostTypeScreenState
           ),
         ),
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: Colors.white,
-          ),
+            icon: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: Colors.white,
+            ),
             onPressed: () {
               Navigator.of(context).pop();
             }),

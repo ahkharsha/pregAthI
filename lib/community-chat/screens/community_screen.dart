@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/buttons/sub_button.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
 import 'package:pregathi/community-chat/post/post_card.dart';
-import 'package:pregathi/community-chat/post/screens/community-specific/community_post.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
 import 'package:pregathi/model/community.dart';
@@ -105,9 +104,7 @@ class CommunityScreen extends ConsumerWidget {
                           ),
                           SubButton(
                             title: 'Add Post',
-                            onPressed: () {
-                              goTo(context, CommunityPost(community: community));
-                            },
+                            onPressed: () => navigateToCommunityAddPost(context, community.name),
                           ),
                         ],
                       ),
