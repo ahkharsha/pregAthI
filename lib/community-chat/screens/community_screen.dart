@@ -68,7 +68,8 @@ class CommunityScreen extends ConsumerWidget {
                               ),
                               community.mods.contains(user!.uid)
                                   ? OutlinedButton(
-                                      onPressed: () => navigateToModTools(context, community.name),
+                                      onPressed: () => navigateToModTools(
+                                          context, community.name),
                                       style: ElevatedButton.styleFrom(
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -102,10 +103,12 @@ class CommunityScreen extends ConsumerWidget {
                             child:
                                 Text('PregMoms: ${community.members.length}'),
                           ),
-                          SubButton(
-                            title: 'Add Post',
-                            onPressed: () => navigateToCommunityAddPost(context, community.name),
-                          ),
+                          if (community.members.contains(user.uid))
+                            SubButton(
+                              title: 'Add Post',
+                              onPressed: () => navigateToCommunityAddPost(
+                                  context, community.name),
+                            ),
                         ],
                       ),
                     ),
