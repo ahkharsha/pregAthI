@@ -155,7 +155,7 @@ class _VolunteerHomeScreenState extends State<VolunteerHomeScreen> {
 
     if (userData['lastAnnouncement'] == announcement['latestAnnouncement']) {
       timer?.cancel();
-      goBack(context);
+      Navigator.of(context).pop();
     }
   }
 

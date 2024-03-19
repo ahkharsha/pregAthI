@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pregathi/buttons/regular_button.dart';
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/navigators.dart';
 import 'package:pregathi/widgets/home/wife-drawer/cards/text_card.dart';
 import 'package:sizer/sizer.dart';
 
@@ -28,7 +27,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
           ),
             onPressed: () {
               _updateLastAnnouncement();
-              goBack(context);
+              Navigator.of(context).pop();
             },
           ),
           title: Text(
@@ -107,7 +106,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
                   title: 'Done',
                   onPressed: () {
                     _updateLastAnnouncement();
-                    goBack(context);
+                    Navigator.of(context).pop();
                   },
                 )
               ],

@@ -151,7 +151,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
 
                   Locale _locale = await setLocale(selectedLang.languageCode);
                   MyApp.setLocale(context, _locale);
-                  goBack(context);
+                  Navigator.of(context).pop();
                 }
               }),
         ],

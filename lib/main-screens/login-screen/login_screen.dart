@@ -39,11 +39,9 @@ class _LoginScreenState extends State<LoginScreen> {
           if (userData['role'] == 'wife') {
             UserSharedPreference.setUserRole('wife');
             navigateToWifeEmailVerify(context);
-            print('Logging in as wife as the role is');
             print(userData['role']);
           } else if (userData['role'] == 'volunteer') {
             UserSharedPreference.setUserRole('volunteer');
-            print('Logging in as volunteer as the role is');
             print(userData['role']);
             navigateToVolunteerEmailVerify(context);
           } else {

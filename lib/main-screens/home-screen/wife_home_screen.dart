@@ -160,7 +160,7 @@ class _WifeHomeScreenState extends ConsumerState<WifeHomeScreen> {
 
     if (userData['lastAnnouncement'] == announcement['latestAnnouncement']) {
       timer?.cancel();
-      goBack(context);
+      Navigator.of(context).pop(); 
     }
   }
 
