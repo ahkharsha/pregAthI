@@ -6,7 +6,7 @@ goBack(BuildContext context) {
 }
 
 navigateToLogin(BuildContext context) {
-  Routemaster.of(context).push('/');
+  Routemaster.of(context).replace('/');
 }
 
 navigateToRegisterSelect(BuildContext context) {
@@ -26,11 +26,11 @@ navigateToForgotPassword(BuildContext context) {
 }
 
 navigateToWifeEmailVerify(BuildContext context) {
-  Routemaster.of(context).push('/wife-verify');
+  Routemaster.of(context).replace('/wife-verify');
 }
 
 navigateToVolunteerEmailVerify(BuildContext context) {
-  Routemaster.of(context).push('/volunteer-verify');
+  Routemaster.of(context).replace('/volunteer-verify');
 }
 
 navigateToErrorHome(BuildContext context) {

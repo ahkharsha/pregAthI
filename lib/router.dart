@@ -171,34 +171,6 @@ RouteMap buildRoutes(BuildContext context) {
       '/wife-profile': (_) => MaterialPage(child: WifeProfileScreen()),
       '/volunteer-profile': (_) => MaterialPage(child: VolunteerProfileScreen()),
       '/help': (_) => MaterialPage(child: HelpScreen()),
-      // '/mod-tools/:name': (routeData) => MaterialPage(
-      //   child: ModToolsScreen(
-      //     name: routeData.pathParameters['name']!,
-      //   ),
-      // ),
-      // '/edit-community/:name': (routeData) => MaterialPage(
-      //   child: EditCommunityScreen(
-      //     name: routeData.pathParameters['name']!,
-      //   ),
-      // ),
-      // '/add-mods/:name': (routeData) => MaterialPage(
-      //   child: AddModsScreen(
-      //     name: routeData.pathParameters['name']!,
-      //   ),
-      // ),
-      // '/add-post/:type': (routeData) => MaterialPage(
-      //   child: AddPostTypeScreen(
-      //     type: routeData.pathParameters['type']!,
-      //   ),
-      // ),
-      // '/post/:postId/comments': (route) => MaterialPage(
-      //   child: CommentsScreen(
-      //     postId: route.pathParameters['postId']!,
-      //   ),
-      // ),
-      // '/add-post': (routeData) => const MaterialPage(
-      //   child: AddPostScreen(),
-      // ),
     },
   );
 }

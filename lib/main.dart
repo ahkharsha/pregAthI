@@ -65,21 +65,9 @@ class _MyAppState extends State<MyApp> {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: _locale,
-          routerDelegate: RoutemasterDelegate(routesBuilder: (context) => buildRoutes(context)),
+          routerDelegate: RoutemasterDelegate(
+              routesBuilder: (context) => buildRoutes(context)),
           routeInformationParser: const RoutemasterParser(),
-          // home: FutureBuilder(
-          //   future: UserSharedPreference.getUserRole(),
-          //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-          //     if (snapshot.data == '') {
-          //       return LoginScreen();
-          //     } else if (snapshot.data == 'wife') {
-          //       return BottomPage();
-          //     } else if (snapshot.data == 'volunteer') {
-          //       return VolunteerHomeScreen();
-          //     } 
-          //     return progressIndicator(context);
-          //   },
-          // ),
         );
       },
     );
