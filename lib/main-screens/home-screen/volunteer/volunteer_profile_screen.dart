@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/widgets/home/bottom-bar/profile_delete.dart';
 import 'package:sizer/sizer.dart';
 import 'package:uuid/uuid.dart';
@@ -86,9 +87,7 @@ class _VolunteerProfileScreenState extends State<VolunteerProfileScreen> {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            }),
+            onPressed: () => goBack(context)),
         title: Text(
           "Profile",
           style: TextStyle(

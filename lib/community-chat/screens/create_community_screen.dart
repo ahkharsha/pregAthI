@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/buttons/regular_button.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/community-chat/controller/community_controller.dart';
+import 'package:pregathi/navigators.dart';
 
 class CreateCommunityScreen extends ConsumerStatefulWidget {
   const CreateCommunityScreen({super.key});
@@ -49,9 +50,7 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            }),
+            onPressed: () => goBack(context)),
         title: const Text(
           "Create a community..",
           style: TextStyle(

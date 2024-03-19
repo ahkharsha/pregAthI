@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/navigators.dart';
 
 class HelpScreen extends StatelessWidget {
   HelpScreen({Key? key}) : super(key: key);
@@ -13,9 +14,7 @@ class HelpScreen extends StatelessWidget {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          onPressed: () => goBack(context),
         ),
         title: Text(
           "Help",

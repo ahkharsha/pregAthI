@@ -6,6 +6,7 @@ import 'package:pregathi/bottom-sheet/insta_share_bottom_sheet.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:pregathi/model/music.dart';
+import 'package:pregathi/navigators.dart';
 
 class MusicPlayerScreen extends StatefulWidget {
   final String musicTitle;
@@ -126,7 +127,7 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.of(context).pop();
+              goBack(context);
               stopAudio();
             }),
         title: Text(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pregathi/buttons/main_button.dart';
 import 'package:pregathi/const/constants.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ContactUsScreen extends StatefulWidget {
@@ -33,9 +34,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            }),
+            onPressed: () => goBack(context)),
         backgroundColor: primaryColor,
         title: const Text(
           'Contact Us',

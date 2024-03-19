@@ -30,7 +30,7 @@ class _NewCommunityRulesScreenState extends State<NewCommunityRulesScreen> {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-          onPressed: () => navigateToWifeHome(context),
+          onPressed: () => goBack(context),
         ),
         title: Text(
           "Community Rules",

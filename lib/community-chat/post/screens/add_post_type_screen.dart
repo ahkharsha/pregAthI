@@ -9,6 +9,7 @@ import 'package:pregathi/community-chat/post/controller/post_controller.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/const/error_text.dart';
 import 'package:pregathi/model/community.dart';
+import 'package:pregathi/navigators.dart';
 
 class AddPostTypeScreen extends ConsumerStatefulWidget {
   final String type;
@@ -145,9 +146,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            }),
+            onPressed: () => goBack(context)),
         actions: [
           TextButton(
             onPressed: sharePost,

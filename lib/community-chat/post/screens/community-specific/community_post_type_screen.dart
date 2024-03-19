@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pregathi/community-chat/post/controller/post_controller.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/community.dart';
+import 'package:pregathi/navigators.dart';
 
 class CommunityPostTypeScreen extends ConsumerStatefulWidget {
   final String type;
@@ -178,9 +179,7 @@ class _CommunityPostTypeScreenState
               Icons.arrow_back_ios_new_rounded,
               color: Colors.white,
             ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            }),
+            onPressed: () => goBack(context)),
         actions: [
           TextButton(
             onPressed: sharePost,

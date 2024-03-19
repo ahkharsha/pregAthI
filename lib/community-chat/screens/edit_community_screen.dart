@@ -69,7 +69,7 @@ class _EditCommunityScreenState extends ConsumerState<EditCommunityScreen> {
                   Icons.arrow_back_ios_new_rounded,
                   color: Colors.white,
                 ),
-                onPressed: () => navigateToCommunity(context, widget.name),
+                onPressed: () => goBack(context),
               ),
               actions: [
                 TextButton(

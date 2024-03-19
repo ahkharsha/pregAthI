@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/model/firebase_data.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/widgets/home/wife-drawer/cards/news_card.dart';
 
 class NewsScreen extends StatelessWidget {
@@ -16,9 +17,7 @@ class NewsScreen extends StatelessWidget {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            }),
+            onPressed: () => goBack(context)),
         title: Text(
           "PregNews",
           style: TextStyle(

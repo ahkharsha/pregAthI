@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pregathi/navigators.dart';
 import 'package:pregathi/widgets/home/wife-drawer/cards/link_card.dart';
 import 'package:pregathi/widgets/home/wife-drawer/cards/text_card.dart';
 import 'package:sizer/sizer.dart';
@@ -64,9 +65,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          onPressed: () => goBack(context),
         ),
         title: Text(
           "About Us",

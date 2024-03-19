@@ -16,9 +16,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             Icons.arrow_back_ios_new_rounded,
             color: Colors.white,
           ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          onPressed: () => goBack(context),
         ),
         title: Text(
           "Privacy Policy",
