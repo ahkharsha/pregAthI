@@ -121,6 +121,10 @@ navigateToTrustedContacts(BuildContext context) {
   Routemaster.of(context).push('/contacts');
 }
 
+navigateToAddContacts(BuildContext context) {
+  Routemaster.of(context).push('/add-contacts');
+}
+
 navigateToMusicList(BuildContext context) {
   Routemaster.of(context).push('/music');
 }

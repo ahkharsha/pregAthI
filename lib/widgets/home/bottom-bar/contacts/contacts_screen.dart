@@ -9,7 +9,6 @@ import 'package:pregathi/db/db_services.dart';
 import 'package:pregathi/model/contacts.dart';
 import 'package:pregathi/const/constants.dart';
 import 'package:pregathi/navigators.dart';
-import 'package:pregathi/widgets/home/bottom-bar/contacts/add_contacts.dart';
 import 'package:sizer/sizer.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:pregathi/multi-language/classes/language_constants.dart';
@@ -126,12 +125,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
               FullScreenButton(
                 title: translation(context).addTrustedContacts,
                 onPressed: () async {
-                  bool result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddContactsScreen(),
-                    ),
-                  );
+                  bool result = await navigateToAddContacts(context);
                   if (result == true) {
                     listShow();
                   }

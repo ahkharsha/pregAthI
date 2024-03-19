@@ -83,9 +83,7 @@ dialogueBoxWithButton(BuildContext context, String text) {
       actions: [
         SubButton(
           title: 'Ok',
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          onPressed: () => goBack(context),
         ),
       ],
       actionsAlignment: MainAxisAlignment.center,
@@ -108,14 +106,12 @@ logoutConfirmation(BuildContext context) {
       actions: [
         SubButton(
           title: 'No',
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          onPressed: () => goBack(context),
         ),
         SubButton(
           title: 'Yes',
           onPressed: () async {
-            Navigator.of(context).pop();
+            goBack(context);
             await FirebaseAuth.instance.signOut();
             await UserSharedPreference.setUserRole('');
             navigateToLogin(context);
@@ -139,15 +135,13 @@ deletePostConfirmation(Post post, WidgetRef ref, BuildContext context) {
       actions: [
         SubButton(
           title: 'No',
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+          onPressed: () => goBack(context),
         ),
         SubButton(
           title: 'Yes',
           onPressed: () async {
             deletePost(post, ref, context);
-            Navigator.of(context).pop();
+            goBack(context);
           },
         ),
       ],

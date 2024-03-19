@@ -78,7 +78,7 @@ class CommunityController extends StateNotifier<bool> {
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
       showSnackBar(context, 'Community created successfully');
-      Navigator.pop(context);
+      goBack(context);
     });
   }
 
@@ -219,7 +219,7 @@ class CommunityController extends StateNotifier<bool> {
     state = false;
     res.fold(
       (l) => showSnackBar(context, l.message),
-      (r) => Navigator.of(context).pop(),
+      (r) => goBack(context),
     );
   }
 
@@ -237,7 +237,7 @@ class CommunityController extends StateNotifier<bool> {
         if (!uids.contains(userId))
           navigateToCommunity(context, communityName)
         else
-          Navigator.of(context).pop()
+          goBack(context)
       },
     );
   }

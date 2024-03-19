@@ -92,13 +92,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   actions: [
                     TextButton(
                       child: Text("Cancel"),
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => goBack(context),
                     ),
                     TextButton(
                       child: Text("Ok"),
                       onPressed: () {
                         _addEvent(_selectedDay);
-                        Navigator.pop(context);
+                        goBack(context);
                       },
                     ),
                   ],

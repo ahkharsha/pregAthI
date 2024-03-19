@@ -167,6 +167,6 @@ class _AddContactsScreenState extends State<AddContactsScreen> {
     } else {
       Fluttertoast.showToast(msg: "Failed to add contact..");
     }
-    Navigator.of(context).pop(true);
+    goBack(context);
   }
 }

@@ -107,7 +107,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
                   title: 'Done',
                   onPressed: () {
                     _updateLastAnnouncement();
-                    Navigator.of(context).pop();
+                    goBack(context);
                   },
                 )
               ],

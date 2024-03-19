@@ -32,6 +32,7 @@ import 'package:pregathi/main-screens/verification-screens/wife_verfication.dart
 import 'package:pregathi/multi-language/classes/language_choice_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/calendar_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/chat_screen.dart';
+import 'package:pregathi/widgets/home/bottom-bar/contacts/add_contacts.dart';
 import 'package:pregathi/widgets/home/bottom-bar/contacts/contacts_screen.dart';
 import 'package:pregathi/widgets/home/bottom-bar/profile_screen.dart';
 import 'package:pregathi/widgets/home/bottom_page.dart';
@@ -158,6 +159,7 @@ RouteMap buildRoutes(BuildContext context) {
       },
       '/calender': (_) => MaterialPage(child: CalendarScreen()),
       '/contacts': (_) => MaterialPage(child: ContactsScreen()),
+      '/add-contacts': (_) => MaterialPage(child: AddContactsScreen()),
       '/wfh': (_) => MaterialPage(child: WorkFromHomeScreen()),
       '/news': (_) => MaterialPage(child: NewsScreen()),
       '/announcement': (_) => MaterialPage(child: AnnouncementScreen()),
