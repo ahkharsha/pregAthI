@@ -1,8 +1,8 @@
 # pregAthI - Your Pregnancy Companion
 
 Welcome to pregAthI, your reliable companion for a healthy and stress-free pregnancy journey.
-<div style="display: flex;">
-   <a href="https://ibb.co/XYh6CNt"><img src="https://i.ibb.co/GHKG5BR/app-icon-foreground.png" alt="" border="0" height="200"></a>
+<div style="display: flex; justify-content: center;">
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/dr2KVxv/app-icon.png" alt="app-icon" border="0"></a>
 </div>
 
 ## Overview
