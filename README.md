@@ -58,10 +58,7 @@ Patients highlighted the emotional and physical toll of prolonged labor without 
     <td style="padding-left: 5px; font-size: 26px; font-family: Arial, sans-serif; color: green; font-weight: bold;">
       Volunteer Side
     </td>
-  </tr>
-    <td ></td>
-    <td ></td>
-  </tr>
+
   <tr>
     <td >
       <a href="https://ibb.co/LdFYLxB"><img src="https://i.ibb.co/CKcmkb4/Whats-App-Image-2024-03-15-at-15-24-21-38f1ca9a.jpg" alt="Whats-App-Image-2024-03-15-at-15-24-21-38f1ca9a" border="0" width="150"></a>
