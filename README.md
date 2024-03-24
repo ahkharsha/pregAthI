@@ -80,22 +80,27 @@ Patients highlighted the emotional and physical toll of prolonged labor without 
    - Engage with a positive and supportive community to share experiences, seek advice, and stay informed about various aspects of pregnancy.
    - Autoban system to prevent the use of inappropriate language
    - Access a calendar feature to keep track of essential dates, appointments, and milestones.  
+   
    <a href="https://ibb.co/QPpK9JS"><img src="https://i.ibb.co/LxYZS0j/Whats-App-Image-2024-03-15-at-21-41-07-8eab3b05.jpg" alt="Whats-App-Image-2024-03-15-at-21-41-07-8eab3b05" border="0" width="150"></a>
 
 ## *AI Chat (Google Gemini):*
    - Gemini AI, our intelligent chatbot, is here to answer queries, provide valuable information, and offer continuous support throughout the pregnancy journey.
+   
    <a href="https://ibb.co/s2JJBLQ"><img src="https://i.ibb.co/6mJJd6b/Whats-App-Image-2024-03-15-at-21-44-59-06f2eb46.jpg" alt="Whats-App-Image-2024-03-15-at-21-44-59-06f2eb46" border="0" width="150"></a>
 
 ## *Soothing Music:*
    - Enjoy a thoughtfully curated selection of soothing music designed to promote relaxation and overall well-being during pregnancy.
+   
    <a href="https://ibb.co/KG2X6Kh"><img src="https://i.ibb.co/4f87W1t/Whats-App-Image-2024-03-15-at-21-48-47-3608619f.jpg" alt="Whats-App-Image-2024-03-15-at-21-48-47-3608619f" border="0" width="200"></a>
 
 ## *Work From Home Resources:*
    - Access a dedicated section with comprehensive resources and tips tailored for working from home during pregnancy, ensuring a healthy work-life balance.
+   
    <a href="https://ibb.co/0sGKwNr"><img src="https://i.ibb.co/3RCvJXc/Whats-App-Image-2024-03-15-at-21-49-30-6be5bf9d.jpg" alt="Whats-App-Image-2024-03-15-at-21-49-30-6be5bf9d" border="0" width="150"></a>
 
 ## *Multi-Language Support:*
    - Our app is equipped with multi-language support, allowing users to choose from five languages. This ensures accessibility for users from every corner of the country.
+  
    <a href="https://ibb.co/vYcN3T6"><img src="https://i.ibb.co/dgfNPVw/Whats-App-Image-2024-03-15-at-21-53-26-a7b9ce3e.jpg" alt="Whats-App-Image-2024-03-15-at-21-53-26-a7b9ce3e" border="0" width="150"></a>
 
 ## *Auto-Update Feature:*
