@@ -2,7 +2,8 @@
 
 Welcome to pregAthI, your reliable companion for a healthy and stress-free pregnancy journey.
 <div style="display: flex; justify-content: center;">
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/dr2KVxv/app-icon.png" alt="app-icon" border="0"></a>
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/dr2KVxv/app-icon.png" alt="app-icon" border="0" height="100"></a>
+</div>
 </div>
 
 ## Overview
