@@ -66,8 +66,7 @@ Patients highlighted the emotional and physical toll of prolonged labor without 
     <td >
       <a href="https://ibb.co/9GhMXTp"><img src="https://i.ibb.co/YbXr9kN/Whats-App-Image-2024-03-15-at-21-29-08-77d8df1f.jpg" alt="Whats-App-Image-2024-03-15-at-21-29-08-77d8df1f" border="0" width="150"></a>
     </td>
-    <td ></td>
-    <td ></td>
+  
   </tr>
   </table>
 
