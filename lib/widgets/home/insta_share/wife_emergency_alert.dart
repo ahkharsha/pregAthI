@@ -8,7 +8,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pregathi/buttons/sub_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:pregathi/const/constants.dart';
-import 'package:pregathi/navigators.dart';
 
 class WifeEmergencyScreen extends StatefulWidget {
   WifeEmergencyScreen({super.key});
@@ -124,7 +123,7 @@ class _WifeEmergencyScreenState extends State<WifeEmergencyScreen> {
 
                           _documentReference.delete();
                           _stopEmergencySound();
-                          goBack(context);
+                          Navigator.of(context).pop();
                         }),
                   ),
                 ],
